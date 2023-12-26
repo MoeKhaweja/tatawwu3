@@ -5,14 +5,14 @@
 <!-- project philosophy -->
 <img src="./readme/title2.svg"/>
 
-> A mobile app for ordering coffee on-the-go, making it easier for coffee lovers to get their favorite beverages without waiting in line.
+> A mobile app for finding volunteering oppurtunities based on skills, making it easier for volunteers and communities/organizations to connect.
 >
-> Coffee Express aims to streamline the coffee-ordering process by providing a user-friendly platform for customers to place orders and pick up their coffee at their convenience. We believe in enhancing the coffee experience by saving time and ensuring customer satisfaction.
+> Tatawwu3 aims to simplify the process of volunteering by providing a user-friendly platform for volunteers to apply for opputunities, and for communities/organizations to find suitable volunteers. 
 
 ### User Stories
-- As a user, I want to browse the menu, so I can find my favorite coffee drinks.
-- As a user, I want to customize my order, so I can add or remove ingredients according to my preferences.
-- As a user, I want to pay for my order through the app, so I can avoid waiting in line at the store.
+- As a volunteer, I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at .
+- As an organization, I want to be able to find volunteers efficiently, so that I can make sure my events run smoothly.
+- As an admin, I want to be able to approve or deny users registering for the app, so that I can verify their identities.
 
 <br><br>
 
