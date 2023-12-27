@@ -1,18 +1,20 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 const login = async (req, res) => {
   const { email: email, password } = req.body;
 
   // check if user is available in DB
   const user = await User.findOne({ email: email });
-  if (!user) res.status(400).send({ message: "Invalid username/password" });
+  if (!user)
+    return res.status(400).send({ message: "Invalid username/password" });
 
   // check if password is correct
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword)
-    res.status(400).send({ message: "Invalid username/password" });
+    return res.status(400).send({ message: "Invalid username/password" });
 
   const { password: hashedPassword, _id, ...userDetails } = user.toJSON();
 

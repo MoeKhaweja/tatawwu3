@@ -33,7 +33,14 @@ const userSchema = new mongoose.Schema({
   gender: { type: String },
   bio: { type: String, minlength: 5 },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minlength: 6 },
+  googleId: { type: String },
+  password: {
+    type: String,
+    required: function () {
+      return !this.googleId; // Require password if no Google ID is present
+    },
+    minlength: 6,
+  },
   verified: { type: Boolean, default: false },
   role: {
     type: String,
