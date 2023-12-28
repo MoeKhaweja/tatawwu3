@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const Community = require("../models/community.model");
+const fs = require("fs");
 
 async function followCommunity(req, res) {
   const { userId, communityId } = req.body;
@@ -83,16 +84,18 @@ async function updateUserImage(req, res) {
     if (!image) {
       return res.status(400).send("Please upload a valid image file.");
     }
-    console.log(image);
-
-    // Update user data with the file path or relevant details
     // For example, if 'image' is a field in your user model:
     const updatedUserData = {
       userImage: image.path, // Save the file path in the user's data
     };
 
-    const user = await User.findByIdAndUpdate(userId, updatedUserData, {
-      new: true,
+    const user = await User.findByIdAndUpdate(userId, updatedUserData);
+    fs.unlink(user.userImage, (err) => {
+      if (err) {
+        console.error("Error deleting the previous image:", err);
+      } else {
+        console.log("Previous image deleted successfully!");
+      }
     });
 
     if (!user) {
