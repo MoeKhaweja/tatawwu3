@@ -1,30 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const eventSchema = new mongoose.Schema({
-  eventId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  title: { type: String, required: true, minlength: 3 },
-  description: { type: String, required: true, minlength: 10 },
-  schedule: { type: String, required: true },
-  location: { type: String, required: true, minlength: 3 },
-  applicants: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  image: String,
-  duration: { type: Number, required: true },
-});
-
-const communitySchema = new mongoose.Schema({
-  _id: { type: mongoose.Schema.Types.ObjectId, required: true },
-  name: { type: String, required: true, minlength: 3 },
-  description: { type: String, required: true, minlength: 10 },
-  location: { type: String, required: true, minlength: 3 },
-  events: [eventSchema],
-});
-
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true, minlength: 2 },
   lastName: { type: String, required: true, minlength: 2 },
@@ -37,7 +13,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: function () {
-      return !this.googleId; // Require password if no Google ID is present
+      return !this.googleId;
     },
     minlength: 6,
   },
@@ -46,10 +22,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "volunteer", "community"],
     default: "volunteer",
-  },
-  communityDetails: {
-    type: communitySchema,
-    default: null,
   },
   identificationImage: String,
   skills: [String],
