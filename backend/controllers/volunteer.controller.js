@@ -74,8 +74,40 @@ async function applyForEvent(req, res) {
   }
 }
 
+async function updateUserImage(req, res) {
+  const userId = req.body.userId; // Assuming userId is part of the route
+  const image = req.file; // Access the uploaded file information
+  console.log(image);
+
+  try {
+    if (!image) {
+      return res.status(400).send("Please upload a valid image file.");
+    }
+    console.log(image);
+
+    // Update user data with the file path or relevant details
+    // For example, if 'image' is a field in your user model:
+    const updatedUserData = {
+      userImage: image.path, // Save the file path in the user's data
+    };
+
+    const user = await User.findByIdAndUpdate(userId, updatedUserData, {
+      new: true,
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   followCommunity,
   updateProfile,
   applyForEvent,
+  updateUserImage,
 };

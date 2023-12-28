@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "volunteer", "community"],
     default: "volunteer",
   },
-  identificationImage: String,
+  identificationImage: { type: String },
+  userImage: { type: String },
   skills: [String],
   academicBackground: [String],
   volunteeringRecords: [
