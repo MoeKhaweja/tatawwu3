@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
   },
   passwordResetToken: { type: String },
+  passwordResetTokenExpiry: { type: Date },
+
   verified: { type: Boolean, default: false },
   role: {
     type: String,

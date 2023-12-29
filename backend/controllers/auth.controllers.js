@@ -56,7 +56,36 @@ const register = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  const { email, password, token } = req.body;
+  if (!email || !password || !token) {
+    res.status(400).send({ message: "all fields are required" });
+  }
+  try {
+    const user = await User.findOne({ email: email }); // Finding user by email
+    if (user) {
+      // User found
+      if (
+        user.passwordResetToken == token &&
+        user.passwordResetTokenExpiry > Date.now()
+      ) {
+        user.password = password;
+        await user.save();
+      }
+      res.status(200).json(user);
+    } else {
+      // User not found
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the query
+    console.error("Error finding user by email:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   login,
   register,
+  changePassword,
 };

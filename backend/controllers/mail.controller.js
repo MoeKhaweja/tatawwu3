@@ -22,7 +22,7 @@ const handlebarOptions = {
 };
 
 const sendEmail = async (req, res) => {
-  console.log("hello");
+  const { email, name } = req.body;
 
   // use a template file with nodemailer
   transporter.use("compile", hbs(handlebarOptions));
@@ -30,11 +30,10 @@ const sendEmail = async (req, res) => {
   const mailOptions = {
     from: '"Tatawwu3" <my@company.com>', // sender address
     template: "email", // the name of the template file, i.e., email.handlebars
-    to: "mohammadkhawaja1999@gmail.com",
+    to: email,
     subject: `Welcome to Tatawwu3,`,
     context: {
-      name: "user.name",
-      company: "my company",
+      name: name,
     },
   };
   try {
@@ -48,7 +47,6 @@ const sendEmail = async (req, res) => {
 };
 
 const ResetPassword = async (req, res) => {
-  console.log("hello");
   const { email, name, userId } = req.body;
 
   // use a template file with nodemailer
@@ -57,7 +55,10 @@ const ResetPassword = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
       userId,
-      { passwordResetToken: token },
+      {
+        passwordResetToken: token,
+        passwordResetTokenExpiry: Date.now() + 5 * 60 * 1000,
+      },
       { new: true }
     );
     if (!user) {
