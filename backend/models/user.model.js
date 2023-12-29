@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     minlength: 6,
   },
+  passwordResetToken: { type: String },
   verified: { type: Boolean, default: false },
   role: {
     type: String,

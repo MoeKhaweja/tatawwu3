@@ -60,6 +60,9 @@ app.use("/community", communityRoutes);
 const volunteerRoutes = require("./routes/volunteer.routes");
 app.use("/volunteer", volunteerRoutes);
 
+const sendEmail = require("./routes/mail.route");
+app.use("/mail", sendEmail);
+
 app.listen(8000, () => {
   console.log("Server listining on PORT: ", 8000);
   connectToMongoDB();
