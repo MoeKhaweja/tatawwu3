@@ -84,7 +84,7 @@ async function updateUserImage(req, res) {
     if (!image) {
       return res.status(400).send("Please upload a valid image file.");
     }
-    // For example, if 'image' is a field in your user model:
+
     const updatedUserData = {
       userImage: image.path, // Save the file path in the user's data
     };

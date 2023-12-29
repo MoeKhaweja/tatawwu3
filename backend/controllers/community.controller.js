@@ -51,6 +51,37 @@ async function editEvent(req, res) {
   }
 }
 
+async function updateEventImage(req, res) {
+  const { communityId, eventId } = req.body;
+  const image = req.file;
+
+  try {
+    if (!image) {
+      return res.status(400).send("Please upload a valid image file.");
+    }
+
+    const community = await Community.findById(communityId);
+    if (!community) {
+      return res.status(404).json({ error: "Community not found" });
+    }
+
+    const eventToUpdate = community.events.id(eventId);
+    if (!eventToUpdate) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    // Update the event's image with the new path
+    eventToUpdate.image = image.path;
+
+    // Save the updated community data
+    await community.save();
+
+    return res.status(200).json({ updatedEvent: eventToUpdate });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 async function deleteEvent(req, res) {
   const { communityId, eventId } = req.body;
   try {
