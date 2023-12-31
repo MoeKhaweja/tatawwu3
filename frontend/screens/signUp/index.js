@@ -8,7 +8,6 @@ import {
   HelperText,
   ActivityIndicator,
 } from "react-native-paper";
-import { useDispatch } from "react-redux";
 
 import axios from "axios";
 
@@ -26,7 +25,6 @@ const SignupScreen = ({ navigation }) => {
     if (firstName && lastName && email && password) setError(false);
   }, [firstName, lastName, email, password]);
 
-  const dispatch = useDispatch();
   const handleSignup = async () => {
     if (!firstName || !lastName || !email || !password) {
       setError(true);
@@ -134,7 +132,7 @@ const SignupScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Signin")}
         style={{ marginTop: 10 }}
       >
-        Go to Sign In
+        Already have an Account? Sign In
       </Button>
     </View>
   );

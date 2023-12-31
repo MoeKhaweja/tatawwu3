@@ -1,12 +1,8 @@
-import { configureStore, Tuple } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter";
-import userReducer from "../features/user";
-
-import { createLogger } from "redux-logger";
-
-const logger = createLogger({});
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./user";
 
 export const store = configureStore({
-  reducer: { counter: counterReducer, user: userReducer },
-  middleware: () => new Tuple(logger),
+  reducer: {
+    user: userReducer,
+  },
 });

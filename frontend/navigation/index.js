@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import SignupScreen from "../screens/signUp";
 import SigninScreen from "../screens/signIn";
 import SplashScreen from "../screens/splash";
+import ResetPassword from "../screens/resetPassword";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const Navigation = () => {
         />
         <Stack.Screen name='Signup' component={SignupScreen} />
         <Stack.Screen name='Signin' component={SigninScreen} />
+        <Stack.Screen name='Reset' component={ResetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
