@@ -3,14 +3,17 @@ const {
   login,
   register,
   changePassword,
+  updateVerificationImage,
 } = require("../controllers/auth.controllers");
 
 const router = express.Router();
 const passport = require("passport");
+const { authMiddleware } = require("../middlewares/auth.middleware");
 
 router.post("/login", login);
 router.post("/register", register);
 router.post("/reset", changePassword);
+router.post("/verify", authMiddleware, updateVerificationImage);
 
 // auth login
 // router.get('/login', (req, res) => {

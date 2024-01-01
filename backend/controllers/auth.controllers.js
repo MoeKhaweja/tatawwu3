@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const fs = require("fs");
 
 const login = async (req, res) => {
   const { email: email, password } = req.body;
@@ -83,9 +84,42 @@ const changePassword = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+async function updateVerificationImage(req, res) {
+  const userId = req.user.id; // Assuming userId is part of the route
+  const private = req.files.private[0]; // Access the uploaded file information
+  console.log(private);
+
+  try {
+    if (!private) {
+      return res.status(400).send("Please upload a valid image file.");
+    }
+
+    const updatedUserData = {
+      identificationImage: private.path, // Save the file path in the user's data
+    };
+
+    const user = await User.findByIdAndUpdate(userId, updatedUserData);
+    fs.unlink(user.identificationImage, (err) => {
+      if (err) {
+        console.error("Error deleting the previous image:", err);
+      } else {
+        console.log("Previous image deleted successfully!");
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 module.exports = {
   login,
   register,
   changePassword,
+  updateVerificationImage,
 };

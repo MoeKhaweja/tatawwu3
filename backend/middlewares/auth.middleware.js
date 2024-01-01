@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const authMiddleware = async (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) {
+    console.log("no token");
     res.status(403).send("Forbidden");
   } else {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

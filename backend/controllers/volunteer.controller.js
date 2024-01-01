@@ -77,7 +77,7 @@ async function applyForEvent(req, res) {
 
 async function updateUserImage(req, res) {
   const userId = req.body.userId; // Assuming userId is part of the route
-  const image = req.file; // Access the uploaded file information
+  const image = req.files.image[0]; // Access the uploaded file information
 
   try {
     if (!image) {

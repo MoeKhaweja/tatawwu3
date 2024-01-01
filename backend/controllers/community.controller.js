@@ -53,7 +53,7 @@ async function editEvent(req, res) {
 
 async function updateEventImage(req, res) {
   const { communityId, eventId } = req.body;
-  const image = req.file;
+  const image = req.files.image[0];
 
   try {
     if (!image) {

@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.user.isAuth);
+  const [render, setRender] = useState(false);
 
-  const login = () => {
-    console.log("hello");
-    try {
-      dispatch(
-        loginUser({
-          email: "mohammad1999khawaja@gmail.com",
-          password: "12345678",
-        })
-      );
-      // Handle successful login
-    } catch (error) {
-      console.log(error);
-    }
+  const login = async () => {
+    setRender(true);
   };
+
+  useEffect(() => {
+    if (render) {
+      try {
+        dispatch(
+          loginUser({
+            email: email,
+            password: password,
+          })
+        );
+        // Handle successful login
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+      setEmail("");
+      setPassword("");
+      setRender(false);
+    }
+    if (auth) {
+      navigation.navigate("Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
+  }, [render, auth]);
 
   const handleSignin = () => {
     // Implement signin logic using email and password

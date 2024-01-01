@@ -17,7 +17,11 @@ app.use(express.json());
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     //this is storing the file in the images folder
-    callback(null, path.join(__dirname, "images"));
+    if (file.fieldname == "private") {
+      callback(null, path.join(__dirname, "private"));
+    } else {
+      callback(null, path.join(__dirname, "images"));
+    }
   },
 
   filename: (req, file, callback) => {
@@ -41,7 +45,16 @@ const fileFilter = (req, file, cb) => {
   }
 };
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
+    {
+      name: "image",
+      maxCount: 1,
+    },
+    {
+      name: "private",
+      maxCount: 1,
+    },
+  ])
 );
 
 app.use("/images", express.static(path.join(__dirname, "images")));

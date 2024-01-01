@@ -8,8 +8,8 @@ import {
   HelperText,
   ActivityIndicator,
 } from "react-native-paper";
-
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../store/user";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -21,6 +21,8 @@ const SignupScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     if (firstName && lastName && email && password) setError(false);
   }, [firstName, lastName, email, password]);
@@ -48,28 +50,21 @@ const SignupScreen = ({ navigation }) => {
     setErrorMessage("");
 
     // Simulating signup delay for 2 seconds (replace with actual signup logic)
-    setTimeout(() => {
-      setLoading(false);
-      console.log(
-        "Signing up with:",
-        email,
-        password,
-        firstName,
-        lastName,
-        role
-      );
-    }, 2000);
-
     try {
-      const response = await axios.post(
-        "http://192.168.1.2:8000/auth/register",
-        { email, password, firstName, lastName, role }
+      await dispatch(
+        registerUser({ email, password, firstName, lastName, role })
       );
-      console.log(response);
-      return response.data;
+      // Handle successful login
     } catch (error) {
       console.log(error);
+      setError("opps something wrong happened");
+      return;
     }
+    setEmail("");
+    setPassword("");
+    setLoading(false);
+
+    console.log(user);
   };
 
   return (
