@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import fetchData from "../helpers/fetch";
+import * as FileSystem from "expo-file-system";
 
 const initialState = {
   user: null,
   loading: false,
   error: null,
   isAuth: false,
-  isVerified: false,
+  isVerified: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -40,20 +41,27 @@ export const verifyImage = createAsyncThunk(
     try {
       const currentState = getState();
       console.log("Current State:", currentState);
-
       dispatch(verifyImage.pending());
-      const response = fetchData(
-        "auth/verify",
-        "post",
-        currentState.user.user.token,
-        data
+      const response = await FileSystem.uploadAsync(
+        "http://192.168.1.2:8000/auth/verify",
+        data,
+        {
+          httpMethod: "POST",
+          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+          fieldName: "private",
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
       );
-      dispatch(verifyImage.fulfilled());
 
-      return response.data;
+      dispatch(verifyImage.fulfilled());
+      console.log(response);
+
+      //   dispatch(verifyImage(data));
+      // Handle successful login
     } catch (error) {
       dispatch(verifyImage.rejected(error.message));
       return rejectWithValue(error.message);
+      return;
     }
   }
 );
@@ -69,12 +77,36 @@ export const registerUser = createAsyncThunk(
         userData
       );
       console.log(response.data);
-
-      dispatch(registerUser.fulfilled());
+      if (response.status == 200) {
+        dispatch(registerUser.fulfilled());
+      }
 
       return response.data;
     } catch (error) {
       dispatch(registerUser.rejected("error registering user"));
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const sendPin = createAsyncThunk(
+  "user/pin",
+  async (email, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(sendPin.pending());
+
+      const response = await axios.post(
+        "http://192.168.1.2:8000/mail/reset",
+        email
+      );
+      console.log(response.data);
+      if (response.status == 200) {
+        dispatch(sendPin.fulfilled());
+      }
+
+      return response.data;
+    } catch (error) {
+      dispatch(sendPin.rejected("error registering user"));
       return rejectWithValue(error.message);
     }
   }
@@ -115,10 +147,20 @@ const userSlice = createSlice({
       })
       .addCase(verifyImage.fulfilled, (state) => {
         state.loading = false;
+        state.isVerified = false;
       })
       .addCase(verifyImage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(sendPin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(sendPin.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(sendPin.rejected, (state) => {
+        state.loading = false;
       });
   },
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image, View, Text, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
+
 import {
   Card,
   Button,
@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyImage } from "../../store/user";
 
-export default function Home() {
+export default function Verify() {
   const theme = useTheme();
   const [image, setImage] = useState(null);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
@@ -42,19 +42,7 @@ export default function Home() {
     // console.log(user);
 
     try {
-      const response = await FileSystem.uploadAsync(
-        "http://192.168.1.2:8000/auth/verify",
-        image,
-        {
-          httpMethod: "POST",
-          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-          fieldName: "private",
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      );
-      console.log(response.status);
-
-      //   dispatch(verifyImage(data));
+      dispatch(verifyImage(image));
       // Handle successful login
     } catch (error) {
       console.log(error);
