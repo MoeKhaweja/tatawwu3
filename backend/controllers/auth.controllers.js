@@ -58,8 +58,8 @@ const register = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  const { email, password } = req.body;
-  const token = req.user.token;
+  const { email, password, token } = req.body;
+
   if (!email || !password || !token) {
     res.status(400).send({ message: "all fields are required" });
   }

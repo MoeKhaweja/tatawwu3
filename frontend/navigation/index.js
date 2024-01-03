@@ -6,6 +6,10 @@ import SigninScreen from "../screens/signIn";
 import SplashScreen from "../screens/splash";
 import ResetPassword from "../screens/resetPassword";
 import Verify from "../screens/verify";
+import HomeScreen from "../screens/home";
+import CreateRoom from "../screens/createRoom";
+import ChatScreen from "../screens/chat";
+import RoomDetails from "../screens/roomDetails";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +22,15 @@ const Navigation = () => {
           options={{ headerShown: false }}
           component={SplashScreen}
         />
+        <Stack.Screen
+          name='Home'
+          options={{ headerShown: false }}
+          component={HomeScreen}
+        />
+
+        <Stack.Screen name='RoomDetails' component={RoomDetails} />
+        <Stack.Screen name='CreateRoom' component={CreateRoom} />
+        <Stack.Screen name='ChatScreen' component={ChatScreen} />
         <Stack.Screen name='Signup' component={SignupScreen} />
         <Stack.Screen name='Signin' component={SigninScreen} />
         <Stack.Screen name='Reset' component={ResetPassword} />

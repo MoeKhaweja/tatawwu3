@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import { sendPin } from "../../store/user";
+import { sendPin, verifyPin } from "../../store/user";
 import { useDispatch } from "react-redux";
 
 const ResetPassword = () => {
@@ -34,10 +34,31 @@ const ResetPassword = () => {
     setPin(newPin);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const resetPin = pin.join("");
     console.log(password, resetPin);
     setPin(["", "", "", "", "", ""]);
+
+    if (email && password && resetPin) {
+      try {
+        dispatch(
+          verifyPin({
+            email: email,
+            password: password,
+            token: resetPin,
+          })
+        );
+        console.log("successful");
+        setPin(["", "", "", "", "", ""]);
+        setPassword("");
+        setEmail("");
+        // Handle successful login
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Please fill in all fields");
+    }
   };
   const handleSend = () => {
     console.log(email);

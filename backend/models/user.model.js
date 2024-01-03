@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  rooms: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+  },
 });
 
 userSchema.pre("save", async function (next) {
