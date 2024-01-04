@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const fs = require("fs");
+const { extract } = require("../helpers/resumeExtractor.helper");
 
 const login = async (req, res) => {
   const { email: email, password } = req.body;
@@ -67,14 +68,17 @@ const changePassword = async (req, res) => {
     const user = await User.findOne({ email: email }); // Finding user by email
     if (user) {
       // User found
+      console.log(user.passwordResetToken == token);
       if (
-        user.passwordResetToken == token &&
+        user.passwordResetToken === token &&
         user.passwordResetTokenExpiry > Date.now()
       ) {
         user.password = password;
         await user.save();
+        res.status(200).json({ message: "password updated" });
+      } else {
+        res.status(404).json({ message: "wrong token" });
       }
-      res.status(200).json(user);
     } else {
       // User not found
       res.status(404).json({ message: "User not found" });
@@ -118,9 +122,43 @@ async function updateVerificationImage(req, res) {
   }
 }
 
+async function getResume(req, res) {
+  console.log("hi");
+  const userId = req.body.id; // Assuming userId is part of the route
+  const resume = req.files.resume[0]; // Access the uploaded file information
+
+  try {
+    if (!resume) {
+      return res.status(400).send("Please upload a valid cv file.");
+    }
+
+    const updatedUserData = {
+      resume: resume.path, // Save the file path in the user's data
+    };
+
+    const user = await User.findByIdAndUpdate(userId, updatedUserData);
+    fs.unlink(user.resume, (err) => {
+      if (err) {
+        console.error("Error deleting the previous cv:", err);
+      } else {
+        console.log("Previous cv deleted successfully!");
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const features = await extract(resume.path);
+    return res.status(200).json(features);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   login,
   register,
   changePassword,
   updateVerificationImage,
+  getResume,
 };

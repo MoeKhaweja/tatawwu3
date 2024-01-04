@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
   },
   identificationImage: { type: String },
   userImage: { type: String },
+  resume: { type: String },
   skills: [String],
   academicBackground: [String],
   volunteeringRecords: [

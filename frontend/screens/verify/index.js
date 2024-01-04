@@ -12,6 +12,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyImage } from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 export default function Verify() {
   const theme = useTheme();
@@ -105,6 +106,7 @@ export default function Verify() {
             onPress={toggleSnackbar}
           />
         </View>
+        <LoadingOrError></LoadingOrError>
         {image && (
           <View
             style={{

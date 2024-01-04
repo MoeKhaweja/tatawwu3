@@ -54,7 +54,7 @@ const ResetPassword = async (req, res) => {
   const token = Math.floor(100000 + Math.random() * 900000); // Generates a random number between 100000 and 999999
   try {
     const user = await User.findOneAndUpdate(
-      { email: email },
+      { email: email.toLowerCase() },
       {
         passwordResetToken: token,
         passwordResetTokenExpiry: Date.now() + 5 * 60 * 1000,

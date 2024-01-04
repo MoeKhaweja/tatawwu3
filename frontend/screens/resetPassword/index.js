@@ -3,8 +3,9 @@ import { View, StyleSheet, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { sendPin, verifyPin } from "../../store/user";
 import { useDispatch } from "react-redux";
+import LoadingOrError from "../../components/loadingOrError";
 
-const ResetPassword = () => {
+const ResetPassword = ({ navigation }) => {
   dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +21,10 @@ const ResetPassword = () => {
 
     if (value !== "") {
       if (index < 5) {
-        // Move focus to the next input and place the character there
         pinInputs[index + 1].current.focus();
-        newPin[index + 1] = ""; // Clear the next input
+        newPin[index + 1] = "";
       }
     } else {
-      // If the current input is empty and backspace is pressed, move focus to the previous input
       if (index > 0) {
         pinInputs[index - 1].current.focus();
       }
@@ -46,12 +45,14 @@ const ResetPassword = () => {
             email: email,
             password: password,
             token: resetPin,
+            navigation: navigation,
           })
         );
         console.log("successful");
         setPin(["", "", "", "", "", ""]);
         setPassword("");
         setEmail("");
+
         // Handle successful login
       } catch (error) {
         console.log(error);
@@ -118,7 +119,7 @@ const ResetPassword = () => {
             ":" +
             seconds.toString().padStart(2, "0")}
       </Button>
-
+      <LoadingOrError></LoadingOrError>
       <View>
         <Text style={{ marginBottom: 8, marginTop: 8 }}>Enter Reset Pin:</Text>
       </View>

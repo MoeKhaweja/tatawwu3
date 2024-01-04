@@ -10,6 +10,7 @@ import HomeScreen from "../screens/home";
 import CreateRoom from "../screens/createRoom";
 import ChatScreen from "../screens/chat";
 import RoomDetails from "../screens/roomDetails";
+import CompleteProfilePage from "../screens/completeProfile";
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,10 @@ const Navigation = () => {
         />
 
         <Stack.Screen name='RoomDetails' component={RoomDetails} />
+        <Stack.Screen
+          name='CompleteProfilePage'
+          component={CompleteProfilePage}
+        />
         <Stack.Screen name='CreateRoom' component={CreateRoom} />
         <Stack.Screen name='ChatScreen' component={ChatScreen} />
         <Stack.Screen name='Signup' component={SignupScreen} />

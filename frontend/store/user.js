@@ -9,6 +9,8 @@ const initialState = {
   error: null,
   isAuth: false,
   isVerified: null,
+  isReset: false,
+  sucess: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -114,23 +116,24 @@ export const sendPin = createAsyncThunk(
 
 export const verifyPin = createAsyncThunk(
   "user/verifyPin",
-  async (pin, { dispatch, rejectWithValue }) => {
+  async (data, { dispatch, rejectWithValue }) => {
     try {
+      const { email, password, token, navigation } = data;
       dispatch(verifyPin.pending());
 
-      const response = await axios.post(
-        "http://192.168.1.2:8000/auth/reset",
-        pin
-      );
-      console.log(response.data);
-      if (response.status == 200) {
-        dispatch(verifyPin.fulfilled());
-      }
+      const response = await axios.post("http://192.168.1.2:8000/auth/reset", {
+        email,
+        password,
+        token,
+      });
+
+      dispatch(verifyPin.fulfilled());
+      navigation.navigate("Signin");
 
       return response.data;
     } catch (error) {
       dispatch(verifyPin.rejected("error verifying pin"));
-      return rejectWithValue(error.message);
+      return rejectWithValue("error verifying pin");
     }
   }
 );
@@ -191,8 +194,9 @@ const userSlice = createSlice({
       .addCase(verifyPin.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(verifyPin.rejected, (state) => {
+      .addCase(verifyPin.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
       });
   },
 });
