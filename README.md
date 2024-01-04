@@ -10,9 +10,9 @@
 > Tatawwu3 aims to simplify the process of volunteering by providing a user-friendly platform for volunteers to apply for opputunities, and for communities/organizations to find suitable volunteers. 
 
 ### User Stories
-- As a volunteer, I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at .
-- As an organization, I want to be able to find volunteers efficiently, so that I can make sure my events run smoothly.
-- As an admin, I want to be able to approve or deny users registering for the app, so that I can verify their identities.
+- As a volunteer, I want to be able to find oppurtunities based on my skill/experience, and to be able to chat with other volunteers in chat rooms, so that I can help with what I'm best at, and stay connected with people around me.
+- As an organization, I want to be able to find volunteers efficiently, and to be able to add events and manage applicants, also to create chat rooms for my volunteers, so that I can make sure my events run smoothly on time, and leave a good impact on youth .
+- As an admin, I want to be able to approve or deny users registering for the app and to monitor general information on a dashboard , so that I can verify their identities, and keep track of app.
 
 <br><br>
 
