@@ -101,6 +101,7 @@ async function updateVerificationImage(req, res) {
 
     const updatedUserData = {
       identificationImage: private.path, // Save the file path in the user's data
+      isIdImageUploaded: true,
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
@@ -123,8 +124,7 @@ async function updateVerificationImage(req, res) {
 }
 
 async function getResume(req, res) {
-  console.log("hi");
-  const userId = req.body.id; // Assuming userId is part of the route
+  const userId = req.user.id; // Assuming userId is part of the route
   const resume = req.files.resume[0]; // Access the uploaded file information
 
   try {
@@ -134,6 +134,7 @@ async function getResume(req, res) {
 
     const updatedUserData = {
       resume: resume.path, // Save the file path in the user's data
+      isResumeUploaded: true,
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
