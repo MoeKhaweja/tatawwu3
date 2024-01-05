@@ -24,7 +24,7 @@ const SigninScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (render) {
+    if (render == true) {
       try {
         dispatch(
           loginUser({

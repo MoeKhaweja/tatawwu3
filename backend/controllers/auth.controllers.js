@@ -119,13 +119,14 @@ async function updateVerificationImage(req, res) {
 
     return res.status(200).json({ user });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: "error.message" });
   }
 }
 
 async function getResume(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const resume = req.files.resume[0]; // Access the uploaded file information
+  console.log(resume);
 
   try {
     if (!resume) {
@@ -134,7 +135,7 @@ async function getResume(req, res) {
 
     const updatedUserData = {
       resume: resume.path, // Save the file path in the user's data
-      isResumeUploaded: true,
+      isResumeUploaded: false,
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
