@@ -25,6 +25,7 @@
     "nodemailer-express-handlebars": "^6.1.0",
     "passport": "^0.5.3",
     "passport-google-oauth2": "^0.2.0",
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "socket.io": "^4.7.3"
   }
 }

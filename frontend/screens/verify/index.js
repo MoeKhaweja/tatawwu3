@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Image, View, Text, TouchableOpacity } from "react-native";
+import {
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 
@@ -9,20 +16,43 @@ import {
   IconButton,
   Snackbar,
   useTheme,
+  Paragraph,
+  Title,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyImage } from "../../store/user";
+import { submitDocument, verifyImage } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 
 export default function Verify() {
   const theme = useTheme();
   const [image, setImage] = useState(null);
   const [step, setStep] = useState(1);
+  const [data, setData] = useState();
   const [snackbarVisible, setSnackbarVisible] = useState(false);
-  const verified = useSelector((state) => state.user.isVerified);
+  const isIdImageUploaded = useSelector(
+    (state) => state.user.user.user.isIdImageUploaded
+  );
+  const isResumeUploaded = useSelector(
+    (state) => state.user.user.user.isResumeUploaded
+  );
+  const extracted = useSelector((state) => state.user.extracted);
   const dispatch = useDispatch();
   const [pickedDocument, setPickedDocument] = useState(null);
+
+  useEffect(() => {
+    console.log("user:", isIdImageUploaded, isResumeUploaded);
+
+    if (isIdImageUploaded == true) {
+      setStep(2);
+    }
+    if (isResumeUploaded == true && isIdImageUploaded == true) {
+      setStep(3);
+    }
+    console.log("extracted", extracted);
+
+    setData(extracted);
+  }, [isIdImageUploaded, isResumeUploaded, image, pickedDocument, data]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -65,9 +95,6 @@ export default function Verify() {
     try {
       dispatch(verifyImage(image));
       // Handle successful login
-      if (verified === false) {
-        setStep(2);
-      }
     } catch (error) {
       console.log(error);
       return;
@@ -83,18 +110,14 @@ export default function Verify() {
     setSnackbarVisible(false);
   };
 
-  const submitDoc = () => {
+  const submitDoc = async () => {
     try {
-      dispatch(verifyImage(image));
-      // Handle successful login
-      if (verified === false) {
-        setStep(2);
-      }
+      dispatch(submitDocument(pickedDocument.assets[0].uri));
     } catch (error) {
       console.log(error);
       return;
     }
-    setImage(null);
+    setPickedDocument(null);
   };
 
   return (
@@ -253,6 +276,33 @@ export default function Verify() {
             <LoadingOrError></LoadingOrError>
           </Card>
         </View>
+      )}
+      {step == 3 && data && (
+        <SafeAreaView style={{ marginTop: 10 }}>
+          <ScrollView>
+            <Card>
+              <Card.Content>
+                <Title>Bio:</Title>
+                <Paragraph>{data.bio}</Paragraph>
+
+                <Title>Academic History:</Title>
+                {data.academicHistory &&
+                  data.academicHistory.map((history, index) => (
+                    <View key={index}>
+                      <Text>Degree: {history.degreeTitle}</Text>
+                      <Text>Institution: {history.institution}</Text>
+                    </View>
+                  ))}
+
+                <Title>Skills:</Title>
+                {data.skills &&
+                  data.skills.map((skill, index) => (
+                    <Text key={index}>{skill}</Text>
+                  ))}
+              </Card.Content>
+            </Card>
+          </ScrollView>
+        </SafeAreaView>
       )}
     </View>
   );

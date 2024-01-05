@@ -11,8 +11,7 @@ const initialState = {
   isVerified: false,
   isReset: false,
   success: null,
-  isResumeUploaded: false,
-  isIdImageUploaded: false,
+  extracted: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -68,15 +67,17 @@ export const verifyImage = createAsyncThunk(
     }
   }
 );
-export const submitDoc = createAsyncThunk(
+export const submitDocument = createAsyncThunk(
   "user/submitDoc",
   async (doc, { dispatch, getState, rejectWithValue }) => {
     try {
       const currentState = getState();
       console.log("Current State:", currentState);
-      dispatch(submitDoc.pending());
+      console.log(doc);
+
+      dispatch(submitDocument.pending());
       const response = await FileSystem.uploadAsync(
-        "http://192.168.1.2:8000/auth/verify",
+        "http://192.168.1.2:8000/auth/resume",
         doc,
         {
           httpMethod: "POST",
@@ -86,11 +87,15 @@ export const submitDoc = createAsyncThunk(
         }
       );
 
-      dispatch(submitDoc.fulfilled("Resume Sent Successfully"));
-      console.log(response);
+      const dataFromBody = JSON.parse(response.body);
+
+      console.log(dataFromBody);
+
+      dispatch(submitDocument.fulfilled(dataFromBody));
+      return dataFromBody;
     } catch (error) {
-      dispatch(submitDoc.rejected(error.message));
-      return rejectWithValue("Error Uploading Resume");
+      dispatch(submitDocument.rejected(error.message));
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -204,8 +209,8 @@ const userSlice = createSlice({
       })
       .addCase(verifyImage.fulfilled, (state, action) => {
         state.loading = false;
-        state.isIdImageUploaded = true;
         state.success = action.payload;
+        state.user.user.isIdImageUploaded = true;
       })
       .addCase(verifyImage.rejected, (state, action) => {
         state.loading = false;
@@ -230,14 +235,16 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(submitDoc.pending, (state) => {
+      .addCase(submitDocument.pending, (state) => {
         state.loading = true;
       })
-      .addCase(submitDoc.fulfilled, (state) => {
+      .addCase(submitDocument.fulfilled, (state, action) => {
         state.loading = false;
-        state.isResumeUploaded = true;
+        state.user.user.isResumeUploaded = true;
+        console.log("actionpayload", action.payload);
+        state.extracted = action.payload;
       })
-      .addCase(submitDoc.rejected, (state, action) => {
+      .addCase(submitDocument.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

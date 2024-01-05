@@ -15,7 +15,7 @@ router.post("/login", login);
 router.post("/register", register);
 router.post("/reset", changePassword);
 router.post("/verify", authMiddleware, updateVerificationImage);
-router.post("/resume", getResume);
+router.post("/resume", authMiddleware, getResume);
 
 // auth login
 // router.get('/login', (req, res) => {
