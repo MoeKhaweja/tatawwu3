@@ -1,144 +1,155 @@
-import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import {
   Text,
   TextInput,
   Button,
-  IconButton,
-  List,
-  Snackbar,
+  SegmentedButtons,
+  HelperText,
+  ActivityIndicator,
 } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../store/user";
 
-const CompleteProfilePage = () => {
+const SignupScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [skillInput, setSkillInput] = useState("");
-  const [academicBackgrounds, setAcademicBackgrounds] = useState([]);
-  const [titleInput, setTitleInput] = useState("");
-  const [instituteInput, setInstituteInput] = useState("");
-  const [error, setError] = useState(null);
+  const [role, setValue] = useState("volunteer");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleAddSkill = () => {
-    if (skillInput.trim() !== "") {
-      setSkills([...skills, skillInput]);
-      setSkillInput("");
-    } else {
-      setError("Skill cannot be empty");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    if (firstName && lastName && email && password) setError(false);
+  }, [firstName, lastName, email, password]);
+
+  const handleSignup = async () => {
+    if (!firstName || !lastName || !email || !password) {
+      setError(true);
+      setErrorMessage("Please fill in all fields");
+      return;
     }
-  };
 
-  const handleRemoveSkill = (index) => {
-    const updatedSkills = skills.filter((_, i) => i !== index);
-    setSkills(updatedSkills);
-  };
-
-  const handleAddAcademicBackground = () => {
-    if (titleInput.trim() !== "" && instituteInput.trim() !== "") {
-      setAcademicBackgrounds([
-        ...academicBackgrounds,
-        { title: titleInput, institute: instituteInput },
-      ]);
-      setTitleInput("");
-      setInstituteInput("");
-    } else {
-      setError("Title and Institute cannot be empty");
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError(true);
+      setErrorMessage("Please enter a valid email");
+      return;
     }
-  };
 
-  const handleRemoveAcademicBackground = (index) => {
-    const updatedAcademicBackgrounds = academicBackgrounds.filter(
-      (_, i) => i !== index
-    );
-    setAcademicBackgrounds(updatedAcademicBackgrounds);
+    if (password.length < 8) {
+      setError(true);
+      setErrorMessage("Password must be at least 8 characters long");
+      return;
+    }
+    setError(false);
+    setLoading(true);
+    setErrorMessage("");
+
+    // Simulating signup delay for 2 seconds (replace with actual signup logic)
+    try {
+      await dispatch(
+        registerUser({ email, password, firstName, lastName, role })
+      );
+      // Handle successful login
+    } catch (error) {
+      console.log(error);
+      setError("opps something wrong happened");
+      return;
+    }
+    setEmail("");
+    setPassword("");
+    setLoading(false);
+
+    console.log(user);
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20 }}>
+    <View
+      style={{
+        padding: 20,
+        alignContent: "center",
+        justifyContent: "center",
+        flex: 1,
+      }}
+    >
+      <HelperText type='error' visible={error}>
+        {errorMessage}
+      </HelperText>
       <TextInput
         label='First Name'
         value={firstName}
-        onChangeText={setFirstName}
-        style={{ marginVertical: 5 }}
+        onChangeText={(text) => {
+          setFirstName(text);
+          setError("");
+        }}
+        error={error && !firstName}
       />
       <TextInput
         label='Last Name'
         value={lastName}
-        onChangeText={setLastName}
-        style={{ marginVertical: 5 }}
+        onChangeText={(text) => {
+          setLastName(text);
+          setError("");
+        }}
+        error={error && !lastName}
       />
-
-      <Text style={{ fontSize: 18, marginVertical: 10 }}>Skills</Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TextInput
-          label='Skill'
-          value={skillInput}
-          onChangeText={setSkillInput}
-          style={{ flex: 1, marginRight: 10 }}
-          error={error && skillInput.trim() === ""}
-        />
-        <Button mode='contained' onPress={handleAddSkill}>
-          Add Skill
-        </Button>
+      <TextInput
+        label='Email'
+        value={email}
+        onChangeText={(text) => {
+          setEmail(text);
+          setError("");
+        }}
+        error={error && !/\S+@\S+\.\S+/.test(email)}
+      />
+      <TextInput
+        label='Password'
+        secureTextEntry
+        value={password}
+        onChangeText={(text) => {
+          setPassword(text);
+          setError("");
+        }}
+        error={error && password.length < 8}
+      />
+      <Text style={{ marginBottom: 8, marginTop: 8 }}>Signing Up as a:</Text>
+      <SegmentedButtons
+        value={role}
+        onValueChange={setValue}
+        buttons={[
+          {
+            value: "volunteer",
+            label: "Volunteer",
+          },
+          {
+            value: "community",
+            label: "Community",
+          },
+        ]}
+      />
+      <View style={{ alignItems: "center", marginTop: 20 }}>
+        {loading && <ActivityIndicator animating={true} color='#000000' />}
       </View>
-      {skills.map((skill, index) => (
-        <List.Item
-          key={index}
-          title={skill}
-          right={() => (
-            <IconButton
-              icon='delete'
-              onPress={() => handleRemoveSkill(index)}
-            />
-          )}
-        />
-      ))}
-
-      <Text style={{ fontSize: 18, marginVertical: 10 }}>
-        Academic Backgrounds
-      </Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TextInput
-          label='Title'
-          value={titleInput}
-          onChangeText={setTitleInput}
-          style={{ flex: 1, marginRight: 10 }}
-          error={error && titleInput.trim() === ""}
-        />
-        <TextInput
-          label='Institute'
-          value={instituteInput}
-          onChangeText={setInstituteInput}
-          style={{ flex: 1, marginRight: 10 }}
-          error={error && instituteInput.trim() === ""}
-        />
-        <Button mode='contained' onPress={handleAddAcademicBackground}>
-          Add Background
-        </Button>
-      </View>
-      {academicBackgrounds.map((background, index) => (
-        <List.Item
-          key={index}
-          title={background.title}
-          description={background.institute}
-          right={() => (
-            <IconButton
-              icon='delete'
-              onPress={() => handleRemoveAcademicBackground(index)}
-            />
-          )}
-        />
-      ))}
-
-      <Snackbar
-        visible={error !== null}
-        onDismiss={() => setError(null)}
-        duration={4000}
+      <Button
+        mode='contained'
+        onPress={handleSignup}
+        style={{ marginTop: 20 }}
+        disabled={loading}
       >
-        {error}
-      </Snackbar>
-    </ScrollView>
+        Sign Up
+      </Button>
+      <Button
+        onPress={() => navigation.navigate("Signin")}
+        style={{ marginTop: 10 }}
+      >
+        Already have an Account? Sign In
+      </Button>
+    </View>
   );
 };
 
-export default CompleteProfilePage;
+export default SignupScreen;

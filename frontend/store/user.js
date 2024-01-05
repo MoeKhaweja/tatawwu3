@@ -8,9 +8,11 @@ const initialState = {
   loading: false,
   error: null,
   isAuth: false,
-  isVerified: null,
+  isVerified: false,
   isReset: false,
-  sucess: null,
+  success: null,
+  isResumeUploaded: false,
+  isIdImageUploaded: false,
 };
 
 export const loginUser = createAsyncThunk(
@@ -32,7 +34,7 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       dispatch(loginUser.rejected(error.message));
-      return rejectWithValue(error.message);
+      return rejectWithValue("Invalid username/password");
     }
   }
 );
@@ -55,7 +57,7 @@ export const verifyImage = createAsyncThunk(
         }
       );
 
-      dispatch(verifyImage.fulfilled());
+      dispatch(verifyImage.fulfilled("Image Sent Successfully"));
       console.log(response);
 
       //   dispatch(verifyImage(data));
@@ -63,7 +65,32 @@ export const verifyImage = createAsyncThunk(
     } catch (error) {
       dispatch(verifyImage.rejected(error.message));
       return rejectWithValue(error.message);
-      return;
+    }
+  }
+);
+export const submitDoc = createAsyncThunk(
+  "user/submitDoc",
+  async (doc, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const currentState = getState();
+      console.log("Current State:", currentState);
+      dispatch(submitDoc.pending());
+      const response = await FileSystem.uploadAsync(
+        "http://192.168.1.2:8000/auth/verify",
+        doc,
+        {
+          httpMethod: "POST",
+          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+          fieldName: "resume",
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(submitDoc.fulfilled("Resume Sent Successfully"));
+      console.log(response);
+    } catch (error) {
+      dispatch(submitDoc.rejected(error.message));
+      return rejectWithValue("Error Uploading Resume");
     }
   }
 );
@@ -85,8 +112,8 @@ export const registerUser = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      dispatch(registerUser.rejected("error registering user"));
-      return rejectWithValue(error.message);
+      dispatch(registerUser.rejected(error.message));
+      return rejectWithValue("error registering user");
     }
   }
 );
@@ -141,7 +168,11 @@ export const verifyPin = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    removeError(state) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -171,9 +202,10 @@ const userSlice = createSlice({
       .addCase(verifyImage.pending, (state) => {
         state.loading = true;
       })
-      .addCase(verifyImage.fulfilled, (state) => {
+      .addCase(verifyImage.fulfilled, (state, action) => {
         state.loading = false;
-        state.isVerified = false;
+        state.isIdImageUploaded = true;
+        state.success = action.payload;
       })
       .addCase(verifyImage.rejected, (state, action) => {
         state.loading = false;
@@ -197,9 +229,20 @@ const userSlice = createSlice({
       .addCase(verifyPin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(submitDoc.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(submitDoc.fulfilled, (state) => {
+        state.loading = false;
+        state.isResumeUploaded = true;
+      })
+      .addCase(submitDoc.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const {} = userSlice.actions; // No regular actions
+export const AuthActions = userSlice.actions; // No regular actions
 export default userSlice.reducer;

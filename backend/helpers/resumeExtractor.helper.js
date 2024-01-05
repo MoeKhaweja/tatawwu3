@@ -43,7 +43,7 @@ async function run(extracted) {
 
   const parts = [
     {
-      text: `i will provide you with a text of my cv, try to make a 3 lines bio and take most important skills (skills should be titles or words )and take academic history, return only a json object like this without any surrounding data {academicHistory:[bio:string,{degreeTitle:String, Institution:String}],skills:[]}: ${extracted}`,
+      text: `i will provide you with a text of my cv, try to make a 3 lines bio and take most important skills (skills should be titles or words )and take academic history, return only a json object like this without any surrounding data {bio:{String},academicHistory:[{degreeTitle:String, Institution:String}],skills:[]}: ${extracted}`,
     },
   ];
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -10,8 +11,15 @@ const SigninScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.user.isAuth);
   const [render, setRender] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const login = async () => {
+    if (!email || !password) {
+      setError(true);
+      setErrorMessage("Please fill in all fields");
+      return;
+    }
     setRender(true);
   };
 
@@ -49,17 +57,35 @@ const SigninScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <View
+      style={{
+        padding: 20,
+        alignContent: "center",
+        justifyContent: "center",
+        flex: 1,
+      }}
+    >
+      <HelperText type='error' visible={error}>
+        {errorMessage}
+      </HelperText>
       <TextInput
         label='Email'
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text) => {
+          setEmail(text);
+          setError("");
+        }}
+        error={error && !email}
       />
       <TextInput
         label='Password'
         secureTextEntry
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={(text) => {
+          setPassword(text);
+          setError("");
+        }}
+        error={error && !password}
       />
       <Button mode='contained' onPress={handleSignin} style={{ marginTop: 20 }}>
         Sign In
@@ -76,6 +102,7 @@ const SigninScreen = ({ navigation }) => {
       >
         Reset
       </Button>
+      <LoadingOrError></LoadingOrError>
     </View>
   );
 };
