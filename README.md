@@ -12,21 +12,27 @@
 ### User Stories
 
 <h4>As a User(Volunteer/Organization) :</h4>
-- I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.
-
+<ul>
+  <li>I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.</li>
+</ul>
   <h4>As a Volunteer:</h4>
--  I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at.
--  I want to be able to chat with other volunteers in chat rooms, so that I can stay connected with people with similar interests.
+  <ul>
+  <li>I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at.</li>
+    <li>I want to be able to chat with other volunteers in chat rooms, so that I can stay connected with people with similar interests.</li>
+</ul>
 
 <h4>As an Organization:</h4>
-- I want to be able to find volunteers efficiently, so that I can make sure my events run smoothly on time.
-- I want to be able to add events and manage applicants, so that I can organize my events precisely.
-- I want to be able to create chat rooms for my volunteers, so that I can leave a good impact on youth.
-
+<ul>
+  <li>I want to be able to find volunteers efficiently, so that I can make sure my events run smoothly on time.</li>
+  <li>I want to be able to add events and manage applicants, so that I can organize my events precisely.</li>
+  <li>I want to be able to create chat rooms for my volunteers, so that I can leave a good impact on youth.</li>
+</ul>
 <h4>As an Admin:</h4>
-- I want to be able to approve or deny users registering for the app, so that I can verify their identities.
-- I want to be able to monitor general information on a dashboard, so that I can keep track of app.
-
+<ul>
+  <li>I want to be able to approve or deny users registering for the app, so that I can verify their identities.</li>
+  <li>I want to be able to monitor general information on a dashboard, so that I can keep track of app.
+</li>
+</ul>
 <br><br>
 
 <!-- Prototyping -->
