@@ -61,8 +61,11 @@ app.use("/volunteer", volunteerRoutes);
 
 // mail route
 const sendEmail = require("./routes/mail.route");
-const { log } = require("console");
 app.use("/mail", sendEmail);
+
+// rooms route
+const roomRoutes = require("./routes/room.routes");
+app.use("/rooms", roomRoutes);
 
 server.listen(8000, () => {
   console.log("Server listining on PORT: ", 8000);

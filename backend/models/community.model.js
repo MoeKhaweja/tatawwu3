@@ -7,7 +7,7 @@ const communitySchema = new mongoose.Schema({
   },
   name: { type: String, required: true, minlength: 3 },
   description: { type: String, required: true, minlength: 10 },
-  location: { type: String, required: true, minlength: 3 },
+  // location: { type: String, required: true, minlength: 3 },
   events: [
     {
       title: { type: String, required: true, minlength: 3 },

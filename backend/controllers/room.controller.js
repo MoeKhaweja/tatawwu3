@@ -1,26 +1,16 @@
 const Room = require("../models/room.model");
 const User = require("../models/user.model");
 
-exports.createRoom = async (req, res) => {
+const createRoom = async (req, res) => {
   const { title, description } = req.body;
   let room;
   try {
     {
       room = await Room.create({
         title,
-        admin: [
-          {
-            user: req.user.id,
-            username: req.user.username,
-            avatar: req.user.avatar,
-          },
-        ],
+        admin: req.user.id,
         description,
-        members: [
-          {
-            user: req.user.id,
-          },
-        ],
+        members: [req.user.id],
       });
     }
     let rooms = [...req.user.rooms, room.id];
@@ -34,11 +24,11 @@ exports.createRoom = async (req, res) => {
     res.status(200).json({ success: true, data: room });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, error: "Server Error" });
+    res.status(500).json({ success: false, error: error });
   }
 };
 
-exports.getRoom = async (req, res) => {
+const getRoom = async (req, res) => {
   try {
     const room = await Room.findById(req.room);
     if (!room) {
@@ -59,7 +49,7 @@ exports.getRoom = async (req, res) => {
   }
 };
 
-exports.getUserRooms = async (req, res) => {
+const getUserRooms = async (req, res) => {
   try {
     console.log(req.user.rooms);
     let rooms = await Room.find({ _id: { $in: req.user.rooms } }).select(
@@ -76,28 +66,21 @@ exports.getUserRooms = async (req, res) => {
   }
 };
 
-exports.joinRoom = async (req, res) => {
+const joinRoom = async (req, res) => {
   try {
-    let room = await Room.findById(req.room);
+    let room = await Room.findById(req.body.room);
 
     if (!room) {
       return res
         .status(400)
         .json({ errors: [{ message: "Room doesn't exist" }] });
-    } else if (
-      room.members.map((member) => member.user).includes(req.user.id)
-    ) {
+    } else if (room.members.includes(req.user.id)) {
       return res
         .status(400)
         .json({ errors: [{ message: "You are already a member" }] });
     }
     const fieldsToUpdate = {
-      members: [
-        {
-          user: req.user.id,
-        },
-        ...room.members,
-      ],
+      members: [req.user.id, ...room.members],
     };
 
     await room.updateOne(fieldsToUpdate, {
@@ -125,7 +108,7 @@ exports.joinRoom = async (req, res) => {
   }
 };
 
-exports.updateInfo = async (req, res) => {
+const updateInfo = async (req, res) => {
   try {
     const room = await Room.findById(req.room);
     if (!room) {
@@ -155,3 +138,5 @@ exports.updateInfo = async (req, res) => {
     res.status(500).json({ success: false, error: "Server Error" });
   }
 };
+
+module.exports = { createRoom, joinRoom, getUserRooms };

@@ -11,14 +11,11 @@ const room = new mongoose.Schema({
     maxlength: 256,
     required: [true, "Please add a description"],
   },
-  admin: [
-    {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    },
-  ],
+  admin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -39,7 +36,7 @@ const room = new mongoose.Schema({
     message: {
       type: String,
     },
-    username: {
+    sender: {
       type: String,
     },
     createdAt: {
@@ -49,7 +46,8 @@ const room = new mongoose.Schema({
 
   avatar: {
     type: String,
-    default: "v1608731788/images/defualt_kzmons.png",
+    default:
+      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FList_of_monochrome_and_RGB_color_formats&psig=AOvVaw3YDs5Fee9xnkDEqWEIAE_F&ust=1704664627882000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC_s-XgyYMDFQAAAAAdAAAAABAY",
   },
 
   createdAt: {
