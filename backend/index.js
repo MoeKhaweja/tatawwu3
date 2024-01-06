@@ -4,9 +4,9 @@ const cookieSession = require("cookie-session");
 const multer = require("multer");
 const passport = require("passport");
 const path = require("path");
+const http = require("http");
 require("dotenv").config();
-const socketio = require("socket.io");
-
+const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
 const passportSetup = require("./configs/passport-setup");
@@ -16,25 +16,27 @@ const passportSetup = require("./configs/passport-setup");
 
 const app = express();
 app.use(express.json());
+const server = http.createServer(app); // Create HTTP server
 
-io = socketio(8000);
+const io = socketIO(server); // Attach Socket.IO to the HTTP server
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ name }, callback) => {
-    if (error) {
-      callback(error);
+  console.log(socket.id);
+
+  socket.on("send-message", (message, room, sender) => {
+    if (room == 5) {
+      console.log(message);
+      // Handle message for all clients
+      // socket.emit("receive-message", "hooooyehhh");
+      socket.to(room).emit("receive-message", message, sender);
     } else {
-      let roomID = 2436;
-      socket.join(roomID);
-      console.log(name);
-      socket.broadcast.to(roomID).emit("adminMessage", {
-        name: "admin",
-        content: `${name} has joined`,
-      });
     }
   });
 
-  socket.on("disconnect", () => {});
+  socket.on("join-room", (room) => {
+    socket.join(room);
+    console.log(`Joined ${room}`);
+  });
 });
 
 // multer middleware
@@ -59,9 +61,10 @@ app.use("/volunteer", volunteerRoutes);
 
 // mail route
 const sendEmail = require("./routes/mail.route");
+const { log } = require("console");
 app.use("/mail", sendEmail);
 
-app.listen(8000, () => {
+server.listen(8000, () => {
   console.log("Server listining on PORT: ", 8000);
   connectToMongoDB();
 });

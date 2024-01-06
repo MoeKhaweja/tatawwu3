@@ -42,10 +42,10 @@ const SigninScreen = ({ navigation }) => {
       setRender(false);
     }
     if (auth) {
-      navigation.navigate("Verify");
+      navigation.navigate("ChatsScreen");
       navigation.reset({
         index: 0,
-        routes: [{ name: "Verify" }],
+        routes: [{ name: "ChatsScreen" }],
       });
     }
   }, [render, auth]);

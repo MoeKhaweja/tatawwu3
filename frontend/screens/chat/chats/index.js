@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
-import { io } from "socket.io-client";
+
 import {
   Avatar,
   Button,
@@ -12,27 +12,49 @@ import {
   TextInput,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-const socket = io("http://localhost:3000");
+import { socket } from "../../../socket/socket.config";
+import { useSelector } from "react-redux";
 
 const ChatsScreen = () => {
-  socket.on("connect", () => {
-    console.log("hi");
-  });
+  const user = useSelector((state) => state.user.user.user);
+  useEffect(() => {
+    // no-op if the socket is already connected
+    socket.connect();
+    socket.emit("join-room", 5);
 
-  socket.emit("send-message", message, room);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
-  socket.on("receive-message", (message) => {
-    console.log(message);
-  });
+  useEffect(() => {
+    // no-op if the socket is already connected
+    socket.on("receive-message", (message, sender) => {
+      console.log(message);
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, text: message, sender: sender },
+      ]);
+    });
 
+    return () => {
+      socket.off("receive-message");
+    };
+  }, []);
+
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (text) => {
+    setInputValue(text);
+  };
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi there!", sender: "user" },
-    { id: 2, text: "Hello!", sender: "other" },
+    { id: 2, text: "Hello!", sender: user.email },
     // Add more demo data as needed
   ]);
   const renderMessages = () => {
     return messages.map((message) => {
-      const alignRight = message.sender === "user";
+      const alignRight = message.sender === user.email;
       return (
         <View
           key={message.id}
@@ -65,10 +87,11 @@ const ChatsScreen = () => {
     // For demo purposes, let's just add a new message with the user as sender
     const newMessage = {
       id: messages.length + 1,
-      text: "New message",
-      sender: "user",
+      text: inputValue,
+      sender: user.email,
     };
     setMessages([...messages, newMessage]);
+    socket.emit("send-message", inputValue, 5, user.email);
   };
 
   return (
@@ -106,6 +129,7 @@ const ChatsScreen = () => {
             flex: 1,
             backgroundColor: "",
           }}
+          onChangeText={(text) => handleInputChange(text)}
           dense
           right={
             <TextInput.Icon
