@@ -5,6 +5,7 @@ const multer = require("multer");
 const passport = require("passport");
 const path = require("path");
 require("dotenv").config();
+const socketio = require("socket.io");
 
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
@@ -15,6 +16,26 @@ const passportSetup = require("./configs/passport-setup");
 
 const app = express();
 app.use(express.json());
+
+io = socketio(8000);
+
+io.on("connection", (socket) => {
+  socket.on("join", ({ name }, callback) => {
+    if (error) {
+      callback(error);
+    } else {
+      let roomID = 2436;
+      socket.join(roomID);
+      console.log(name);
+      socket.broadcast.to(roomID).emit("adminMessage", {
+        name: "admin",
+        content: `${name} has joined`,
+      });
+    }
+  });
+
+  socket.on("disconnect", () => {});
+});
 
 // multer middleware
 app.use(
