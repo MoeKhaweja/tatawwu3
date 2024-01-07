@@ -47,6 +47,12 @@ const ChatRoomList = () => {
         id={item._id}
         title={item.title}
         description={item.lastMessage.message}
+        onPress={() =>
+          navigation.navigate("ChatsScreen", {
+            room: item._id,
+            title: item.title,
+          })
+        }
         left={() => (
           <Avatar.Image
             source={{ uri: item.avatar }}
