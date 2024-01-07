@@ -10,9 +10,34 @@ const initialState = {
   isAuth: false,
   isVerified: false,
   isReset: false,
-  success: null,
+  success: false,
   extracted: null,
 };
+
+export const createRoom = createAsyncThunk(
+  "user/createRoom",
+  async (details, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(createRoom.pending());
+
+      const response = await axios.post(
+        "http://192.168.1.2:8000/rooms/create",
+        details
+      );
+
+      dispatch(createRoom.fulfilled(response.data));
+
+      const currentState = getState();
+      console.log("Current State:", currentState);
+      console.log(response);
+
+      return response.data;
+    } catch (error) {
+      dispatch(createRoom.rejected(error.message));
+      return rejectWithValue("error creating room");
+    }
+  }
+);
 
 export const loginUser = createAsyncThunk(
   "user/login",
@@ -56,7 +81,7 @@ export const verifyImage = createAsyncThunk(
         }
       );
 
-      dispatch(verifyImage.fulfilled("Image Sent Successfully"));
+      dispatch(verifyImage.fulfilled());
       console.log(response);
 
       //   dispatch(verifyImage(data));
@@ -209,7 +234,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyImage.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = action.payload;
+        state.success = true;
         state.user.user.isIdImageUploaded = true;
       })
       .addCase(verifyImage.rejected, (state, action) => {
@@ -241,10 +266,20 @@ const userSlice = createSlice({
       .addCase(submitDocument.fulfilled, (state, action) => {
         state.loading = false;
         state.user.user.isResumeUploaded = true;
-        console.log("actionpayload", action.payload);
         state.extracted = action.payload;
       })
       .addCase(submitDocument.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createRoom.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createRoom.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(createRoom.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

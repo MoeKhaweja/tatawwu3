@@ -1,16 +1,33 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
-import { Avatar, Button, TextInput as PaperInput } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { Avatar, Button, HelperText, TextInput } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { createRoom } from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CreateRoom = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [avatar, setAvatar] = useState("");
+  const dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const createChatRoom = () => {
     // Implement your logic to create a chat room with title, description, and avatar
     // This function could post data to an API or perform any necessary actions
     // For example:
+    if (!title || !description) {
+      setError(true);
+      setErrorMessage("Please fill in all fields");
+      return;
+    }
+    setErrorMessage("");
+    try {
+      dispatch(createRoom({ title: title, description: description }));
+    } catch (error) {
+      console.log(error);
+    }
     console.log("Title:", title);
     console.log("Description:", description);
     console.log("Avatar:", avatar);
@@ -27,18 +44,29 @@ const CreateRoom = () => {
       <Button onPress={() => console.log("Change Avatar")}>
         Change Avatar
       </Button>
-      <PaperInput
+      <HelperText type='error' visible={error}>
+        {errorMessage}
+      </HelperText>
+      <TextInput
         label='Title'
         value={title}
-        onChangeText={(text) => setTitle(text)}
+        onChangeText={(text) => {
+          setTitle(text);
+          setError("");
+        }}
         style={styles.input}
+        error={error && !title}
       />
-      <PaperInput
+      <TextInput
         label='Description'
         value={description}
-        onChangeText={(text) => setDescription(text)}
+        onChangeText={(text) => {
+          setDescription(text);
+          setError("");
+        }}
         style={styles.input}
         multiline
+        error={error && !description}
       />
       <Button
         mode='contained'
@@ -47,6 +75,7 @@ const CreateRoom = () => {
       >
         Create Chat Room
       </Button>
+      <LoadingOrError></LoadingOrError>
     </View>
   );
 };

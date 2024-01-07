@@ -5,10 +5,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Feed from "../../tabs/volunteer";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Communities from "../../tabs/communities";
+import ChatScreen from "../chat";
 
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
-const RecentsRoute = () => <Text>Recents</Text>;
+const ChatsRoute = () => <ChatScreen></ChatScreen>;
 const NotificationsRoute = () => <Text>Notifications</Text>;
 
 const FeedItem = ({ content }) => {
@@ -29,14 +30,14 @@ const HomeScreen = () => {
       icon: "home",
     },
     { key: "communities", title: "Communities", icon: "album" },
-    { key: "recents", title: "Recents", icon: "history" },
+    { key: "chats", title: "Chats", icon: "history" },
     { key: "notifications", title: "Notifications", icon: "bell" },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     volunteer: VolunteerRoute,
     communities: CommunitiesRoute,
-    recents: RecentsRoute,
+    chats: ChatsRoute,
     notifications: NotificationsRoute,
   });
 

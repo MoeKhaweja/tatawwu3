@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, ActivityIndicator } from "react-native";
-import { Text, Snackbar, HelperText } from "react-native-paper";
+import { Snackbar, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthActions } from "../../store/user";
 
@@ -11,13 +11,18 @@ const LoadingOrError = () => {
   const onDismissSnackBar = () => dispatch(AuthActions.removeError());
   console.log(error);
   return (
-    <View>
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Snackbar
         visible={error != null}
         onDismiss={onDismissSnackBar}
         style={{ position: "absolute" }}
         action={{
-          label: "Undo",
+          label: "dismiss",
           onPress: () => {
             // Do something
           },
