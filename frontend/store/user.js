@@ -74,9 +74,6 @@ export const getUserRooms = createAsyncThunk(
 
       dispatch(getUserRooms.fulfilled(response.data));
 
-      // console.log("Current State:", currentState);
-      // console.log(response);
-
       return response.data;
     } catch (error) {
       dispatch(getUserRooms.rejected(error.message));
@@ -99,7 +96,6 @@ export const verifyToken = createAsyncThunk(
 
       dispatch(verifyToken.fulfilled(response.data));
       const currentState = getState();
-      console.log("Current State:", currentState);
 
       return response.data;
     } catch (error) {
