@@ -4,6 +4,7 @@ import { TextInput, Button, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -13,19 +14,6 @@ const SigninScreen = ({ navigation }) => {
   const [render, setRender] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
 
   const login = async () => {
     if (!email || !password) {
@@ -55,10 +43,10 @@ const SigninScreen = ({ navigation }) => {
       setRender(false);
     }
     if (auth) {
-      navigation.navigate("ChatsScreen");
+      navigation.navigate("Home");
       navigation.reset({
         index: 0,
-        routes: [{ name: "ChatsScreen" }],
+        routes: [{ name: "Home" }],
       });
     }
   }, [render, auth]);

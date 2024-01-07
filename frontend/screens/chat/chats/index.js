@@ -15,12 +15,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { socket } from "../../../socket/socket.config";
 import { useSelector } from "react-redux";
 
-const ChatsScreen = () => {
+const ChatsScreen = ({ route }) => {
+  const { room, title } = route.params; // Accessing passed props
   const user = useSelector((state) => state.user.user.user);
   useEffect(() => {
     // no-op if the socket is already connected
     socket.connect();
-    socket.emit("join-room", 5);
+    socket.emit("join-room", room);
 
     return () => {
       socket.disconnect();
@@ -108,7 +109,7 @@ const ChatsScreen = () => {
           size={40}
           source={() => <Icon name='camera' size={20} color='white' />}
         />
-        <Title style={{ marginLeft: 10 }}>Group Name</Title>
+        <Title style={{ marginLeft: 10 }}>{title}</Title>
       </View>
       <ScrollView style={{ flex: 1, padding: 10 }}>
         {renderMessages()}

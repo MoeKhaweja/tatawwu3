@@ -21,6 +21,7 @@ const createRoom = async (req, res) => {
         new: true,
       }
     );
+    console.log("room created");
     res.status(200).json({ success: true, data: room });
   } catch (error) {
     console.log(error);
@@ -56,10 +57,7 @@ const getUserRooms = async (req, res) => {
       "title avatar lastMessage"
     );
 
-    res.status(200).json({
-      success: true,
-      data: rooms,
-    });
+    res.status(200).json(rooms);
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

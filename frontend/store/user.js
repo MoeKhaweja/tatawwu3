@@ -2,6 +2,24 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import fetchData from "../helpers/fetch";
 import * as FileSystem from "expo-file-system";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const storeData = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem("token", jsonValue);
+  } catch (e) {
+    // saving error
+  }
+};
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem("token");
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
 
 const initialState = {
   user: null,
@@ -12,6 +30,7 @@ const initialState = {
   isReset: false,
   success: false,
   extracted: null,
+  rooms: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -19,15 +38,18 @@ export const createRoom = createAsyncThunk(
   async (details, { dispatch, getState, rejectWithValue }) => {
     try {
       dispatch(createRoom.pending());
+      const currentState = getState();
 
       const response = await axios.post(
         "http://192.168.1.2:8000/rooms/create",
-        details
+        details,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
       );
 
       dispatch(createRoom.fulfilled(response.data));
 
-      const currentState = getState();
       console.log("Current State:", currentState);
       console.log(response);
 
@@ -35,6 +57,54 @@ export const createRoom = createAsyncThunk(
     } catch (error) {
       dispatch(createRoom.rejected(error.message));
       return rejectWithValue("error creating room");
+    }
+  }
+);
+
+export const getUserRooms = createAsyncThunk(
+  "user/getUserRooms",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getUserRooms.pending());
+      const currentState = getState();
+
+      const response = await axios.get("http://192.168.1.2:8000/rooms/get", {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
+
+      dispatch(getUserRooms.fulfilled(response.data));
+
+      // console.log("Current State:", currentState);
+      // console.log(response);
+
+      return response.data;
+    } catch (error) {
+      dispatch(getUserRooms.rejected(error.message));
+      return rejectWithValue("error getting rooms");
+    }
+  }
+);
+
+export const verifyToken = createAsyncThunk(
+  "user/verifyToken",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const token = await getData();
+      dispatch(verifyToken.pending());
+      console.log("token", token);
+
+      const response = await axios.get("http://192.168.1.2:8000/auth/verify", {
+        headers: { Authorization: `Bearer ${await token}` },
+      });
+
+      dispatch(verifyToken.fulfilled(response.data));
+      const currentState = getState();
+      console.log("Current State:", currentState);
+
+      return response.data;
+    } catch (error) {
+      dispatch(verifyToken.rejected(error.message));
+      return rejectWithValue("Invalid token");
     }
   }
 );
@@ -50,8 +120,8 @@ export const loginUser = createAsyncThunk(
         credentials
       );
 
+      await storeData(response.data.token);
       dispatch(loginUser.fulfilled(response.data));
-
       const currentState = getState();
       console.log("Current State:", currentState);
 
@@ -282,6 +352,29 @@ const userSlice = createSlice({
       .addCase(createRoom.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getUserRooms.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserRooms.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.rooms = action.payload;
+      })
+      .addCase(getUserRooms.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyToken.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyToken.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuth = true;
+      })
+      .addCase(verifyToken.rejected, (state, action) => {
+        state.loading = false;
       });
   },
 });

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import {
   List,
@@ -10,48 +10,66 @@ import {
   TextInput,
   Button,
 } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import { createRoom, getUserRooms } from "../../../store/user";
+import { useNavigation } from "@react-navigation/native";
 
 const chatRoomsData = [
-  { id: "1", name: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
-  { id: "2", name: "Room 2", lastMessage: "What's up?", avatar: "R2" },
-  // Add more chat room data here
-  // { id: '3', name: 'Room 3', lastMessage: 'Sample message', avatar: 'R3' },
-  // ...
+  { id: "1", title: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
+  { id: "2", title: "Room 2", lastMessage: "What's up?", avatar: "R2" },
 ];
 
 const ChatRoomList = () => {
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [roomName, setRoomName] = React.useState("");
-  const [message, setMessage] = React.useState("");
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [roomName, setRoomName] = useState("");
+  const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
+  const rooms = useSelector((state) => state.user.rooms);
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
-  const addNewRoom = () => {
-    // Implement logic to add a new room with roomName and message
-    // For example: Create an API call or add it to the chatRoomsData array
-    hideModal(); // Hide the modal after adding the room
+  const addNewRoom = async () => {
+    try {
+      await dispatch(createRoom({ title: roomName, description: description }));
+      dispatch(getUserRooms());
+    } catch {}
   };
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    console.log(rooms?.[0]?._id);
+  }, [rooms]);
 
   const renderChatRoom = ({ item, index }) => (
     <>
       <List.Item
-        title={item.name}
-        description={item.lastMessage}
-        left={() => <Avatar.Text size={40} label={item.avatar} />}
+        id={item._id}
+        title={item.title}
+        description={item.lastMessage.message}
+        left={() => (
+          <Avatar.Image
+            source={{ uri: item.avatar }}
+            style={{ width: 50, height: 50 }}
+            size={40}
+          />
+        )}
       />
-      {index < chatRoomsData.length - 1 && <Divider />}
+      {index < rooms.length - 1 && <Divider />}
     </>
   );
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={chatRoomsData}
-        renderItem={renderChatRoom}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        ItemSeparatorComponent={() => <Divider />}
-      />
+      {rooms && (
+        <FlatList
+          data={rooms}
+          renderItem={renderChatRoom}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={styles.listContent}
+          ItemSeparatorComponent={() => <Divider />}
+        />
+      )}
       <FAB style={styles.fab} icon='plus' onPress={showModal} />
       <Portal>
         <Modal
@@ -66,9 +84,9 @@ const ChatRoomList = () => {
             style={styles.input}
           />
           <TextInput
-            label='Message'
-            value={message}
-            onChangeText={(text) => setMessage(text)}
+            label='Room Description'
+            value={description}
+            onChangeText={(text) => setDescription(text)}
             style={styles.input}
           />
           <Button

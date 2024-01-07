@@ -5,6 +5,10 @@ const passport = require("passport");
 const fs = require("fs");
 const { extract } = require("../helpers/resumeExtractor.helper");
 
+const verify = async (req, res) => {
+  const { _id, ...userDetails } = req.user.toJSON();
+  return res.status(200).send({ user: userDetails, token: req.token });
+};
 const login = async (req, res) => {
   const { email: email, password } = req.body;
 
@@ -163,4 +167,5 @@ module.exports = {
   changePassword,
   updateVerificationImage,
   getResume,
+  verify,
 };

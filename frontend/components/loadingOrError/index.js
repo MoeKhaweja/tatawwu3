@@ -9,7 +9,7 @@ const LoadingOrError = () => {
   const error = useSelector((state) => state.user.error);
   const dispatch = useDispatch();
   const onDismissSnackBar = () => dispatch(AuthActions.removeError());
-  console.log(error);
+
   return (
     <View
       style={{

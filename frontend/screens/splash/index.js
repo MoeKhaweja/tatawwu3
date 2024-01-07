@@ -1,20 +1,26 @@
 import React, { useEffect } from "react";
 import { View, Image, StyleSheet, Animated } from "react-native";
+import { useDispatch } from "react-redux";
+import { verifyToken } from "../../store/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SplashScreen = ({ navigation }) => {
   const logoScale = new Animated.Value(0.8);
-
+  const dispatch = useDispatch();
   useEffect(() => {
+    try {
+      dispatch(verifyToken());
+    } catch (e) {}
     Animated.timing(logoScale, {
       toValue: 1,
-      duration: 2000,
+      duration: 1000,
       useNativeDriver: true,
     }).start(() => {
       // Once animation finishes, navigate to main app screen
-      navigation.navigate("Home");
+      navigation.navigate("Signin");
       navigation.reset({
         index: 0,
-        routes: [{ name: "Home" }],
+        routes: [{ name: "Signin" }],
       });
     });
   }, []);

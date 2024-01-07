@@ -12,6 +12,7 @@ const authMiddleware = async (req, res, next) => {
       "-password"
     );
     req.user = user;
+    req.token = token;
     next();
   }
 };
