@@ -44,7 +44,7 @@ const getRoom = async (req, res) => {
         .json({ errors: [{ message: "You are not authorized" }] });
     }
     console.log(room);
-    res.status(200).json({ success: true, data: { room } });
+    res.status(200).json(room);
   } catch (error) {
     res.status(500).json({ success: false, error: "Server Error" });
   }
@@ -137,4 +137,4 @@ const updateInfo = async (req, res) => {
   }
 };
 
-module.exports = { createRoom, joinRoom, getUserRooms };
+module.exports = { createRoom, joinRoom, getUserRooms, getRoom };
