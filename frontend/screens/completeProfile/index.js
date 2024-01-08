@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import {
   Text,
@@ -14,9 +14,25 @@ import {
   Card,
 } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector } from "react-redux";
 
-const CompleteProfilePage = () => {
+const CompleteProfilePage = ({ route }) => {
+  const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [date, setdate] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [skillInput, setSkillInput] = useState("");
+  const [academicBackgrounds, setAcademicBackgrounds] = useState([]);
+  const [titleInput, setTitleInput] = useState("");
+  const [instituteInput, setInstituteInput] = useState("");
+  const [error, setError] = useState(null);
+  const [gender, setGender] = useState();
+  const [bio, setBio] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const user = useSelector((state) => state.user.user.user);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -34,24 +50,29 @@ const CompleteProfilePage = () => {
     setdate(`${day}/${month}/${year}`);
     hideDatePicker();
   };
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [date, setdate] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [skillInput, setSkillInput] = useState("");
-  const [academicBackgrounds, setAcademicBackgrounds] = useState([]);
-  const [titleInput, setTitleInput] = useState("");
-  const [instituteInput, setInstituteInput] = useState("");
-  const [error, setError] = useState(null);
-  const [gender, setGender] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisible2, setModalVisible2] = useState(false);
 
   const showModal = () => setModalVisible(true);
   const showModal2 = () => setModalVisible2(true);
   const hideModal = () => setModalVisible(false);
   const hideModal2 = () => setModalVisible2(false);
 
+  useEffect(() => {
+    if (extracted?.extracted.skills) {
+      setSkills(extracted.extracted.skills);
+    }
+    if (extracted?.extracted.academicHistory) {
+      setAcademicBackgrounds(extracted.extracted.academicHistory);
+    }
+    if (extracted?.extracted.bio) {
+      setBio(extracted.extracted.bio);
+    }
+    if (user) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+    }
+
+    console.log(skills);
+  }, []);
   const handleAddSkill = () => {
     if (skillInput.trim() !== "") {
       setSkills([...skills, skillInput]);
@@ -70,7 +91,7 @@ const CompleteProfilePage = () => {
     if (titleInput.trim() !== "" && instituteInput.trim() !== "") {
       setAcademicBackgrounds([
         ...academicBackgrounds,
-        { title: titleInput, institute: instituteInput },
+        { degreeTitle: titleInput, Institution: instituteInput },
       ]);
       setTitleInput("");
       setInstituteInput("");
@@ -98,6 +119,13 @@ const CompleteProfilePage = () => {
         label='Last Name'
         value={lastName}
         onChangeText={setLastName}
+        style={{ marginVertical: 5 }}
+      />
+      <TextInput
+        label='Bio'
+        value={bio}
+        onChangeText={setBio}
+        multiline
         style={{ marginVertical: 5 }}
       />
       <Text style={{ marginTop: 10 }}>Select your gender:</Text>
@@ -152,8 +180,11 @@ const CompleteProfilePage = () => {
       <Card>
         {skills.map((skill, index) => {
           return (
-            <>
+            <View key={index}>
               <List.Item
+                titleNumberOfLines={4}
+                descriptionNumberOfLines={4}
+                titleStyle={{ flexWrap: "wrap" }}
                 key={index}
                 title={skill}
                 right={() => (
@@ -166,7 +197,7 @@ const CompleteProfilePage = () => {
                 )}
               />
               <Divider></Divider>
-            </>
+            </View>
           );
         })}
       </Card>
@@ -191,9 +222,13 @@ const CompleteProfilePage = () => {
       <Card>
         {academicBackgrounds.map((background, index) => (
           <List.Item
+            titleStyle={{ flexWrap: "wrap" }}
+            titleNumberOfLines={4}
+            descriptionNumberOfLines={4}
+            descriptionStyle={{ flexWrap: "wrap" }}
             key={index}
-            title={background.title}
-            description={background.institute}
+            title={background.degreeTitle}
+            description={background.Institution}
             right={() => (
               <IconButton
                 icon='delete'
@@ -203,6 +238,7 @@ const CompleteProfilePage = () => {
           />
         ))}
       </Card>
+      <Button>Submit</Button>
 
       <Snackbar
         visible={error !== null}

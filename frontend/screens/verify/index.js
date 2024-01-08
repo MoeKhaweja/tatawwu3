@@ -23,6 +23,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { submitDocument, verifyImage } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Verify() {
   const theme = useTheme();
@@ -39,6 +40,7 @@ export default function Verify() {
   const extracted = useSelector((state) => state.user.extracted);
   const dispatch = useDispatch();
   const [pickedDocument, setPickedDocument] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     console.log("user:", isIdImageUploaded, isResumeUploaded);
@@ -50,9 +52,18 @@ export default function Verify() {
       setStep(3);
     }
     console.log("extracted", extracted);
-
-    setData(extracted);
+    if (extracted) {
+      setData(extracted);
+    }
   }, [isIdImageUploaded, isResumeUploaded, image, pickedDocument, data]);
+
+  useEffect(() => {
+    if (data) {
+      navigation.navigate("CompleteProfilePage", {
+        extracted: data,
+      });
+    }
+  }, [data]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
