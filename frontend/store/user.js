@@ -31,6 +31,7 @@ const initialState = {
   success: false,
   extracted: null,
   rooms: [],
+  chat: {},
 };
 
 export const createRoom = createAsyncThunk(
@@ -78,6 +79,30 @@ export const getUserRooms = createAsyncThunk(
     } catch (error) {
       dispatch(getUserRooms.rejected(error.message));
       return rejectWithValue("error getting rooms");
+    }
+  }
+);
+export const getRoom = createAsyncThunk(
+  "user/getRoom",
+  async (room, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getRoom.pending());
+      const currentState = getState();
+
+      const response = await axios.ost(
+        "http://192.168.1.2:8000/rooms/get",
+        room,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getRoom.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getRoom.rejected(error.message));
+      return rejectWithValue("error getting chats");
     }
   }
 );
@@ -371,6 +396,17 @@ const userSlice = createSlice({
       })
       .addCase(verifyToken.rejected, (state, action) => {
         state.loading = false;
+      })
+      .addCase(getRoom.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getRoom.fulfilled, (state, action) => {
+        state.loading = false;
+        state.chat = action.payload;
+      })
+      .addCase(getRoom.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

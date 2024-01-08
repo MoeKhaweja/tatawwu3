@@ -31,13 +31,15 @@ const createRoom = async (req, res) => {
 
 const getRoom = async (req, res) => {
   try {
-    const room = await Room.findById(req.room);
+    const room = await Room.findById(req.body.room);
+    console.log(JSON.parse(JSON.stringify(room.members)), `'${req.user.id}'`);
+
     if (!room) {
       return res
         .status(400)
         .json({ errors: [{ message: "Room doesn't exist" }] });
     } else if (
-      room.members.map((member) => member.user).includes(req.user.id)
+      JSON.parse(JSON.stringify(room.members)).includes(`'${req.user.id}'`)
     ) {
       return res
         .status(400)
@@ -72,7 +74,9 @@ const joinRoom = async (req, res) => {
       return res
         .status(400)
         .json({ errors: [{ message: "Room doesn't exist" }] });
-    } else if (room.members.includes(req.user.id)) {
+    } else if (
+      JSON.parse(JSON.stringify(room.members)).includes(`'${req.user.id}'`)
+    ) {
       return res
         .status(400)
         .json({ errors: [{ message: "You are already a member" }] });
