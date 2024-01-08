@@ -66,6 +66,20 @@ const getUserRooms = async (req, res) => {
   }
 };
 
+const getNotUserRooms = async (req, res) => {
+  try {
+    console.log(req.user.rooms);
+    let rooms = await Room.find({ _id: { $nin: req.user.rooms } }).select(
+      "title avatar description"
+    );
+
+    res.status(200).json(rooms);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
 const joinRoom = async (req, res) => {
   try {
     let room = await Room.findById(req.body.room);
@@ -141,4 +155,10 @@ const updateInfo = async (req, res) => {
   }
 };
 
-module.exports = { createRoom, joinRoom, getUserRooms, getRoom };
+module.exports = {
+  createRoom,
+  joinRoom,
+  getUserRooms,
+  getRoom,
+  getNotUserRooms,
+};
