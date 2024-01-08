@@ -26,8 +26,7 @@ const room = new mongoose.Schema({
     {
       message: { type: String },
       sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
       },
       createdAt: { type: Date, default: Date.now },
     },

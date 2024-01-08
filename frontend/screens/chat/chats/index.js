@@ -13,11 +13,15 @@ import {
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { socket } from "../../../socket/socket.config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getRoom } from "../../../store/user";
 
 const ChatsScreen = ({ route }) => {
   const { room, title } = route.params; // Accessing passed props
   const user = useSelector((state) => state.user.user.user);
+  const chat = useSelector((state) => state.user.chat);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // no-op if the socket is already connected
     socket.connect();
@@ -43,22 +47,42 @@ const ChatsScreen = ({ route }) => {
     };
   }, []);
 
+  useEffect(() => {
+    try {
+      dispatch(getRoom({ room: room }));
+    } catch {
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(chat);
+    if (chat?.chat) {
+      setMessages(chat.chat);
+    }
+  }, [chat]);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (text) => {
     setInputValue(text);
   };
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hi there!", sender: "user" },
-    { id: 2, text: "Hello!", sender: user.email },
+    { id: 1, message: "Hi there!", sender: "user", createdAt: "dsfsdf" },
+    {
+      id: 2,
+      message: "Hello!",
+      sender: user.firstName + " " + user.lastName,
+      createdAt: "sdfsdf",
+    },
     // Add more demo data as needed
   ]);
-  const renderMessages = () => {
+  const renderMessages = (messages) => {
     return messages.map((message) => {
-      const alignRight = message.sender === user.email;
+      const alignRight =
+        message.sender === user.firstName + " " + user.lastName;
       return (
         <View
-          key={message.id}
+          key={message.createdAt}
           style={{
             alignItems: alignRight ? "flex-end" : "flex-start",
             margin: 5,
@@ -76,7 +100,7 @@ const ChatsScreen = ({ route }) => {
               backgroundColor: alignRight ? "#DCF8C6" : "#EAEAEA",
             }}
           >
-            <Text>{message.text}</Text>
+            <Text>{message.message}</Text>
           </Card>
         </View>
       );
@@ -87,12 +111,17 @@ const ChatsScreen = ({ route }) => {
     // Logic to send message
     // For demo purposes, let's just add a new message with the user as sender
     const newMessage = {
-      id: messages.length + 1,
-      text: inputValue,
-      sender: user.email,
+      id: Date.now(),
+      message: inputValue,
+      sender: user.firstName + " " + user.lastName,
     };
     setMessages([...messages, newMessage]);
-    socket.emit("send-message", inputValue, 5, user.email);
+    socket.emit(
+      "send-message",
+      inputValue,
+      room,
+      user.firstName + " " + user.lastName
+    );
   };
 
   return (
@@ -112,7 +141,7 @@ const ChatsScreen = ({ route }) => {
         <Title style={{ marginLeft: 10 }}>{title}</Title>
       </View>
       <ScrollView style={{ flex: 1, padding: 10 }}>
-        {renderMessages()}
+        {renderMessages(messages)}
       </ScrollView>
       <View
         style={{

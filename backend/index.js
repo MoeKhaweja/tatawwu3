@@ -10,6 +10,7 @@ const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
 const passportSetup = require("./configs/passport-setup");
+const Room = require("./models/room.model");
 
 // initialize passport
 // app.use(passport.initialize());
@@ -24,11 +25,29 @@ io.on("connection", (socket) => {
   console.log(socket.id);
 
   socket.on("send-message", (message, room, sender) => {
-    if (room == 5) {
-      console.log(message);
+    if (room) {
+      console.log(message, room, sender);
       // Handle message for all clients
       // socket.emit("receive-message", "hooooyehhh");
       socket.to(room).emit("receive-message", message, sender);
+      const find = async () => {
+        const target = await Room.findById(room);
+        const fieldsToUpdate = {
+          chat: [
+            ...target.chat,
+            {
+              message: message,
+              sender: sender,
+            },
+          ],
+        };
+        await target.updateOne(fieldsToUpdate, {
+          new: true,
+          runValidators: true,
+        });
+        console.log("done");
+      };
+      find();
     } else {
     }
   });

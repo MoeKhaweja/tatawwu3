@@ -11,7 +11,7 @@ import {
   Button,
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoom, getUserRooms } from "../../../store/user";
+import { createRoom, getRoom, getUserRooms } from "../../../store/user";
 import { useNavigation } from "@react-navigation/native";
 
 const chatRoomsData = [
@@ -35,7 +35,11 @@ const ChatRoomList = () => {
       dispatch(getUserRooms());
     } catch {}
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    try {
+      dispatch(getUserRooms());
+    } catch {}
+  }, []);
 
   useEffect(() => {
     console.log(rooms?.[0]?._id);
@@ -47,12 +51,17 @@ const ChatRoomList = () => {
         id={item._id}
         title={item.title}
         description={item.lastMessage.message}
-        onPress={() =>
+        onPress={() => {
+          try {
+            dispatch(getRoom({ room: item._id }));
+          } catch {
+            return;
+          }
           navigation.navigate("ChatsScreen", {
             room: item._id,
             title: item.title,
-          })
-        }
+          });
+        }}
         left={() => (
           <Avatar.Image
             source={{ uri: item.avatar }}

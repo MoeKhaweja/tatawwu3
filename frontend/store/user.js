@@ -89,7 +89,7 @@ export const getRoom = createAsyncThunk(
       dispatch(getRoom.pending());
       const currentState = getState();
 
-      const response = await axios.ost(
+      const response = await axios.post(
         "http://192.168.1.2:8000/rooms/get",
         room,
         {
@@ -114,6 +114,9 @@ export const verifyToken = createAsyncThunk(
       const token = await getData();
       dispatch(verifyToken.pending());
       console.log("token", token);
+      if (token == null) {
+        return rejectWithValue("no token");
+      }
 
       const response = await axios.get("http://192.168.1.2:8000/auth/verify", {
         headers: { Authorization: `Bearer ${await token}` },
@@ -396,6 +399,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyToken.rejected, (state, action) => {
         state.loading = false;
+        state.isAuth = false;
       })
       .addCase(getRoom.pending, (state) => {
         state.loading = true;
