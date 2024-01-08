@@ -3,12 +3,11 @@ import { View, useWindowDimensions, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ChatRoomList from "./chatsList";
+import AllRooms from "./allRooms";
 
 const FirstRoute = () => <ChatRoomList />;
 
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-);
+const SecondRoute = () => <AllRooms></AllRooms>;
 
 const renderScene = SceneMap({
   first: FirstRoute,

@@ -11,7 +11,12 @@ import {
   Button,
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoom, getRoom, getUserRooms } from "../../../store/user";
+import {
+  createRoom,
+  getNotUserRooms,
+  getRoom,
+  getUserRooms,
+} from "../../../store/user";
 import { useNavigation } from "@react-navigation/native";
 
 const chatRoomsData = [
@@ -19,13 +24,13 @@ const chatRoomsData = [
   { id: "2", title: "Room 2", lastMessage: "What's up?", avatar: "R2" },
 ];
 
-const ChatRoomList = () => {
+const AllRooms = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [roomName, setRoomName] = useState("");
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
-  const rooms = useSelector((state) => state.user.rooms);
+  const rooms = useSelector((state) => state.user.notRooms);
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -37,7 +42,7 @@ const ChatRoomList = () => {
   };
   useEffect(() => {
     try {
-      dispatch(getUserRooms());
+      dispatch(getNotUserRooms());
     } catch {}
   }, []);
 
@@ -50,24 +55,12 @@ const ChatRoomList = () => {
       <List.Item
         id={item._id}
         title={item.title}
-        description={item.lastMessage.message}
-        onPress={() => {
-          try {
-            dispatch(getRoom({ room: item._id }));
-          } catch {
-            return;
-          }
-          navigation.navigate("ChatsScreen", {
-            room: item._id,
-            title: item.title,
-          });
-        }}
-        left={() => (
-          <Avatar.Image
-            source={{ uri: item.avatar }}
-            style={{ width: 50, height: 50 }}
-            size={40}
-          />
+        description={item.description}
+        left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
+        right={() => (
+          <View style={{ alignContent: "center", justifyContent: "center" }}>
+            <Button mode='contained'>Join</Button>
+          </View>
         )}
       />
       {index < rooms.length - 1 && <Divider />}
@@ -146,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatRoomList;
+export default AllRooms;

@@ -31,6 +31,7 @@ const initialState = {
   success: false,
   extracted: null,
   rooms: [],
+  notRooms: [],
   chat: {},
 };
 
@@ -82,6 +83,28 @@ export const getUserRooms = createAsyncThunk(
     }
   }
 );
+
+export const getNotUserRooms = createAsyncThunk(
+  "user/getNotUserRooms",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getNotUserRooms.pending());
+      const currentState = getState();
+
+      const response = await axios.get("http://192.168.1.2:8000/rooms/join", {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
+
+      dispatch(getNotUserRooms.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getNotUserRooms.rejected(error.message));
+      return rejectWithValue("error getting rooms");
+    }
+  }
+);
+
 export const getRoom = createAsyncThunk(
   "user/getRoom",
   async (room, { dispatch, getState, rejectWithValue }) => {
@@ -409,6 +432,18 @@ const userSlice = createSlice({
         state.chat = action.payload;
       })
       .addCase(getRoom.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getNotUserRooms.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getNotUserRooms.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.notRooms = action.payload;
+      })
+      .addCase(getNotUserRooms.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
