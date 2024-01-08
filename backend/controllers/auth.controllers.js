@@ -93,6 +93,33 @@ const changePassword = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+async function updateUser(req, res) {
+  const userId = req.user.id; // Assuming userId is part of the route
+  const { firstName, lastName, skills, academicBackground, bio } = req.body;
+  console.log([...academicBackground]);
+  try {
+    const updatedUserData = {
+      firstName,
+      lastName,
+      skills,
+      academicBackground: [...academicBackground],
+      bio,
+    };
+
+    const user = await User.findByIdAndUpdate(userId, updatedUserData);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "error.message" });
+  }
+}
+
 async function updateVerificationImage(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const private = req.files.private[0]; // Access the uploaded file information
@@ -168,4 +195,5 @@ module.exports = {
   updateVerificationImage,
   getResume,
   verify,
+  updateUser,
 };

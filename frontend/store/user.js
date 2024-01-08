@@ -265,6 +265,31 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (userData, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(updateUser.pending());
+      const currentState = getState();
+      const response = await axios.post(
+        "http://192.168.1.2:8000/auth/update",
+        userData,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+      console.log(response.data);
+      if (response.status == 200) {
+        dispatch(updateUser.fulfilled());
+      }
+
+      return response.data;
+    } catch (error) {
+      dispatch(updateUser.rejected(error.message));
+      return rejectWithValue("error registering user");
+    }
+  }
+);
 export const sendPin = createAsyncThunk(
   "user/pin",
   async (email, { dispatch, rejectWithValue }) => {
@@ -444,6 +469,17 @@ const userSlice = createSlice({
         state.notRooms = action.payload;
       })
       .addCase(getNotUserRooms.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

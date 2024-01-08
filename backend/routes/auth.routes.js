@@ -6,6 +6,7 @@ const {
   updateVerificationImage,
   getResume,
   verify,
+  updateUser,
 } = require("../controllers/auth.controllers");
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post("/register", register);
 router.post("/reset", changePassword);
 router.post("/verify", authMiddleware, updateVerificationImage);
 router.post("/resume", authMiddleware, getResume);
+router.post("/update", authMiddleware, updateUser);
 router.get("/verify", authMiddleware, verify);
 
 // auth login

@@ -14,7 +14,8 @@ import {
   Card,
 } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../store/user";
 
 const CompleteProfilePage = ({ route }) => {
   const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
@@ -24,7 +25,7 @@ const CompleteProfilePage = ({ route }) => {
   const [date, setdate] = useState("");
   const [skills, setSkills] = useState([]);
   const [skillInput, setSkillInput] = useState("");
-  const [academicBackgrounds, setAcademicBackgrounds] = useState([]);
+  const [academicBackground, setAcademicBackgrounds] = useState([]);
   const [titleInput, setTitleInput] = useState("");
   const [instituteInput, setInstituteInput] = useState("");
   const [error, setError] = useState(null);
@@ -33,6 +34,7 @@ const CompleteProfilePage = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const user = useSelector((state) => state.user.user.user);
+  const dispatch = useDispatch();
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -90,7 +92,7 @@ const CompleteProfilePage = ({ route }) => {
   const handleAddAcademicBackground = () => {
     if (titleInput.trim() !== "" && instituteInput.trim() !== "") {
       setAcademicBackgrounds([
-        ...academicBackgrounds,
+        ...academicBackground,
         { degreeTitle: titleInput, Institution: instituteInput },
       ]);
       setTitleInput("");
@@ -101,10 +103,24 @@ const CompleteProfilePage = ({ route }) => {
   };
 
   const handleRemoveAcademicBackground = (index) => {
-    const updatedAcademicBackgrounds = academicBackgrounds.filter(
+    const updatedAcademicBackgrounds = academicBackground.filter(
       (_, i) => i !== index
     );
     setAcademicBackgrounds(updatedAcademicBackgrounds);
+  };
+
+  const handleSubmit = () => {
+    console.log("jdsfdsgsfg");
+
+    dispatch(
+      updateUser({
+        firstName,
+        lastName,
+        skills,
+        academicBackground,
+        bio,
+      })
+    );
   };
 
   return (
@@ -220,7 +236,7 @@ const CompleteProfilePage = ({ route }) => {
         />
       </View>
       <Card>
-        {academicBackgrounds.map((background, index) => (
+        {academicBackground.map((background, index) => (
           <List.Item
             titleStyle={{ flexWrap: "wrap" }}
             titleNumberOfLines={4}
@@ -238,7 +254,9 @@ const CompleteProfilePage = ({ route }) => {
           />
         ))}
       </Card>
-      <Button>Submit</Button>
+      <Button mode='contained' onPress={handleSubmit}>
+        Submit
+      </Button>
 
       <Snackbar
         visible={error !== null}
