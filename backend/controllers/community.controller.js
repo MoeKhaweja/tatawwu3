@@ -44,9 +44,11 @@ async function getCommunityEvents(req, res) {
 }
 
 async function addEvent(req, res) {
-  const { communityId, eventData } = req.body;
+  const user = req.user;
+  const { eventData } = req.body;
   try {
-    const community = await Community.findById(communityId);
+    const community = await Community.findOne({ owner: user._id });
+
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
