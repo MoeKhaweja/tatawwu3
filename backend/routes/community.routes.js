@@ -13,7 +13,7 @@ const { authMiddleware } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 router.post("/create", authMiddleware, createCommunity);
-router.post("/addEvent", addEvent);
+router.post("/addEvent", authMiddleware, addEvent);
 router.post("/editEvent", authMiddleware, editEvent);
 router.post("/deleteEvent", deleteEvent);
 router.post("/invite", inviteOrCancelInvite);

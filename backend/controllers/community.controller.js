@@ -62,9 +62,10 @@ async function addEvent(req, res) {
 }
 
 async function editEvent(req, res) {
-  const { communityId, eventId, updatedEventData } = req.body;
+  const user = req.user;
+  const { eventId, updatedEventData } = req.body;
   try {
-    const community = await Community.findById(communityId);
+    const community = await Community.findOne({ owner: user._id });
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
@@ -79,37 +80,6 @@ async function editEvent(req, res) {
     return res.status(200).send({ updatedEvent: eventToUpdate });
   } catch (error) {
     return res.status(400).json({ error: error.message });
-  }
-}
-
-async function updateEventImage(req, res) {
-  const { communityId, eventId } = req.body;
-  const image = req.files.image[0];
-
-  try {
-    if (!image) {
-      return res.status(400).send("Please upload a valid image file.");
-    }
-
-    const community = await Community.findById(communityId);
-    if (!community) {
-      return res.status(404).json({ error: "Community not found" });
-    }
-
-    const eventToUpdate = community.events.id(eventId);
-    if (!eventToUpdate) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-
-    // Update the event's image with the new path
-    eventToUpdate.image = image.path;
-
-    // Save the updated community data
-    await community.save();
-
-    return res.status(200).json({ updatedEvent: eventToUpdate });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
   }
 }
 
