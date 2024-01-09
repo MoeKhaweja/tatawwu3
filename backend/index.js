@@ -10,12 +10,22 @@ const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
 const passportSetup = require("./configs/passport-setup");
+const bodyParser = require("body-parser");
 const Room = require("./models/room.model");
 
 // initialize passport
 // app.use(passport.initialize());
 
 const app = express();
+app.use(bodyParser.json({ limit: "35mb" }));
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: "35mb",
+    parameterLimit: 50000,
+  })
+);
 app.use(express.json());
 const server = http.createServer(app); // Create HTTP server
 

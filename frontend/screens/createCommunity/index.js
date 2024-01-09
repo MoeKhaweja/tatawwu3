@@ -9,17 +9,32 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from "react-redux";
+import { createCommunity } from "../../store/user";
 
 const CreateCommunityScreen = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState(null);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   const handleCreateCommunity = () => {
     if (!name || !description) {
       setError(true);
+      return;
     }
+
+    dispatch(
+      createCommunity({
+        name: "Sample Community3",
+        description: "This is a test community3",
+        schedule: "Test schedule3",
+        img: base64,
+      })
+    );
+
     // Here, you can handle the logic to create a community
     console.log("Creating community:", { name, description });
     // Add your logic to create the community using the provided name and description
@@ -29,11 +44,13 @@ const CreateCommunityScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      base64: true,
       aspect: [1, 1],
       quality: 1,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      setBase64(result.assets[0].base64);
     }
   };
   const removeImage = () => {

@@ -33,6 +33,7 @@ const initialState = {
   rooms: [],
   notRooms: [],
   chat: {},
+  communityCreated: false,
 };
 
 export const createRoom = createAsyncThunk(

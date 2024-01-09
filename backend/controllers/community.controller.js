@@ -1,19 +1,26 @@
+const { handleBase64Image } = require("../helpers/base64.helper");
 const Community = require("../models/community.model");
+const User = require("../models/user.model");
 
 async function createCommunity(req, res) {
-  userId = req.user.id;
-  const { name, description, location, schedule, img } = req.body;
+  const user = req.user;
+  const { name, description, schedule, img } = req.body;
+
+  const imagePath = await handleBase64Image(img);
+  console.log(imagePath);
 
   try {
     const newCommunity = new Community({
       name,
       description,
-      location,
       schedule,
+      img: imagePath,
     });
-    newCommunity.owner = userId;
+    newCommunity.owner = user.id;
 
     await newCommunity.save();
+    user.isCommunityOwner = true;
+    await user.save();
 
     return res.status(200).send({ community: newCommunity });
   } catch (error) {

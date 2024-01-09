@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
   resume: { type: String },
   isResumeUploaded: { type: Boolean, default: false },
   isIdImageUploaded: { type: Boolean, default: false },
+  isCommunityOwner: { type: Boolean, default: false },
+
   skills: [String],
   academicBackground: [
     { degreeTitle: { type: String }, Institution: { type: String } },
