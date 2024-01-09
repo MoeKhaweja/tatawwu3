@@ -12,6 +12,7 @@ import ChatScreen from "../screens/chat";
 import RoomDetails from "../screens/roomDetails";
 import CompleteProfilePage from "../screens/completeProfile";
 import ChatsScreen from "../screens/chat/chats";
+import CreateCommunityScreen from "../screens/createCommunity";
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,10 @@ const Navigation = () => {
           component={ChatsScreen}
         />
         <Stack.Screen name='CreateRoom' component={CreateRoom} />
+        <Stack.Screen
+          name='CreateCommunityScreen'
+          component={CreateCommunityScreen}
+        />
         <Stack.Screen name='ChatScreen' component={ChatScreen} />
         <Stack.Screen name='Signup' component={SignupScreen} />
         <Stack.Screen name='Signin' component={SigninScreen} />
