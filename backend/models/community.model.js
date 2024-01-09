@@ -26,7 +26,7 @@ const communitySchema = new mongoose.Schema({
           },
         },
       ],
-      image: String,
+      image: { type: String, required: true },
       duration: { type: Number, required: true },
     },
   ],
