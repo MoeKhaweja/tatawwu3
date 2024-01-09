@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Button, Card, Title, Paragraph } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { createCommunity } from "../../store/user";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   //   const { eventId } = route.params;
   const userId = "user1";
-
+  const dispatch = useDispatch();
   const [eventDetails, setEventDetails] = useState({
     title: "Demo Event",
     description: "This is a demo event description.",
@@ -27,6 +29,17 @@ const VolunteerEventDetails = ({ route, navigation }) => {
   }, []);
 
   const handleApply = () => {
+    try {
+      dispatch(
+        createCommunity({
+          name: "Sample Community3",
+          description: "This is a test community3",
+          location: "Test Location3",
+          schedule: "Test schedule3",
+          img: "sdff",
+        })
+      );
+    } catch {}
     // Logic to apply for the event and update the applicantStatus state
     console.log("Applying for the event");
   };

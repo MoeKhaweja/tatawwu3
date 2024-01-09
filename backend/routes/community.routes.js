@@ -7,10 +7,11 @@ const {
   inviteOrCancelInvite,
   handleApplication,
 } = require("../controllers/community.controller");
+const { authMiddleware } = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
-router.post("/create", createCommunity);
+router.post("/create", authMiddleware, createCommunity);
 router.post("/addEvent", addEvent);
 router.post("/editEvent", editEvent);
 router.post("/deleteEvent", deleteEvent);

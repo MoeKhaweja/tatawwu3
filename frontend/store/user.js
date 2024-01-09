@@ -63,6 +63,30 @@ export const createRoom = createAsyncThunk(
   }
 );
 
+export const createCommunity = createAsyncThunk(
+  "user/createCommunity",
+  async (details, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(createCommunity.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.2:8000/community/create",
+        details,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(createCommunity.fulfilled(response.data));
+      return response.data;
+    } catch (error) {
+      dispatch(createCommunity.rejected(error.message));
+      return rejectWithValue("error creating community");
+    }
+  }
+);
+
 export const getUserRooms = createAsyncThunk(
   "user/getUserRooms",
   async (_, { dispatch, getState, rejectWithValue }) => {
@@ -480,6 +504,17 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createCommunity.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createCommunity.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(createCommunity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

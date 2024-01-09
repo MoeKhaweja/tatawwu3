@@ -1,15 +1,23 @@
 const Community = require("../models/community.model");
 
 async function createCommunity(req, res) {
-  const { userId, communityData } = req.body;
+  userId = req.user.id;
+  const { name, description, location, schedule, img } = req.body;
+
   try {
-    const newCommunity = new Community(communityData);
+    const newCommunity = new Community({
+      name,
+      description,
+      location,
+      schedule,
+    });
     newCommunity.owner = userId;
 
     await newCommunity.save();
 
     return res.status(200).send({ community: newCommunity });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ error: error.message });
   }
 }
