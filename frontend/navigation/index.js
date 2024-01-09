@@ -15,6 +15,7 @@ import ChatsScreen from "../screens/chat/chats";
 import CreateCommunityScreen from "../screens/createCommunity";
 import ViewCommunityEvents from "../screens/communityEvents";
 import CommunityEventDetails from "../screens/communityEventDetails";
+import VolunteerEventDetails from "../screens/volunteerEventDetails";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,10 @@ const Navigation = () => {
           component={CommunityEventDetails}
         />
         <Stack.Screen name='RoomDetails' component={RoomDetails} />
+        <Stack.Screen
+          name='VolunteerEventDetails'
+          component={VolunteerEventDetails}
+        />
         <Stack.Screen
           name='CompleteProfilePage'
           component={CompleteProfilePage}
