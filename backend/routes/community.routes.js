@@ -6,6 +6,7 @@ const {
   deleteEvent,
   inviteOrCancelInvite,
   handleApplication,
+  getCommunityEvents,
 } = require("../controllers/community.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
@@ -17,5 +18,6 @@ router.post("/editEvent", editEvent);
 router.post("/deleteEvent", deleteEvent);
 router.post("/invite", inviteOrCancelInvite);
 router.post("/handle", handleApplication);
+router.get("/events", authMiddleware, getCommunityEvents);
 
 module.exports = router;

@@ -29,6 +29,20 @@ async function createCommunity(req, res) {
   }
 }
 
+async function getCommunityEvents(req, res) {
+  const user = req.user;
+
+  try {
+    const community = await Community.findOne({ owner: user._id });
+    if (!community) {
+      return res.status(404).json({ error: "Community not found" });
+    }
+    return res.status(200).send({ events: community.events });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+}
+
 async function addEvent(req, res) {
   const { communityId, eventData } = req.body;
   try {
@@ -199,4 +213,5 @@ module.exports = {
   deleteEvent,
   inviteOrCancelInvite,
   handleApplication,
+  getCommunityEvents,
 };
