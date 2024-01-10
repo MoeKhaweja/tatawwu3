@@ -30,8 +30,13 @@ const ViewCommunityEvents = () => {
   useEffect(() => {
     try {
       dispatch(getCommunityEvents());
-    } catch {}
-    setEvents(communityEvents);
+    } catch {
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(communityEvents);
   }, [communityEvents]);
 
   const demoEvents = [
@@ -76,10 +81,10 @@ const ViewCommunityEvents = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {events?.map((event, index) => (
+        {communityEvents.events?.map((event, index) => (
           <Card key={index} style={styles.card}>
             {/* Include necessary event details in the card */}
-            <Card.Cover source={{ uri: event.image }} />
+            <Card.Cover source={{ uri: "https://via.placeholder.com/300" }} />
             <Card.Content>
               <Title>{event.title}</Title>
               <Paragraph>{event.description}</Paragraph>
