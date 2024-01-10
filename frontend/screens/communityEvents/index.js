@@ -127,7 +127,7 @@ const ViewCommunityEvents = () => {
       <FAB
         style={styles.fab}
         icon='plus'
-        onPress={() => navigation.navigate("CompleteProfilePage")}
+        onPress={() => navigation.navigate("CommunityAddEvents")}
       />
     </View>
   );
