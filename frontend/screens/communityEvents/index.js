@@ -10,6 +10,8 @@ import {
   TextInput,
   Button,
 } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import { getCommunityEvents } from "../../store/user";
 
 const ViewCommunityEvents = () => {
   const [events, setEvents] = useState([]); // Events data from your database
@@ -22,10 +24,15 @@ const ViewCommunityEvents = () => {
     duration: 0,
     image: "", // URL to the event image
   });
+  const dispatch = useDispatch();
+  const communityEvents = useSelector((state) => state.user.communityEvents);
 
   useEffect(() => {
-    setEvents(demoEvents);
-  }, []);
+    try {
+      dispatch(getCommunityEvents());
+    } catch {}
+    setEvents(communityEvents);
+  }, [communityEvents]);
 
   const demoEvents = [
     {
