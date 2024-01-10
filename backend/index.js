@@ -23,10 +23,11 @@ app.use(
   bodyParser.urlencoded({
     extended: true,
     limit: "35mb",
-    parameterLimit: 50000,
+    parameterLimit: 500000,
   })
 );
 app.use(express.json());
+
 const server = http.createServer(app); // Create HTTP server
 
 const io = socketIO(server); // Attach Socket.IO to the HTTP server

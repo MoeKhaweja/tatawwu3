@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 import {
   View,
   StyleSheet,
@@ -6,24 +8,15 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import {
-  Card,
-  Title,
-  Paragraph,
-  FAB,
-  Portal,
-  Modal,
-  TextInput,
-  Button,
-  Avatar,
-} from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getCommunityEvents } from "../../store/user";
+import { useDispatch } from "react-redux";
+import { createEvent } from "../../store/user";
 
 const CommunityAddEvents = () => {
+  const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState(null);
   const [eventDetails, setEventDetails] = useState({
@@ -32,9 +25,9 @@ const CommunityAddEvents = () => {
     schedule: "",
     location: "",
     duration: 0,
-    image: "", // URL to the event image
+    img: "", // URL to the event image
   });
-
+  const dispatch = useDispatch();
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,28 +40,22 @@ const CommunityAddEvents = () => {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setBase64(result.assets[0].base64);
+      setEventDetails({
+        ...eventDetails,
+        img: result.assets[0].base64,
+      });
     }
   };
   const removeImage = () => {
+    setEventDetails({ ...eventDetails, img: "" });
     setImage(null);
   };
   // Function to handle creating an event
   const handleCreateEvent = () => {
-    // Logic to create an event and update the events list
-    // You can use the `eventDetails` state to get the event details
-    console.log("Creating event:", eventDetails);
-    // Implement logic to create an event in your database here
-    // Then update the events list using setEvents([...events, newEvent])
-
-    // Reset event details after creating the event
-    setEventDetails({
-      title: "",
-      description: "",
-      schedule: "",
-      location: "",
-      duration: 0,
-      image: "",
-    });
+    try {
+      dispatch(createEvent(eventDetails));
+    } catch {}
+    navigation.navigate("ViewCommunityEvents");
   };
 
   return (
@@ -129,10 +116,8 @@ const CommunityAddEvents = () => {
       )}
       <TextInput
         label='Image URL'
-        value={eventDetails.image}
-        onChangeText={(text) =>
-          setEventDetails({ ...eventDetails, image: text })
-        }
+        value={eventDetails.img}
+        onChangeText={(text) => setEventDetails({ ...eventDetails, img: text })}
         style={styles.input}
       />
       <TextInput

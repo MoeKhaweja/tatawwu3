@@ -44,9 +44,7 @@ const ViewCommunityEvents = () => {
   useEffect(() => {
     try {
       dispatch(getCommunityEvents());
-    } catch {
-      return;
-    }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -94,7 +92,7 @@ const ViewCommunityEvents = () => {
   const handleCreateEvent = () => {
     // Logic to create an event and update the events list
     // You can use the `eventDetails` state to get the event details
-    console.log("Creating event:", eventDetails);
+
     // Implement logic to create an event in your database here
     // Then update the events list using setEvents([...events, newEvent])
     setModalVisible(false); // Close the modal after creating an event
