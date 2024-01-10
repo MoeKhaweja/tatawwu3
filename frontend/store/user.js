@@ -33,6 +33,7 @@ const initialState = {
   rooms: [],
   notRooms: [],
   chat: {},
+  communityEvents: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -539,6 +540,18 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(createCommunity.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getCommunityEvents.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCommunityEvents.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.communityEvents = action.payload;
+      })
+      .addCase(getCommunityEvents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
