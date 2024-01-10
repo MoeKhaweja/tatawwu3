@@ -33,7 +33,6 @@ const initialState = {
   rooms: [],
   notRooms: [],
   chat: {},
-  communityCreated: false,
 };
 
 export const createRoom = createAsyncThunk(
@@ -105,6 +104,30 @@ export const getUserRooms = createAsyncThunk(
     } catch (error) {
       dispatch(getUserRooms.rejected(error.message));
       return rejectWithValue("error getting rooms");
+    }
+  }
+);
+
+export const getCommunityEvents = createAsyncThunk(
+  "user/getCommunityEvents",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getCommunityEvents.pending());
+      const currentState = getState();
+
+      const response = await axios.get(
+        "http://192.168.1.2:8000/community/events",
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getCommunityEvents.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getCommunityEvents.rejected(error.message));
+      return rejectWithValue("error getting events");
     }
   }
 );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 
 const ViewCommunityEvents = () => {
-  const [events, setEvents] = useState(demoEvents); // Events data from your database
+  const [events, setEvents] = useState([]); // Events data from your database
   const [modalVisible, setModalVisible] = useState(false);
   const [eventDetails, setEventDetails] = useState({
     title: "",
@@ -22,6 +22,10 @@ const ViewCommunityEvents = () => {
     duration: 0,
     image: "", // URL to the event image
   });
+
+  useEffect(() => {
+    setEvents(demoEvents);
+  }, []);
 
   const demoEvents = [
     {
@@ -65,7 +69,7 @@ const ViewCommunityEvents = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {demoEvents?.map((event, index) => (
+        {events?.map((event, index) => (
           <Card key={index} style={styles.card}>
             {/* Include necessary event details in the card */}
             <Card.Cover source={{ uri: event.image }} />

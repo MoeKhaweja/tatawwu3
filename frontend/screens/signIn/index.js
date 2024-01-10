@@ -43,10 +43,10 @@ const SigninScreen = ({ navigation }) => {
       setRender(false);
     }
     if (auth) {
-      navigation.navigate("Verify");
+      navigation.navigate("ViewCommunityEvents");
       navigation.reset({
         index: 0,
-        routes: [{ name: "Verify" }],
+        routes: [{ name: "ViewCommunityEvents" }],
       });
     }
   }, [render, auth]);

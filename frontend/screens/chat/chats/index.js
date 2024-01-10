@@ -38,7 +38,7 @@ const ChatsScreen = ({ route }) => {
       console.log(message);
       setMessages((prev) => [
         ...prev,
-        { id: prev.length + 1, text: message, sender: sender },
+        { id: prev.length + 1, message: message, sender: sender },
       ]);
     });
 

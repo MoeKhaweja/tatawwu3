@@ -16,6 +16,7 @@ import {
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/user";
+import { useNavigation } from "@react-navigation/native";
 
 const CompleteProfilePage = ({ route }) => {
   const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
@@ -35,6 +36,7 @@ const CompleteProfilePage = ({ route }) => {
   const [modalVisible2, setModalVisible2] = useState(false);
   const user = useSelector((state) => state.user.user.user);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -110,17 +112,17 @@ const CompleteProfilePage = ({ route }) => {
   };
 
   const handleSubmit = () => {
-    console.log("jdsfdsgsfg");
+    navigation.navigate("Home");
 
-    dispatch(
-      updateUser({
-        firstName,
-        lastName,
-        skills,
-        academicBackground,
-        bio,
-      })
-    );
+    // dispatch(
+    //   updateUser({
+    //     firstName,
+    //     lastName,
+    //     skills,
+    //     academicBackground,
+    //     bio,
+    //   })
+    // );
   };
 
   return (

@@ -257,9 +257,12 @@ export default function Verify() {
                   <View
                     style={{
                       flexDirection: "column",
+                      flex: 1,
                     }}
                   >
-                    <Text>{pickedDocument?.assets[0].name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail'>
+                      {pickedDocument?.assets[0].name}
+                    </Text>
                     <Text>
                       {(
                         parseFloat(pickedDocument?.assets[0].size) *
@@ -288,7 +291,7 @@ export default function Verify() {
           </Card>
         </View>
       )}
-      {step == 3 && data && (
+      {/* {step == 3 && data && (
         <SafeAreaView style={{ marginTop: 10 }}>
           <ScrollView>
             <Card>
@@ -314,7 +317,7 @@ export default function Verify() {
             </Card>
           </ScrollView>
         </SafeAreaView>
-      )}
+      )} */}
     </View>
   );
 }
