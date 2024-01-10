@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import {
   Card,
   Title,
@@ -9,11 +15,19 @@ import {
   Modal,
   TextInput,
   Button,
+  Avatar,
 } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
+import { useNavigation } from "@react-navigation/native";
 
 const ViewCommunityEvents = () => {
+  const navigation = useNavigation();
+  const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState(null);
   const [events, setEvents] = useState([]); // Events data from your database
   const [modalVisible, setModalVisible] = useState(false);
   const [eventDetails, setEventDetails] = useState({
@@ -59,6 +73,23 @@ const ViewCommunityEvents = () => {
     // Add more demo events as needed
   ];
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      base64: true,
+      aspect: [16, 9],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setBase64(result.assets[0].base64);
+    }
+  };
+  const removeImage = () => {
+    setImage(null);
+  };
   // Function to handle creating an event
   const handleCreateEvent = () => {
     // Logic to create an event and update the events list
@@ -93,72 +124,7 @@ const ViewCommunityEvents = () => {
           </Card>
         ))}
       </ScrollView>
-      <FAB
-        style={styles.fab}
-        icon='plus'
-        onPress={() => setModalVisible(true)}
-      />
-      <Portal>
-        <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)}>
-          <View style={styles.modalContainer}>
-            <TextInput
-              label='Title'
-              value={eventDetails.title}
-              onChangeText={(text) =>
-                setEventDetails({ ...eventDetails, title: text })
-              }
-              style={styles.input}
-            />
-            <TextInput
-              label='Description'
-              value={eventDetails.description}
-              onChangeText={(text) =>
-                setEventDetails({ ...eventDetails, description: text })
-              }
-              style={styles.input}
-            />
-            <TextInput
-              label='Schedule'
-              value={eventDetails.schedule}
-              onChangeText={(text) =>
-                setEventDetails({ ...eventDetails, schedule: text })
-              }
-              style={styles.input}
-            />
-            <TextInput
-              label='Location'
-              value={eventDetails.location}
-              onChangeText={(text) =>
-                setEventDetails({ ...eventDetails, location: text })
-              }
-              style={styles.input}
-            />
-            <TextInput
-              label='Image URL'
-              value={eventDetails.image}
-              onChangeText={(text) =>
-                setEventDetails({ ...eventDetails, image: text })
-              }
-              style={styles.input}
-            />
-            <TextInput
-              label='Duration (in minutes)'
-              value={eventDetails.duration.toString()}
-              onChangeText={(text) =>
-                setEventDetails({
-                  ...eventDetails,
-                  duration: parseFloat(text) || 0,
-                })
-              }
-              keyboardType='numeric'
-              style={styles.input}
-            />
-            <Button mode='contained' onPress={handleCreateEvent}>
-              Create Event
-            </Button>
-          </View>
-        </Modal>
-      </Portal>
+      <FAB style={styles.fab} icon='plus' />
     </View>
   );
 };
