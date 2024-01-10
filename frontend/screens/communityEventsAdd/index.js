@@ -72,7 +72,7 @@ const CommunityAddEvents = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TextInput
         label='Title'
         value={eventDetails.title}
@@ -150,7 +150,7 @@ const CommunityAddEvents = () => {
       <Button mode='contained' onPress={handleCreateEvent}>
         Create Event
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     alignContent: "center",
-    justifyContent: "flex-start",
+
     flex: 1,
   },
   card: {
