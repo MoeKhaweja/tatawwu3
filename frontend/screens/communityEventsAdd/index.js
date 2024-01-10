@@ -23,7 +23,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
 
-const ViewCommunityEvents = () => {
+const CommunityAddEvents = () => {
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState(null);
 
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewCommunityEvents;
+export default CommunityAddEvents;

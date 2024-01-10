@@ -124,7 +124,11 @@ const ViewCommunityEvents = () => {
           </Card>
         ))}
       </ScrollView>
-      <FAB style={styles.fab} icon='plus' />
+      <FAB
+        style={styles.fab}
+        icon='plus'
+        onPress={() => navigation.navigate("CompleteProfilePage")}
+      />
     </View>
   );
 };
