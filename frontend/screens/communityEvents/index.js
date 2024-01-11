@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -22,22 +22,20 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const ViewCommunityEvents = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const communityEvents = useSelector((state) => state.user.communityEvents);
 
-  useEffect(() => {
-    try {
-      dispatch(getCommunityEvents());
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    console.log(communityEvents);
-  }, [communityEvents]);
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        dispatch(getCommunityEvents());
+      } catch {}
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

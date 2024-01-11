@@ -209,7 +209,7 @@ export const verifyToken = createAsyncThunk(
     try {
       const token = await getData();
       dispatch(verifyToken.pending());
-      console.log("token", token);
+      // console.log("token", token);
       if (token == null) {
         return rejectWithValue("no token");
       }
