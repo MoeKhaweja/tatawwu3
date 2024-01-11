@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { Button, Card, Paragraph, TextInput, Title } from "react-native-paper";
+import {
+  Button,
+  Card,
+  IconButton,
+  Paragraph,
+  TextInput,
+  Title,
+} from "react-native-paper";
 
 const CommunityEventDetails = ({ route, navigation }) => {
   // const { eventId } = route.params;
@@ -58,18 +65,31 @@ const CommunityEventDetails = ({ route, navigation }) => {
     <ScrollView style={styles.container}>
       {/* Display event details */}
       <View style={styles.section}>
-        <Text style={styles.heading}>Event Details</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.heading}>Event Details</Text>
+          <IconButton
+            icon='pencil'
+            size={20}
+            onPress={() => console.log("Pressed")}
+          ></IconButton>
+        </View>
+
+        <Card style={styles.applicant}>
+          <Text>- {eventDetails.title}</Text>
+          <Text>- {eventDetails.description}</Text>
+          <Text>- {eventDetails.location}</Text>
+          <Text>- {eventDetails.schedule}</Text>
+          <Text>- {eventDetails.image}</Text>
+          <Text>- {eventDetails.duration} minutes</Text>
+        </Card>
         {/* Display event details for editing */}
         {/* Update TextInput values with eventDetails state */}
-        <TextInput
-          label='Title'
-          value={eventDetails.title}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, title: text })
-          }
-          style={styles.input}
-        />
-        {/* Add more TextInput components for other event details */}
       </View>
 
       {/* Display list of applicants */}
