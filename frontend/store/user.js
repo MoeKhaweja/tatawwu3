@@ -363,6 +363,32 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
+export const editEvent = createAsyncThunk(
+  "user/editEvent",
+  async (event, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(editEvent.pending());
+      const currentState = getState();
+      const response = await axios.post(
+        "http://192.168.1.2:8000/community/editEvent",
+        event,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+      console.log(response.data);
+      if (response.status == 200) {
+        dispatch(editEvent.fulfilled());
+      }
+
+      return response.data;
+    } catch (error) {
+      dispatch(editEvent.rejected(error.message));
+      return rejectWithValue("error registering user");
+    }
+  }
+);
 export const sendPin = createAsyncThunk(
   "user/pin",
   async (email, { dispatch, rejectWithValue }) => {
@@ -587,6 +613,17 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(createEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(editEvent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editEvent.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(editEvent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
