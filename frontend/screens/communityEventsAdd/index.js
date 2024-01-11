@@ -51,11 +51,12 @@ const CommunityAddEvents = () => {
     setImage(null);
   };
   // Function to handle creating an event
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
     try {
-      dispatch(createEvent(eventDetails));
+      dispatch(createEvent(eventDetails)).then(() => {
+        navigation.navigate("ViewCommunityEvents");
+      });
     } catch {}
-    navigation.navigate("ViewCommunityEvents");
   };
 
   return (

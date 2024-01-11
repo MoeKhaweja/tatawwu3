@@ -31,9 +31,7 @@ const ViewCommunityEvents = () => {
             }
           >
             {/* Include necessary event details in the card */}
-            <Card.Cover
-              src={`http://192.168.1.2:8000/images/image-1704984961335.png`}
-            />
+            <Card.Cover src={`http://192.168.1.2:8000/images/${event.img}`} />
             <Card.Content>
               <Title>{event.title}</Title>
               <Paragraph>{event.description}</Paragraph>
