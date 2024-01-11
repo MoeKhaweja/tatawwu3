@@ -17,7 +17,7 @@ const CommunityEventDetails = ({ route, navigation }) => {
     description: "This is a demo event description.",
     schedule: "2024-01-15 10:00 AM",
     location: "Demo Event Location",
-    image: "https://via.placeholder.com/300", // Sample image URL
+    img: "https://via.placeholder.com/300", // Sample image URL
     duration: 120,
   });
   const [applicants, setApplicants] = useState([
@@ -76,7 +76,11 @@ const CommunityEventDetails = ({ route, navigation }) => {
           <IconButton
             icon='pencil'
             size={20}
-            onPress={() => navigation.navigate("CommunityEditEvent")}
+            onPress={() =>
+              navigation.navigate("CommunityEditEvent", {
+                event: eventDetails,
+              })
+            }
           ></IconButton>
         </View>
 
@@ -85,7 +89,7 @@ const CommunityEventDetails = ({ route, navigation }) => {
           <Text>- {eventDetails.description}</Text>
           <Text>- {eventDetails.location}</Text>
           <Text>- {eventDetails.schedule}</Text>
-          <Text>- {eventDetails.image}</Text>
+          <Text>- {eventDetails.img}</Text>
           <Text>- {eventDetails.duration} minutes</Text>
         </Card>
         {/* Display event details for editing */}

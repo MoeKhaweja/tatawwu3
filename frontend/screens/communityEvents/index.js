@@ -26,7 +26,9 @@ const ViewCommunityEvents = () => {
           <Card
             key={index}
             style={styles.card}
-            onPress={() => navigation.navigate("CommunityEventDetails")}
+            onPress={() =>
+              navigation.navigate("CommunityEventDetails", { event: event })
+            }
           >
             {/* Include necessary event details in the card */}
             <Card.Cover source={{ uri: "https://via.placeholder.com/300" }} />

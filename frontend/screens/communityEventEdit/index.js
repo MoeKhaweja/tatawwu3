@@ -15,18 +15,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/user";
 
-const CommunityEditEvent = () => {
-  const navigation = useNavigation();
+const CommunityEditEvent = ({ route, navigation }) => {
+  const { event } = route.params;
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState(null);
-  const [eventDetails, setEventDetails] = useState({
-    title: "",
-    description: "",
-    schedule: "",
-    location: "",
-    duration: 0,
-    img: "", // URL to the event image
-  });
+  const [eventDetails, setEventDetails] = useState(event);
   const dispatch = useDispatch();
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
