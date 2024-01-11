@@ -1,6 +1,8 @@
 const { handleBase64Image } = require("../helpers/base64.helper");
 const Community = require("../models/community.model");
 const User = require("../models/user.model");
+const fs = require("fs");
+const path = require("path");
 
 async function createCommunity(req, res) {
   const user = req.user;
@@ -85,9 +87,24 @@ async function editEvent(req, res) {
     if (!eventToUpdate) {
       return res.status(404).json({ error: "Event not found" });
     }
+    fs.unlink(
+      path.join(
+        path.resolve(path.join(__dirname, "..")),
+        "images",
+        eventToUpdate.img
+      ),
+      (err) => {
+        if (err) {
+          console.error("Error deleting the previous image:", err);
+        } else {
+          console.log("Previous image deleted successfully!");
+        }
+      }
+    );
 
     Object.assign(eventToUpdate, updatedEventData);
     await community.save();
+
     return res.status(200).send({ updatedEvent: eventToUpdate });
   } catch (error) {
     return res.status(400).json({ error: error.message });
