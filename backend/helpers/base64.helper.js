@@ -28,7 +28,7 @@ const handleBase64Image = (base64Data) => {
       console.log("Decoded image saved successfully");
     }
   });
-  return imagePath;
+  return `http://192.168.1.2:8000/images/${filename}`;
 };
 
 module.exports = { handleBase64Image };

@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 
 const CommunityEventDetails = ({ route, navigation }) => {
-  // const { eventId } = route.params;
+  const { event } = route.params;
 
   const [eventDetails, setEventDetails] = useState({
     title: "Demo Event",
@@ -49,6 +49,7 @@ const CommunityEventDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchEventDetails(); // Fetch event details when the component mounts
+    console.log(event);
   }, []);
 
   // Function to handle accepting an applicant

@@ -31,7 +31,9 @@ const ViewCommunityEvents = () => {
             }
           >
             {/* Include necessary event details in the card */}
-            <Card.Cover source={{ uri: "https://via.placeholder.com/300" }} />
+            <Card.Cover
+              src={`http://192.168.1.2:8000/images/image-1704984961335.png`}
+            />
             <Card.Content>
               <Title>{event.title}</Title>
               <Paragraph>{event.description}</Paragraph>
