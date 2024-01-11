@@ -43,10 +43,10 @@ const SigninScreen = ({ navigation }) => {
       setRender(false);
     }
     if (auth) {
-      navigation.navigate("ViewCommunityEvents");
+      navigation.navigate("Home");
       navigation.reset({
         index: 0,
-        routes: [{ name: "ViewCommunityEvents" }],
+        routes: [{ name: "Home" }],
       });
     }
   }, [render, auth]);

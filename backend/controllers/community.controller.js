@@ -6,16 +6,15 @@ const path = require("path");
 
 async function createCommunity(req, res) {
   const user = req.user;
-  const { name, description, schedule, img } = req.body;
+  const { name, description, img } = req.body;
 
-  const imagePath = await handleBase64Image(img);
+  const imagePath = img ? await handleBase64Image(img) : null;
   console.log(imagePath);
 
   try {
     const newCommunity = new Community({
       name,
       description,
-      schedule,
       img: imagePath,
     });
     newCommunity.owner = user.id;
