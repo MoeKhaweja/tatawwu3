@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { useDispatch } from "react-redux";
-import { createEvent } from "../../store/user";
+import { createEvent, editEvent } from "../../store/user";
 
 const CommunityEditEvent = ({ route, navigation }) => {
   const { event } = route.params;
@@ -44,9 +44,15 @@ const CommunityEditEvent = ({ route, navigation }) => {
     setImage(null);
   };
   // Function to handle creating an event
-  const handleCreateEvent = () => {
+  const handleEditEvent = () => {
     try {
-      dispatch(createEvent(eventDetails));
+      if (image) {
+        dispatch(editEvent(eventDetails));
+      } else {
+        if (eventDetails.img) {
+          dispatch(editEvent({ ...eventDetails, img: null }));
+        }
+      }
     } catch {}
     navigation.navigate("ViewCommunityEvents");
   };
@@ -98,14 +104,24 @@ const CommunityEditEvent = ({ route, navigation }) => {
           />
         </View>
       ) : (
-        <Button
-          mode='contained'
-          icon={() => <Icon name='camera' size={20} color='white' />}
-          onPress={pickImage}
-          style={styles.input}
-        >
-          Pick Image
-        </Button>
+        <View>
+          {eventDetails.img && (
+            <Image
+              resizeMode='cover'
+              style={{ width: "100%", height: 150, marginBottom: 10 }}
+              src={`http://192.168.1.2:8000/images/${eventDetails.img}`}
+            ></Image>
+          )}
+
+          <Button
+            mode='contained'
+            icon={() => <Icon name='camera' size={20} color='white' />}
+            onPress={pickImage}
+            style={styles.input}
+          >
+            Change Image
+          </Button>
+        </View>
       )}
       <TextInput
         label='Image URL'
@@ -125,7 +141,7 @@ const CommunityEditEvent = ({ route, navigation }) => {
         keyboardType='numeric'
         style={styles.input}
       />
-      <Button mode='contained' onPress={handleCreateEvent}>
+      <Button mode='contained' onPress={handleEditEvent}>
         Create Event
       </Button>
     </ScrollView>

@@ -76,14 +76,33 @@ async function addEvent(req, res) {
 
 async function editEvent(req, res) {
   const user = req.user;
-  const { eventId, updatedEventData } = req.body;
+  const { title, description, schedule, location, duration, img, _id } =
+    req.body;
+  const updatedEventData = {
+    title,
+    description,
+    schedule,
+    location,
+    duration,
+    img,
+  };
   try {
+    const imagePath = img ? await handleBase64Image(img) : null;
+    console.log(imagePath);
+    const updatedEventData = {
+      title,
+      description,
+      schedule,
+      location,
+      duration,
+      img: imagePath,
+    };
     const community = await Community.findOne({ owner: user._id });
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
 
-    const eventToUpdate = community.events.id(eventId);
+    const eventToUpdate = community.events.id(_id);
     if (!eventToUpdate) {
       return res.status(404).json({ error: "Event not found" });
     }
