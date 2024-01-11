@@ -1,24 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import {
-  Card,
-  Title,
-  Paragraph,
-  FAB,
-  Portal,
-  Modal,
-  TextInput,
-  Button,
-  Avatar,
-} from "react-native-paper";
-import * as ImagePicker from "expo-image-picker";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { useCallback } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Card, Title, Paragraph, FAB } from "react-native-paper";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
@@ -41,7 +23,11 @@ const ViewCommunityEvents = () => {
     <View style={styles.container}>
       <ScrollView>
         {communityEvents.events?.map((event, index) => (
-          <Card key={index} style={styles.card}>
+          <Card
+            key={index}
+            style={styles.card}
+            onPress={() => navigation.navigate("CommunityEventDetails")}
+          >
             {/* Include necessary event details in the card */}
             <Card.Cover source={{ uri: "https://via.placeholder.com/300" }} />
             <Card.Content>
