@@ -87,20 +87,22 @@ async function editEvent(req, res) {
     if (!eventToUpdate) {
       return res.status(404).json({ error: "Event not found" });
     }
-    fs.unlink(
-      path.join(
-        path.resolve(path.join(__dirname, "..")),
-        "images",
-        eventToUpdate.img
-      ),
-      (err) => {
-        if (err) {
-          console.error("Error deleting the previous image:", err);
-        } else {
-          console.log("Previous image deleted successfully!");
+    if (updatedEventData.img) {
+      fs.unlink(
+        path.join(
+          path.resolve(path.join(__dirname, "..")),
+          "images",
+          eventToUpdate.img
+        ),
+        (err) => {
+          if (err) {
+            console.error("Error deleting the previous image:", err);
+          } else {
+            console.log("Previous image deleted successfully!");
+          }
         }
-      }
-    );
+      );
+    }
 
     Object.assign(eventToUpdate, updatedEventData);
     await community.save();

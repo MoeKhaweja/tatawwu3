@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, Text, Image } from "react-native";
 import {
   Button,
   Card,
@@ -12,14 +13,7 @@ import {
 const CommunityEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
 
-  const [eventDetails, setEventDetails] = useState({
-    title: "Demo Event",
-    description: "This is a demo event description.",
-    schedule: "2024-01-15 10:00 AM",
-    location: "Demo Event Location",
-    img: "https://via.placeholder.com/300", // Sample image URL
-    duration: 120,
-  });
+  const [eventDetails, setEventDetails] = useState(event);
   const [applicants, setApplicants] = useState([
     {
       _id: "1",
@@ -43,14 +37,13 @@ const CommunityEventDetails = ({ route, navigation }) => {
     },
   ]);
 
-  const fetchEventDetails = () => {
-    console.log("Fetching event details for eventId:");
-  };
-
-  useEffect(() => {
-    fetchEventDetails(); // Fetch event details when the component mounts
-    console.log(event);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        console.log(event);
+      } catch {}
+    }, [])
+  );
 
   // Function to handle accepting an applicant
   const handleAcceptApplicant = (applicantId) => {
@@ -90,11 +83,13 @@ const CommunityEventDetails = ({ route, navigation }) => {
           <Text>- {eventDetails.description}</Text>
           <Text>- {eventDetails.location}</Text>
           <Text>- {eventDetails.schedule}</Text>
-          <Text>- {eventDetails.img}</Text>
           <Text>- {eventDetails.duration} minutes</Text>
+          <Image
+            resizeMode='cover'
+            style={{ width: "100%", height: 150 }}
+            src={`http://192.168.1.2:8000/images/${eventDetails.img}`}
+          ></Image>
         </Card>
-        {/* Display event details for editing */}
-        {/* Update TextInput values with eventDetails state */}
       </View>
 
       {/* Display list of applicants */}
