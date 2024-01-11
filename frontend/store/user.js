@@ -156,6 +156,30 @@ export const getCommunityEvents = createAsyncThunk(
     }
   }
 );
+export const getAllEvents = createAsyncThunk(
+  "user/getAllEvents",
+  async (page, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getAllEvents.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.2:8000/community/events",
+        { post },
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getAllEvents.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getAllEvents.rejected(error.message));
+      return rejectWithValue("error getting events");
+    }
+  }
+);
 
 export const getNotUserRooms = createAsyncThunk(
   "user/getNotUserRooms",
@@ -624,6 +648,17 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(editEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getAllEvents.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllEvents.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(getAllEvents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
