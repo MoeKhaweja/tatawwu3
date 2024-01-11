@@ -257,4 +257,5 @@ module.exports = {
   inviteOrCancelInvite,
   handleApplication,
   getCommunityEvents,
+  getAllEvents,
 };
