@@ -76,7 +76,7 @@ const CommunityEventDetails = ({ route, navigation }) => {
           <IconButton
             icon='pencil'
             size={20}
-            onPress={() => console.log("Pressed")}
+            onPress={() => navigation.navigate("CommunityEditEvent")}
           ></IconButton>
         </View>
 
