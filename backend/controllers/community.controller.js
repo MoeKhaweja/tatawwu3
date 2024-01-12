@@ -47,7 +47,7 @@ async function getAllEvents(req, res) {
     const endIndex = page * pageSize;
     const paginatedEvents = allEvents.slice(startIndex, endIndex);
 
-    return res.status(200).json({ events: paginatedEvents });
+    return res.status(200).json({ paginatedEvents });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

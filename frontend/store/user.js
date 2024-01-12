@@ -34,6 +34,7 @@ const initialState = {
   notRooms: [],
   chat: {},
   communityEvents: [],
+  volunteerEvents: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -657,6 +658,7 @@ const userSlice = createSlice({
       })
       .addCase(getAllEvents.fulfilled, (state, action) => {
         state.loading = false;
+        state.volunteerEvents = action.payload;
       })
       .addCase(getAllEvents.rejected, (state, action) => {
         state.loading = false;
