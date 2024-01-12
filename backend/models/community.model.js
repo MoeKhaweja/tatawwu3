@@ -27,6 +27,7 @@ const communitySchema = new mongoose.Schema({
           },
         },
       ],
+      targetedSkills: [{ type: String }],
       img: { type: String, required: true },
       duration: { type: Number, required: true },
     },
