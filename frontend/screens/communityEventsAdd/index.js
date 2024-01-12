@@ -42,7 +42,6 @@ const CommunityAddEvents = () => {
     location: "",
     duration: 0,
     img: "", // URL to the event image
-    targetedSkills: [],
   });
   const dispatch = useDispatch();
   const pickImage = async () => {
@@ -69,9 +68,10 @@ const CommunityAddEvents = () => {
   };
   // Function to handle creating an event
   const handleCreateEvent = async () => {
-    await setEventDetails({ ...eventDetails, targetedSkills: listData });
     try {
-      dispatch(createEvent(eventDetails)).then(() => {
+      dispatch(
+        createEvent({ ...eventDetails, targetedSkills: [...listData] })
+      ).then(() => {
         navigation.navigate("ViewCommunityEvents");
       });
     } catch {}
