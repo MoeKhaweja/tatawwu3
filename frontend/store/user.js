@@ -166,7 +166,7 @@ export const getAllEvents = createAsyncThunk(
 
       const response = await axios.post(
         "http://192.168.1.2:8000/community/events",
-        { post },
+        page,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
         }

@@ -13,7 +13,7 @@ const SplashScreen = ({ navigation }) => {
     } catch (e) {}
     Animated.timing(logoScale, {
       toValue: 1,
-      duration: 1000,
+      duration: 6000,
       useNativeDriver: true,
     }).start(() => {
       // Once animation finishes, navigate to main app screen
