@@ -8,18 +8,8 @@ const semanticEvents = async (userSkills, events) => {
   const model = genAI.getGenerativeModel({ model: "embedding-001" });
 
   // User skills array
-  const userSkills = ["javascript", "python", "assembly"]; // Replace with the actual user skills
 
   // Event data with targeted skills arrays
-  const events = [
-    { eventId: 1, targetedSkills: ["web", "javascript", "css"] },
-    {
-      eventId: 2,
-      targetedSkills: ["swimming", "walking", "programming"],
-    },
-    // Add more events as needed
-  ];
-
   // Embed user skills
   const userEmbeddings = await embedSkills(model, userSkills);
 
@@ -30,7 +20,7 @@ const semanticEvents = async (userSkills, events) => {
         model,
         event.targetedSkills
       );
-      return { eventId: event.id, embedding: eventSkillsEmbedding };
+      return { id: event.id, embedding: eventSkillsEmbedding };
     })
   );
 
@@ -40,18 +30,19 @@ const semanticEvents = async (userSkills, events) => {
       entry.embedding,
       userEmbeddings
     );
-    return { eventId: entry.eventId, similarity };
+    return { id: entry.id, similarity };
   });
 
   // Sort events by similarity in descending order
   similarities.sort((a, b) => b.similarity - a.similarity);
 
   console.log("Events ranked by similarity:", similarities);
+  return similarities;
 };
 
 // Function to embed skills
 async function embedSkills(model, skills) {
-  const result = await model.embedContent(skills.join(" "));
+  const result = await model.embedContent(skills.join(", "));
   return result.embedding.values;
 }
 

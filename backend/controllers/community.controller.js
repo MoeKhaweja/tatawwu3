@@ -1,4 +1,5 @@
 const { handleBase64Image } = require("../helpers/base64.helper");
+const { semanticEvents } = require("../helpers/semanticEvents.helper");
 const Community = require("../models/community.model");
 const User = require("../models/user.model");
 const fs = require("fs");
@@ -264,6 +265,22 @@ async function handleApplication(req, res) {
     return res.status(400).json({ error: error.message });
   }
 }
+async function sortBySkills(req, res) {
+  const user = req.user;
+
+  try {
+    const communities = await Community.find(); // Assuming there is a 'Community' model
+
+    const allEvents = [];
+    communities.forEach((community) => {
+      if (community.events && community.events.length > 0) {
+        allEvents.push(...community.events);
+      }
+    });
+    const similarities = await semanticEvents(user.skills, allEvents);
+    return res.status(200).send({ similarities });
+  } catch {}
+}
 
 module.exports = {
   createCommunity,
@@ -274,4 +291,5 @@ module.exports = {
   handleApplication,
   getCommunityEvents,
   getAllEvents,
+  sortBySkills,
 };
