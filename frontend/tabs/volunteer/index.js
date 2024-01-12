@@ -17,7 +17,7 @@ const Feed = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      await dispatch(getAllEvents({ page }));
+      await dispatch(getAllEvents());
 
       setData((prevData) => [...prevData, ...events?.paginatedEvents]);
       setPage((prevPage) => prevPage + 1);

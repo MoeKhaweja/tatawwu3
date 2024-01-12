@@ -6,6 +6,9 @@ const fs = require("fs");
 const { extract } = require("../helpers/resumeExtractor.helper");
 
 const verify = async (req, res) => {
+  if (!req.user) {
+    return res.status(404).send({ error: "no token" });
+  }
   const { _id, ...userDetails } = req.user.toJSON();
   return res.status(200).send({ user: userDetails, token: req.token });
 };
