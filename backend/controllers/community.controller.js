@@ -69,16 +69,31 @@ async function getCommunityEvents(req, res) {
 
 async function addEvent(req, res) {
   const user = req.user;
-  const { title, description, schedule, location, duration, img } = req.body;
+  const {
+    title,
+    description,
+    schedule,
+    location,
+    duration,
+    img,
+    targetedSkills,
+  } = req.body;
   try {
-    const imagePath = await handleBase64Image(img);
-    console.log(imagePath);
     const community = await Community.findOne({ owner: user._id });
-
+    console.log(
+      title,
+      description,
+      schedule,
+      location,
+      duration,
+      community,
+      targetedSkills
+    );
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
-    console.log(title, description, schedule, location, duration, imagePath);
+    const imagePath = await handleBase64Image(img);
+    console.log(imagePath);
 
     community.events.push({
       title,
@@ -87,6 +102,7 @@ async function addEvent(req, res) {
       location,
       duration,
       img: imagePath,
+      targetedSkills,
     });
     await community.save();
     return res.status(200).send({ events: community.events });
