@@ -70,7 +70,9 @@ const Feed = () => {
       <Card
         key={index}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
-        onPress={() => navigation.navigate("VolunteerEventDetails")}
+        onPress={() =>
+          navigation.navigate("VolunteerEventDetails", { event: item })
+        }
       >
         <View style={{ flexDirection: "row" }} key={item.id}>
           <View style={{ flex: 2 }}>
