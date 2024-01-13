@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TextInput, Button, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user";
@@ -58,18 +58,12 @@ const SigninScreen = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        padding: 20,
-        alignContent: "center",
-        justifyContent: "center",
-        flex: 1,
-      }}
-    >
+    <View style={styles.container}>
       <HelperText type='error' visible={error}>
         {errorMessage}
       </HelperText>
       <TextInput
+        style={styles.input}
         label='Email'
         value={email}
         onChangeText={(text) => {
@@ -79,6 +73,7 @@ const SigninScreen = ({ navigation }) => {
         error={error && !email}
       />
       <TextInput
+        style={styles.input}
         label='Password'
         secureTextEntry
         value={password}
@@ -88,24 +83,30 @@ const SigninScreen = ({ navigation }) => {
         }}
         error={error && !password}
       />
-      <Button mode='contained' onPress={handleSignin} style={{ marginTop: 20 }}>
+      <Button mode='contained' onPress={handleSignin} style={styles.input}>
         Sign In
       </Button>
-      <Button
-        onPress={() => navigation.navigate("Signup")}
-        style={{ marginTop: 10 }}
-      >
-        Go to Sign Up
+      <Button onPress={() => navigation.navigate("Signup")}>
+        Already Have an Account?
       </Button>
-      <Button
-        onPress={() => navigation.navigate("Reset")}
-        style={{ marginTop: 10 }}
-      >
-        Reset
+      <Button onPress={() => navigation.navigate("Reset")}>
+        Forgot Your Password?
       </Button>
       <LoadingOrError></LoadingOrError>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 30,
+    alignContent: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  input: {
+    marginVertical: 10,
+  },
+});
 
 export default SigninScreen;

@@ -39,8 +39,8 @@ const Feed = () => {
   }, []); // Fetch data when the component mounts
 
   useEffect(() => {
-    if (events && events.paginatedEvents) {
-      setData((prevData) => [...prevData, ...events.paginatedEvents]);
+    if (events) {
+      setData((prevData) => [...prevData, ...events]);
     } else {
       console.log("Events or paginatedEvents is undefined");
     }
@@ -75,7 +75,7 @@ const Feed = () => {
         }
       >
         <View style={{ flexDirection: "row" }} key={item.id}>
-          <View style={{ flex: 2 }}>
+          <View>
             <Card.Content
               style={{
                 padding: 10,
@@ -86,7 +86,6 @@ const Feed = () => {
                   flexDirection: "row",
                   gap: 15,
                   justifyContent: "flex-start",
-                  flexWrap: "wrap",
                 }}
               >
                 <View
@@ -104,8 +103,16 @@ const Feed = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Text variant='titleMedium'>{item.title}</Text>
-                  <Text variant='bodySmall'>{item.description}</Text>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode='middle'
+                    variant='titleMedium'
+                  >
+                    {item.title}{" "}
+                  </Text>
+                  <Text numberOfLines={3} variant='bodySmall'>
+                    {item.description}
+                  </Text>
                 </View>
               </View>
             </Card.Content>
@@ -130,8 +137,8 @@ const Feed = () => {
         onChangeText={(query) => setSearchQuery(query)}
         value={searchQuery}
       />
-
-      <ScrollView onScroll={({ nativeEvent }) => handleScroll(nativeEvent)}>
+      {/* onScroll={({ nativeEvent }) => handleScroll(nativeEvent)} */}
+      <ScrollView>
         <Text variant='titleSmall'>Events based on your preference </Text>
         {renderCards(data2)}
         <Text variant='titleSmall'>All events </Text>

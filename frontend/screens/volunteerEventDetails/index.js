@@ -24,10 +24,6 @@ const VolunteerEventDetails = ({ route, navigation }) => {
     // Logic to cancel the application and update the applicantStatus state
     console.log("Canceling the application");
   };
-  const isUserApplied = event.applicants.forEach((applicant) => {
-    applicant.user == user.id;
-    console.log(applicant.user, user.id);
-  });
 
   return (
     <ScrollView style={styles.container}>

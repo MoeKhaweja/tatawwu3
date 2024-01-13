@@ -2,6 +2,7 @@ import { DefaultTheme } from "react-native-paper";
 
 const theme = {
   ...DefaultTheme,
+  roundness: 10,
 
   colors: {
     primary: "#4ba0a4",
@@ -20,7 +21,7 @@ const theme = {
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
     onErrorContainer: "rgb(65, 0, 2)",
-    background: "rgb(250, 253, 252)",
+    background: "#FF000000",
     onBackground: "rgb(25, 28, 28)",
     surface: "rgb(250, 253, 252)",
     onSurface: "rgb(25, 28, 28)",
