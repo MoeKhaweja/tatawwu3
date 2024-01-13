@@ -10,6 +10,7 @@ const {
   getAllEvents,
   sortBySkills,
   cancelApplication,
+  acceptApplication,
 } = require("../controllers/community.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
@@ -22,6 +23,7 @@ router.post("/deleteEvent", authMiddleware, deleteEvent);
 router.post("/invite", inviteOrCancelInvite);
 router.post("/apply", authMiddleware, applyForEvent);
 router.post("/cancel", authMiddleware, cancelApplication);
+router.post("/accept", authMiddleware, acceptApplication);
 router.get("/events", authMiddleware, getCommunityEvents);
 router.post("/events", authMiddleware, getAllEvents);
 router.get("/sort", authMiddleware, sortBySkills);
