@@ -30,13 +30,11 @@ const eventSchema = new mongoose.Schema({
   },
 });
 
-const Event = mongoose.model("Event", eventSchema);
-
 // Middleware to automatically update the community when a new event is added
 eventSchema.pre("save", function (next) {
   const eventId = this._id;
   const communityId = this.community;
-
+  console.log(eventId, communityId);
   Community.findByIdAndUpdate(
     communityId,
     { $push: { events: eventId } },
@@ -60,4 +58,5 @@ eventSchema.post("remove", function (doc, next) {
     .catch(next);
 });
 
+const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;
