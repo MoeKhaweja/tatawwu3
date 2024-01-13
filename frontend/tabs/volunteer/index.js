@@ -20,7 +20,7 @@ const Feed = () => {
       await dispatch(getAllEvents());
 
       setData((prevData) => [...prevData, ...events?.paginatedEvents]);
-      setPage((prevPage) => prevPage + 1);
+      // setPage((prevPage) => prevPage + 1);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

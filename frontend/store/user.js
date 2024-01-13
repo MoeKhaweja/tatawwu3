@@ -35,6 +35,7 @@ const initialState = {
   chat: {},
   communityEvents: [],
   volunteerEvents: [],
+  volunteerMatchingEvents: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -177,6 +178,31 @@ export const getAllEvents = createAsyncThunk(
       return response.data;
     } catch (error) {
       dispatch(getAllEvents.rejected(error.message));
+      return rejectWithValue("error getting events");
+    }
+  }
+);
+
+export const getMatchingEvents = createAsyncThunk(
+  "user/getMatchingEvents",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getMatchingEvents.pending());
+      const currentState = getState();
+
+      const response = await axios.get(
+        "http://192.168.1.5:8000/community/sort",
+
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getMatchingEvents.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getMatchingEvents.rejected(error.message));
       return rejectWithValue("error getting events");
     }
   }
@@ -661,6 +687,18 @@ const userSlice = createSlice({
         state.volunteerEvents = action.payload;
       })
       .addCase(getAllEvents.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getMatchingEvents.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMatchingEvents.fulfilled, (state, action) => {
+        state.loading = false;
+        state.volunteerMatchingEvents = action.payload;
+      })
+      .addCase(getMatchingEvents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
