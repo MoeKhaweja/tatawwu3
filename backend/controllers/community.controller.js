@@ -269,17 +269,29 @@ async function sortBySkills(req, res) {
   const user = req.user;
 
   try {
-    const communities = await Community.find(); // Assuming there is a 'Community' model
+    const communities = await Community.find();
 
     const allEvents = [];
+
     communities.forEach((community) => {
       if (community.events && community.events.length > 0) {
         allEvents.push(...community.events);
       }
     });
     const similarities = await semanticEvents(user.skills, allEvents);
-    return res.status(200).send({ similarities });
-  } catch {}
+
+    function getSimilarEvents(allEvents, similarities) {
+      const similarEventIds = similarities.map((similarity) => similarity.id);
+      return allEvents.filter((event) => similarEventIds.includes(event.id));
+    }
+
+    // Get the filtered events
+    const filteredEvents = getSimilarEvents(allEvents, similarities);
+
+    return res.status(200).send({ filteredEvents });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 }
 
 module.exports = {

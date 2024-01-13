@@ -3,7 +3,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI("AIzaSyB2HaRbyfk23Dg_O1VpOGU5MxQ7q4GoBlw");
 
-const semanticEvents = async (userSkills, events) => {
+const semanticEvents = async (userSkills, events, threshold = 0.6) => {
   // For embeddings, use the embedding-001 model
   const model = genAI.getGenerativeModel({ model: "embedding-001" });
 
@@ -33,16 +33,21 @@ const semanticEvents = async (userSkills, events) => {
     return { id: entry.id, similarity };
   });
 
-  // Sort events by similarity in descending order
-  similarities.sort((a, b) => b.similarity - a.similarity);
+  // Filter events based on the threshold
+  const filteredEvents = similarities.filter(
+    (entry) => entry.similarity >= threshold
+  );
 
-  console.log("Events ranked by similarity:", similarities);
-  return similarities;
+  // Sort filtered events by similarity in descending order
+  filteredEvents.sort((a, b) => b.similarity - a.similarity);
+
+  console.log("Events ranked by similarity:", filteredEvents);
+  return filteredEvents;
 };
 
 // Function to embed skills
 async function embedSkills(model, skills) {
-  const result = await model.embedContent(skills.join(", "));
+  const result = await model.embedContent(skills);
   return result.embedding.values;
 }
 
