@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Community = require("../models/community.model");
 
 // Define the applicant schema
 const applicantSchema = new mongoose.Schema({

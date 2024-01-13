@@ -1,7 +1,7 @@
 const { handleBase64Image } = require("../helpers/base64.helper");
 const { semanticEvents } = require("../helpers/semanticEvents.helper");
 const Community = require("../models/community.model");
-const Event = require("../models/community.model");
+const Event = require("../models/event.model");
 const User = require("../models/user.model");
 const fs = require("fs");
 const path = require("path");
