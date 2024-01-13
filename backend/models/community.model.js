@@ -1,5 +1,37 @@
 const mongoose = require("mongoose");
 
+// Define the applicant schema
+const applicantSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: ["pending", "approved", "rejected"],
+  },
+});
+
+// Define the event schema
+const eventSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  schedule: { type: String, required: true },
+  location: { type: String, required: true },
+  applicants: [applicantSchema],
+  targetedSkills: [{ type: String }],
+  img: { type: String, required: true },
+  duration: { type: Number, required: true },
+  community: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Community",
+  },
+});
+
+const Event = mongoose.model("Event", eventSchema);
+
+// Define the community schema
 const communitySchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -8,32 +40,33 @@ const communitySchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: 3 },
   description: { type: String, required: true, minlength: 10 },
   img: { type: String },
-  // location: { type: String, required: true, minlength: 3 },
+  location: { type: String, required: true, minlength: 3 },
   events: [
     {
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-      schedule: { type: String, required: true },
-      location: { type: String, required: true },
-      applicants: [
-        {
-          user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-          },
-          status: {
-            type: String,
-            required: true,
-          },
-        },
-      ],
-      targetedSkills: [{ type: String }],
-      img: { type: String, required: true },
-      duration: { type: Number, required: true },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Event",
     },
   ],
 });
 
+// Middleware to automatically update the community when a new event is added
+eventSchema.pre("save", function (next) {
+  const eventId = this._id;
+  const communityId = this.community;
+
+  // Update the community's events array with the new event ID
+  Community.findByIdAndUpdate(
+    communityId,
+    { $push: { events: eventId } },
+    { new: true }
+  )
+    .then(() => next())
+    .catch(next);
+});
+
 const Community = mongoose.model("Community", communitySchema);
 
-module.exports = Community;
+module.exports = {
+  Community,
+  Event,
+};
