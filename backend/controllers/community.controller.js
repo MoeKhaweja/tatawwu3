@@ -123,9 +123,13 @@ async function editEvent(req, res) {
     duration,
     img,
   };
+
   try {
+    // Handle the image if provided
     const imagePath = img ? await handleBase64Image(img) : null;
     console.log(imagePath);
+
+    // Create an updatedEventData object
     const updatedEventData = {
       title,
       description,
@@ -134,37 +138,51 @@ async function editEvent(req, res) {
       duration,
       img: imagePath,
     };
+
+    // Ensure that the user owns the community
     const community = await Community.findOne({ owner: user._id });
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
 
-    const eventToUpdate = community.events.id(_id);
-    if (!eventToUpdate) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-    if (updatedEventData.img) {
-      fs.unlink(
-        path.join(
-          path.resolve(path.join(__dirname, "..")),
-          "images",
-          eventToUpdate.img
-        ),
-        (err) => {
-          if (err) {
-            console.error("Error deleting the previous image:", err);
-          } else {
-            console.log("Previous image deleted successfully!");
-          }
-        }
-      );
+    // Check if the event is associated with the community
+    const isEventAssociated = community.events.some((eventId) =>
+      eventId.equals(_id)
+    );
+    if (!isEventAssociated) {
+      return res
+        .status(404)
+        .json({
+          error: "Event not found or not associated with the community",
+        });
     }
 
-    Object.assign(eventToUpdate, updatedEventData);
-    await community.save();
+    // Directly update the event by its ID
+    const updatedEvent = await Event.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          title: updatedEventData.title,
+          description: updatedEventData.description,
+          schedule: updatedEventData.schedule,
+          location: updatedEventData.location,
+          duration: updatedEventData.duration,
+          img: updatedEventData.img,
+        },
+      },
+      { new: true }
+    );
 
-    return res.status(200).send({ updatedEvent: eventToUpdate });
+    // Check if the event was found and updated
+    if (!updatedEvent) {
+      return res.status(404).json({ error: "Event not found or not updated" });
+    }
+
+    // Respond with the updated event
+    return res.status(200).send({ updatedEvent });
   } catch (error) {
+    // Handle errors and respond with an error message
+    console.log(error.message);
     return res.status(400).json({ error: error.message });
   }
 }
