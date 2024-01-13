@@ -4,22 +4,28 @@ import { Card, Avatar, Text, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents, getMatchingEvents } from "../../store/user";
+import { useNavigation } from "@react-navigation/native";
 
 const Feed = () => {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
   const pageSize = 10;
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
+  const volunteerMatchingEvents = useSelector(
+    (state) => state.user.volunteerMatchingEvents
+  );
 
   useEffect(() => {
     const fetch = async () => {
       try {
         // Make sure getAllEvents dispatches an action that updates the state with events data
-        await dispatch(getAllEvents());
         await dispatch(getMatchingEvents());
+        await dispatch(getAllEvents());
         setPage((prevPage) => prevPage + 1);
 
         // Check if events is defined before accessing paginatedEvents
@@ -40,22 +46,31 @@ const Feed = () => {
     }
   }, [JSON.stringify(events)]);
 
-  const handleScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    const paddingToBottom = 20;
-    if (
-      layoutMeasurement.height + contentOffset.y >=
-        contentSize.height - paddingToBottom &&
-      !isLoading
-    ) {
-      // fetchData();
+  useEffect(() => {
+    if (volunteerMatchingEvents) {
+      setData2((prevData) => [...prevData, ...volunteerMatchingEvents]);
+    } else {
+      console.log("Events or volunteerMatchingEvents is undefined");
     }
-  };
+  }, [JSON.stringify(volunteerMatchingEvents)]);
+
+  // const handleScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  //   const paddingToBottom = 20;
+  //   if (
+  //     layoutMeasurement.height + contentOffset.y >=
+  //       contentSize.height - paddingToBottom &&
+  //     !isLoading
+  //   ) {
+  //     // fetchData();
+  //   }
+  // };
 
   const renderCards = (items) => {
     return items.map((item, index) => (
       <Card
         key={index}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
+        onPress={() => navigation.navigate("VolunteerEventDetails")}
       >
         <View style={{ flexDirection: "row" }} key={item.id}>
           <View style={{ flex: 2 }}>
@@ -115,9 +130,10 @@ const Feed = () => {
       />
 
       <ScrollView onScroll={({ nativeEvent }) => handleScroll(nativeEvent)}>
-        <Text variant='titleSmall'>For You</Text>
+        <Text variant='titleSmall'>Events based on your preference </Text>
+        {renderCards(data2)}
+        <Text variant='titleSmall'>All events </Text>
         {renderCards(data)}
-        {isLoading && <Text>Loading...</Text>}
       </ScrollView>
     </SafeAreaView>
   );
