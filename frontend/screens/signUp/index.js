@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Text,
   TextInput,
@@ -68,18 +68,12 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        padding: 20,
-        alignContent: "center",
-        justifyContent: "center",
-        flex: 1,
-      }}
-    >
+    <View style={styles.container}>
       <HelperText type='error' visible={error}>
         {errorMessage}
       </HelperText>
       <TextInput
+        style={styles.input}
         label='First Name'
         value={firstName}
         onChangeText={(text) => {
@@ -89,6 +83,7 @@ const SignupScreen = ({ navigation }) => {
         error={error && !firstName}
       />
       <TextInput
+        style={styles.input}
         label='Last Name'
         value={lastName}
         onChangeText={(text) => {
@@ -98,6 +93,7 @@ const SignupScreen = ({ navigation }) => {
         error={error && !lastName}
       />
       <TextInput
+        style={styles.input}
         label='Email'
         value={email}
         onChangeText={(text) => {
@@ -107,6 +103,7 @@ const SignupScreen = ({ navigation }) => {
         error={error && !/\S+@\S+\.\S+/.test(email)}
       />
       <TextInput
+        style={styles.input}
         label='Password'
         secureTextEntry
         value={password}
@@ -116,8 +113,9 @@ const SignupScreen = ({ navigation }) => {
         }}
         error={error && password.length < 8}
       />
-      <Text style={{ marginBottom: 8, marginTop: 8 }}>Signing Up as a:</Text>
+      <Text style={styles.input}>Signing Up as a:</Text>
       <SegmentedButtons
+        style={styles.input}
         value={role}
         onValueChange={setValue}
         buttons={[
@@ -131,25 +129,35 @@ const SignupScreen = ({ navigation }) => {
           },
         ]}
       />
-      <View style={{ alignItems: "center", marginTop: 20 }}>
-        {loading && <ActivityIndicator animating={true} color='#000000' />}
-      </View>
+      {loading && (
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <ActivityIndicator animating={true} color='#000000' />
+        </View>
+      )}
       <Button
         mode='contained'
         onPress={handleSignup}
-        style={{ marginTop: 20 }}
+        style={styles.input}
         disabled={loading}
       >
         Sign Up
       </Button>
-      <Button
-        onPress={() => navigation.navigate("Signin")}
-        style={{ marginTop: 10 }}
-      >
-        Already have an Account? Sign In
+      <Button onPress={() => navigation.navigate("Signin")}>
+        Already have an Account?
       </Button>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 30,
+    alignContent: "center",
+    justifyContent: "flex-start",
+    flex: 1,
+  },
+  input: {
+    marginVertical: 10,
+  },
+});
 
 export default SignupScreen;
