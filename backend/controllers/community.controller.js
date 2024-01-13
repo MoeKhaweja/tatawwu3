@@ -451,4 +451,5 @@ module.exports = {
   sortBySkills,
   cancelApplication,
   acceptApplication,
+  rejectApplication,
 };
