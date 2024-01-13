@@ -314,13 +314,13 @@ async function cancelApplication(req, res) {
     // Check if the user has already applied
     const existingApplicant =
       event.applicants &&
-      event.applicants.some(
+      event.applicants.findIndex(
         (applicant) =>
           applicant.user && applicant.user.toString() === userId.toString()
       );
 
-    if (existingApplicant) {
-      event.applicants.splice(applicantIndex, 1);
+    if (existingApplicant !== -1) {
+      event.applicants.splice(existingApplicant, 1);
 
       await event.save();
 
@@ -332,6 +332,45 @@ async function cancelApplication(req, res) {
     return res.status(400).send({ success: true, message: "error" });
   } catch (error) {
     console.error("Error applying for event:", error);
+    return res
+      .status(400)
+      .json({ success: false, message: "Internal server error" });
+  }
+}
+
+async function acceptApplication(req, res) {
+  const { eventId, userId } = req.body;
+  console.log(userId, eventId);
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Event not found" });
+    }
+
+    // Find the applicant in the event
+    const applicant = event.applicants.find(
+      (app) => app.user && app.user.toString() === userId.toString()
+    );
+
+    if (!applicant) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Applicant not found" });
+    }
+
+    // Update applicant status to 'approved'
+    applicant.status = "approved";
+
+    await event.save();
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Application accepted" });
+  } catch (error) {
+    console.error("Error accepting application:", error);
     return res
       .status(400)
       .json({ success: false, message: "Internal server error" });
@@ -373,4 +412,5 @@ module.exports = {
   getAllEvents,
   sortBySkills,
   cancelApplication,
+  acceptApplication,
 };
