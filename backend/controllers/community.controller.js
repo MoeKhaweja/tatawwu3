@@ -298,6 +298,46 @@ async function applyForEvent(req, res) {
   }
 }
 
+async function cancelApplication(req, res) {
+  const { eventId } = req.body;
+  const userId = req.user.id;
+  console.log(userId, eventId);
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Event not found" });
+    }
+
+    // Check if the user has already applied
+    const existingApplicant =
+      event.applicants &&
+      event.applicants.some(
+        (applicant) =>
+          applicant.user && applicant.user.toString() === userId.toString()
+      );
+
+    if (existingApplicant) {
+      event.applicants.splice(applicantIndex, 1);
+
+      await event.save();
+
+      return res
+        .status(200)
+        .json({ success: true, message: "Application canceled" });
+    }
+
+    return res.status(400).send({ success: true, message: "error" });
+  } catch (error) {
+    console.error("Error applying for event:", error);
+    return res
+      .status(400)
+      .json({ success: false, message: "Internal server error" });
+  }
+}
+
 async function sortBySkills(req, res) {
   const user = req.user;
 
