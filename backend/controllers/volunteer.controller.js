@@ -47,15 +47,25 @@ async function updateProfile(req, res) {
   }
 }
 
-async function applyForEvent(req, res) {
-  const { userId, eventId } = req.body;
+const applyForEvent = async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.body;
+
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    // Check if the user with the specified status is already an applicant for the event
+    const isUserApplied = await Community.exists({
+      "events._id": eventId,
+      "events.applicants": { $elemMatch: { user: userId, status: "applied" } },
+    });
+
+    if (isUserApplied) {
+      return res
+        .status(400)
+        .json({ error: "User already applied for this event" });
     }
 
-    const event = await Community.findOneAndUpdate(
+    // If the user is not already an applicant, add them to the applicants array
+    const updatedEvent = await Community.findOneAndUpdate(
       { "events._id": eventId },
       {
         $addToSet: {
@@ -65,15 +75,15 @@ async function applyForEvent(req, res) {
       { new: true }
     );
 
-    if (!event) {
+    if (!updatedEvent) {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    return res.status(200).json({ event });
+    return res.status(200).json({ event: updatedEvent });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
-}
+};
 
 async function updateUserImage(req, res) {
   const userId = req.body.userId;
