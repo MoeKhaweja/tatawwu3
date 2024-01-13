@@ -97,7 +97,7 @@ async function addEvent(req, res) {
       duration,
       img: imagePath,
       targetedSkills,
-      community: community.id, // Specify the community association
+      community: community._id, // Specify the community association
     });
     await newEvent.save();
 
@@ -180,18 +180,19 @@ async function deleteEvent(req, res) {
   const { eventId } = req.body;
   const user = req.user;
   try {
-    const community = await Community.findOne({ owner: user.id });
+    const community = await Community.findOne({ owner: user._id });
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
     }
     // Find the event by its ID and remove it
     const removedEvent = await Event.findById(eventId);
+    console.log(community._id, removedEvent.community);
 
     if (!removedEvent) {
       return res.status(404).json({ error: "Event not found or not removed" });
     }
-    if (removedEvent.community == community) {
-      removedEvent.remove();
+    if (removedEvent.community.equals(community._id)) {
+      await removedEvent.deleteOne();
       return res.status(200).send({ removedEvent });
     }
 

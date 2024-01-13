@@ -34,7 +34,7 @@ const eventSchema = new mongoose.Schema({
 eventSchema.pre("save", function (next) {
   const eventId = this._id;
   const communityId = this.community;
-  console.log(eventId, communityId);
+  console.log("hello", eventId, communityId);
   Community.findByIdAndUpdate(
     communityId,
     { $push: { events: eventId } },
@@ -45,18 +45,35 @@ eventSchema.pre("save", function (next) {
 });
 
 // Post-remove hook to update the community's events array after an event is removed
-eventSchema.post("remove", function (doc, next) {
-  const eventId = doc._id;
-  const communityId = doc.community;
+eventSchema.pre(
+  "deleteOne",
+  { document: false, query: true },
+  async function (next) {
+    try {
+      const event = await this.model.findOne(this.getFilter());
 
-  Community.findByIdAndUpdate(
-    communityId,
-    { $pull: { events: eventId } },
-    { new: true }
-  )
-    .then(() => next())
-    .catch(next);
-});
+      // Check if the event exists
+      if (!event) {
+        console.log("Event not found");
+        return next();
+      }
+
+      // Save the community ID before removing the event
+      const communityId = event.community;
+
+      await Community.findByIdAndUpdate(
+        communityId,
+        { $pull: { events: event._id } },
+        { new: true }
+      );
+      // Proceed with the event deletion
+      next();
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      next(error);
+    }
+  }
+);
 
 const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;
