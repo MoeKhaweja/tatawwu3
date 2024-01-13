@@ -37,6 +37,7 @@ const ResetPassword = ({ navigation }) => {
     const resetPin = pin.join("");
     console.log(password, resetPin);
     setPin(["", "", "", "", "", ""]);
+    setSend(false);
 
     if (email && password && resetPin) {
       try {
@@ -65,16 +66,16 @@ const ResetPassword = ({ navigation }) => {
     console.log(email);
     setSend(true);
 
-    setTimeLeft(5 * 60); // 5 minutes in seconds
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
+    // setTimeLeft(5 * 60); // 5 minutes in seconds
+    // const timer = setInterval(() => {
+    //   setTimeLeft((prevTime) => prevTime - 1);
+    // }, 1000);
 
-    setTimeout(() => {
-      setSend(false);
-      clearInterval(timer);
-      setTimeLeft(0);
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    // setTimeout(() => {
+    //   setSend(false);
+    //   clearInterval(timer);
+    //   setTimeLeft(0);
+    // }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
     try {
       dispatch(
@@ -106,47 +107,43 @@ const ResetPassword = ({ navigation }) => {
         onChangeText={(text) => setEmail(text)}
         style={styles.input}
       />
-      <Button
-        mode='contained'
-        onPress={handleSend}
-        style={styles.button}
-        disabled={send}
-      >
-        {!send
-          ? "Send Reset Pin"
-          : "Resend " +
-            minutes.toString().padStart(1, "0") +
-            ":" +
-            seconds.toString().padStart(2, "0")}
+      <Button mode='contained' onPress={handleSend} style={styles.button}>
+        Send Reset Pin
       </Button>
       <LoadingOrError></LoadingOrError>
-      <View>
-        <Text style={{ marginBottom: 8, marginTop: 8 }}>Enter Reset Pin:</Text>
-      </View>
+      {send && (
+        <View>
+          <View>
+            <Text style={{ marginBottom: 8, marginTop: 8 }}>
+              Enter Reset Pin:
+            </Text>
+          </View>
 
-      <View style={styles.pinContainer}>
-        {pin.map((digit, index) => (
+          <View style={styles.pinContainer}>
+            {pin.map((digit, index) => (
+              <TextInput
+                key={index}
+                value={digit}
+                onChangeText={(text) => handlePinChange(index, text)}
+                keyboardType='numeric'
+                maxLength={1}
+                style={styles.pinInput}
+                ref={pinInputs[index]}
+              />
+            ))}
+          </View>
           <TextInput
-            key={index}
-            value={digit}
-            onChangeText={(text) => handlePinChange(index, text)}
-            keyboardType='numeric'
-            maxLength={1}
-            style={styles.pinInput}
-            ref={pinInputs[index]}
+            label='New Password'
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            style={styles.input}
           />
-        ))}
-      </View>
-      <TextInput
-        label='New Password'
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        style={styles.input}
-      />
 
-      <Button mode='contained' onPress={handleSubmit} style={styles.button}>
-        Reset Password
-      </Button>
+          <Button mode='contained' onPress={handleSubmit} style={styles.button}>
+            Reset Password
+          </Button>
+        </View>
+      )}
     </View>
   );
 };
@@ -154,7 +151,7 @@ const ResetPassword = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 30,
     justifyContent: "center",
   },
   input: {
