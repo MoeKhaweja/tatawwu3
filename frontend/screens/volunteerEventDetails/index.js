@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Button, Card, Title, Paragraph } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createCommunity } from "../../store/user";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
+  const user = useSelector((state) => state.user.user.user);
 
   const dispatch = useDispatch();
 
@@ -23,6 +24,10 @@ const VolunteerEventDetails = ({ route, navigation }) => {
     // Logic to cancel the application and update the applicantStatus state
     console.log("Canceling the application");
   };
+  const isUserApplied = event.applicants.forEach((applicant) => {
+    applicant.user == user.id;
+    console.log(applicant.user, user.id);
+  });
 
   return (
     <ScrollView style={styles.container}>
@@ -41,13 +46,9 @@ const VolunteerEventDetails = ({ route, navigation }) => {
       </Card>
 
       <View style={styles.section}>
-        {applicantStatus === "applied" || applicantStatus === "accepted" ? (
+        {isUserApplied && (
           <Button mode='contained' onPress={handleCancelApplication}>
             Cancel Application
-          </Button>
-        ) : (
-          <Button mode='contained' onPress={handleApply}>
-            Apply
           </Button>
         )}
       </View>

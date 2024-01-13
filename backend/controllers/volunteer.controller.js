@@ -85,6 +85,27 @@ const applyForEvent = async (req, res) => {
   }
 };
 
+const applicationStatus = async (req, res) => {
+  const userId = req.user.id;
+  const { eventId } = req.body;
+
+  try {
+    // Check if the user with the specified status is already an applicant for the event
+    const isUserApplied = await Community.exists({
+      "events._id": eventId,
+      "events.applicants": { $elemMatch: { user: userId } },
+    });
+
+    if (isUserApplied) {
+      return res.status(200).json({ status: isUserApplied });
+    }
+
+    // If the user is not already an applicant, add them to the applicants array
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 async function updateUserImage(req, res) {
   const userId = req.body.userId;
   const image = req.files.image[0]; // Access the uploaded file information
@@ -122,4 +143,5 @@ module.exports = {
   updateProfile,
   applyForEvent,
   updateUserImage,
+  applicationStatus,
 };
