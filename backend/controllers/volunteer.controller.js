@@ -79,7 +79,7 @@ const applyForEvent = async (req, res) => {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    return res.status(200).json({ event: updatedEvent });
+    return res.status(200).json({ success: "applied successfully" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
