@@ -36,20 +36,11 @@ async function getAllEvents(req, res) {
   const pageSize = 10; // Set the number of events per page as needed
 
   try {
-    const communities = await Community.find(); // Assuming there is a 'Community' model
+    const allEvents = await Event.find()
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
-    const allEvents = [];
-    communities.forEach((community) => {
-      if (community.events && community.events.length > 0) {
-        allEvents.push(...community.events);
-      }
-    });
-
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = page * pageSize;
-    const paginatedEvents = allEvents.slice(startIndex, endIndex);
-
-    return res.status(200).json({ paginatedEvents });
+    return res.status(200).json({ allEvents });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
