@@ -13,7 +13,7 @@ const verify = async (req, res) => {
   return res.status(200).send({ user: userDetails, token: req.token });
 };
 const login = async (req, res) => {
-  const { email: email, password } = req.body;
+  const { email, password } = req.body;
 
   // check if user is available in DB
   const user = await User.findOne({ email: email });
