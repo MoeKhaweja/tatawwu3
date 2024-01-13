@@ -25,7 +25,7 @@ router.post("/invite", inviteOrCancelInvite);
 router.post("/apply", authMiddleware, applyForEvent);
 router.post("/cancel", authMiddleware, cancelApplication);
 router.post("/accept", authMiddleware, acceptApplication);
-router.post("/accept", authMiddleware, rejectApplication);
+router.post("/reject", authMiddleware, rejectApplication);
 router.get("/events", authMiddleware, getCommunityEvents);
 router.post("/events", authMiddleware, getAllEvents);
 router.get("/sort", authMiddleware, sortBySkills);
