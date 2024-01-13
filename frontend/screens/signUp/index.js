@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/user";
+import { useTheme } from "react-native-paper";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const SignupScreen = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const theme = useTheme();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   useEffect(() => {
@@ -115,6 +116,12 @@ const SignupScreen = ({ navigation }) => {
       />
       <Text style={styles.input}>Signing Up as a:</Text>
       <SegmentedButtons
+        theme={{
+          colors: {
+            secondaryContainer: theme.colors.primary,
+            primary: "#FF000000",
+          },
+        }}
         style={styles.input}
         value={role}
         onValueChange={setValue}
