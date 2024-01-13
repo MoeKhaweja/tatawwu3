@@ -17,7 +17,7 @@ const router = express.Router();
 router.post("/create", authMiddleware, createCommunity);
 router.post("/addEvent", authMiddleware, addEvent);
 router.post("/editEvent", authMiddleware, editEvent);
-router.post("/deleteEvent", deleteEvent);
+router.post("/deleteEvent", authMiddleware, deleteEvent);
 router.post("/invite", inviteOrCancelInvite);
 router.post("/handle", handleApplication);
 router.get("/events", authMiddleware, getCommunityEvents);
