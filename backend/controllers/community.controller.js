@@ -372,4 +372,5 @@ module.exports = {
   getCommunityEvents,
   getAllEvents,
   sortBySkills,
+  cancelApplication,
 };
