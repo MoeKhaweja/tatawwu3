@@ -288,7 +288,7 @@ async function sortBySkills(req, res) {
     // Get the filtered events
     const filteredEvents = getSimilarEvents(allEvents, similarities);
 
-    return res.status(200).send({ filteredEvents });
+    return res.status(200).send(filteredEvents);
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
