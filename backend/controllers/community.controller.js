@@ -178,18 +178,27 @@ async function editEvent(req, res) {
 
 async function deleteEvent(req, res) {
   const { eventId } = req.body;
+  const user = req.user;
   try {
+    const community = await Community.findOne({ owner: user.id });
+    if (!community) {
+      return res.status(404).json({ error: "Community not found" });
+    }
     // Find the event by its ID and remove it
-    const removedEvent = await Event.findByIdAndRemove(eventId);
+    const removedEvent = await Event.findById(eventId);
 
     if (!removedEvent) {
       return res.status(404).json({ error: "Event not found or not removed" });
+    }
+    if (removedEvent.community == community) {
+      removedEvent.remove();
+      return res.status(200).send({ removedEvent });
     }
 
     // The 'remove' hook in eventSchema.post("remove") should have updated the community's events array
 
     // Respond with the removed event
-    return res.status(200).send({ removedEvent });
+    return res.status(400).send({ error: error.message });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
