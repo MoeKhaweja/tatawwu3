@@ -5,7 +5,7 @@ const {
   editEvent,
   deleteEvent,
   inviteOrCancelInvite,
-  handleApplication,
+  applyForEvent,
   getCommunityEvents,
   getAllEvents,
   sortBySkills,
@@ -19,7 +19,7 @@ router.post("/addEvent", authMiddleware, addEvent);
 router.post("/editEvent", authMiddleware, editEvent);
 router.post("/deleteEvent", authMiddleware, deleteEvent);
 router.post("/invite", inviteOrCancelInvite);
-router.post("/handle", handleApplication);
+router.post("/apply", authMiddleware, applyForEvent);
 router.get("/events", authMiddleware, getCommunityEvents);
 router.post("/events", authMiddleware, getAllEvents);
 router.get("/sort", authMiddleware, sortBySkills);

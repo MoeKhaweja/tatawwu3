@@ -251,42 +251,53 @@ async function inviteOrCancelInvite(req, res) {
   }
 }
 
-async function handleApplication(req, res) {
-  const { communityId, eventId, userId, action } = req.body;
+// Function to apply for an event
+async function applyForEvent(req, res) {
+  const { eventId } = req.body;
+  const userId = req.user.id;
+  console.log(userId, eventId);
   try {
-    const community = await Community.findById(communityId);
-    if (!community) {
-      return res.status(404).json({ error: "Community not found" });
-    }
+    const event = await Event.findById(eventId);
 
-    const event = community.events.id(eventId);
     if (!event) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-
-    const applicant = event.applicants.find(
-      (applicant) =>
-        applicant.user.toString() === userId && applicant.status === "applied"
-    );
-
-    if (!applicant) {
       return res
-        .status(404)
-        .json({ error: "User did not apply for this event" });
+        .status(400)
+        .json({ success: false, message: "Event not found" });
     }
 
-    if (action === "accept") {
-      applicant.status = "accepted";
-    } else if (action === "decline") {
-      applicant.status = "declined";
+    // Check if the user has already applied
+    const existingApplicant =
+      event.applicants &&
+      event.applicants.some(
+        (applicant) =>
+          applicant.user && applicant.user.toString() === userId.toString()
+      );
+
+    if (existingApplicant) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User has already applied" });
     }
 
-    await community.save();
-    return res.status(200).send({ event });
+    // Add new application
+    event.applicants.push({
+      user: userId,
+      status: "pending",
+    });
+
+    await event.save();
+
+    return res
+      .status(200)
+      .send({ success: true, message: "Application successful" });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    console.error("Error applying for event:", error);
+    return res
+      .status(400)
+      .json({ success: false, message: "Internal server error" });
   }
 }
+
 async function sortBySkills(req, res) {
   const user = req.user;
 
@@ -317,7 +328,7 @@ module.exports = {
   editEvent,
   deleteEvent,
   inviteOrCancelInvite,
-  handleApplication,
+  applyForEvent,
   getCommunityEvents,
   getAllEvents,
   sortBySkills,
