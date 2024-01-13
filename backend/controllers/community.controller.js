@@ -376,6 +376,44 @@ async function acceptApplication(req, res) {
       .json({ success: false, message: "Internal server error" });
   }
 }
+async function rejectApplication(req, res) {
+  const { eventId, userId } = req.body;
+  console.log(userId, eventId);
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Event not found" });
+    }
+
+    // Find the applicant in the event
+    const applicantIndex = event.applicants.findIndex(
+      (app) => app.user && app.user.toString() === userId.toString()
+    );
+
+    if (applicantIndex === -1) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Applicant not found" });
+    }
+
+    // Remove the applicant from the list
+    event.applicants.splice(applicantIndex, 1);
+
+    await event.save();
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Application rejected" });
+  } catch (error) {
+    console.error("Error rejecting application:", error);
+    return res
+      .status(400)
+      .json({ success: false, message: "Internal server error" });
+  }
+}
 
 async function sortBySkills(req, res) {
   const user = req.user;
