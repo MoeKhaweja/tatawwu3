@@ -278,15 +278,10 @@ async function sortBySkills(req, res) {
   const user = req.user;
 
   try {
-    const communities = await Community.find();
+    // Retrieve all events from the Event model
+    const allEvents = await Event.find();
 
-    const allEvents = [];
-
-    communities.forEach((community) => {
-      if (community.events && community.events.length > 0) {
-        allEvents.push(...community.events);
-      }
-    });
+    // Use semanticEvents or any other logic to calculate similarities
     const similarities = await semanticEvents(user.skills, allEvents);
 
     function getSimilarEvents(allEvents, similarities) {
