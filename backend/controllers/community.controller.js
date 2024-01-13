@@ -40,7 +40,7 @@ async function getAllEvents(req, res) {
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
-    return res.status(200).json({ allEvents });
+    return res.status(200).json(allEvents);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
