@@ -87,7 +87,7 @@ const SigninScreen = ({ navigation }) => {
         Sign In
       </Button>
       <Button onPress={() => navigation.navigate("Signup")}>
-        Already Have an Account?
+        Don't Have an Account?
       </Button>
       <Button onPress={() => navigation.navigate("Reset")}>
         Forgot Your Password?
