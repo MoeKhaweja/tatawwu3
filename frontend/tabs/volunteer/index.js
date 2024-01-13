@@ -3,7 +3,7 @@ import { ScrollView, Image, View } from "react-native";
 import { Card, Avatar, Text, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllEvents } from "../../store/user";
+import { getAllEvents, getMatchingEvents } from "../../store/user";
 
 const Feed = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,23 +14,31 @@ const Feed = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      await dispatch(getAllEvents());
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        // Make sure getAllEvents dispatches an action that updates the state with events data
+        await dispatch(getAllEvents());
+        await dispatch(getMatchingEvents());
+        setPage((prevPage) => prevPage + 1);
 
-      setData((prevData) => [...prevData, ...events?.paginatedEvents]);
-      // setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        // Check if events is defined before accessing paginatedEvents
+
+        // Uncomment the following line if you need to update the page
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+    fetch();
+  }, []); // Fetch data when the component mounts
 
   useEffect(() => {
-    fetchData();
-  }, []); // Fetch data when the component mounts
+    if (events && events.paginatedEvents) {
+      setData((prevData) => [...prevData, ...events.paginatedEvents]);
+    } else {
+      console.log("Events or paginatedEvents is undefined");
+    }
+  }, [JSON.stringify(events)]);
 
   const handleScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
@@ -39,7 +47,7 @@ const Feed = () => {
         contentSize.height - paddingToBottom &&
       !isLoading
     ) {
-      fetchData();
+      // fetchData();
     }
   };
 

@@ -17,16 +17,24 @@ const Room = require("./models/room.model");
 // app.use(passport.initialize());
 
 const app = express();
-app.use(bodyParser.json({ limit: "35mb" }));
+// app.use(bodyParser.json({ limit: "35mb" }));
 
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//     limit: "35mb",
+//     parameterLimit: 500000,
+//   })
+// );
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
-    limit: "35mb",
-    parameterLimit: 500000,
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+    limit: "50mb",
   })
 );
-app.use(express.json());
 
 const server = http.createServer(app); // Create HTTP server
 

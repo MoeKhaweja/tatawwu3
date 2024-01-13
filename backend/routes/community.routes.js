@@ -22,6 +22,6 @@ router.post("/invite", inviteOrCancelInvite);
 router.post("/handle", handleApplication);
 router.get("/events", authMiddleware, getCommunityEvents);
 router.post("/events", authMiddleware, getAllEvents);
-router.post("/sort", authMiddleware, sortBySkills);
+router.get("/sort", authMiddleware, sortBySkills);
 
 module.exports = router;
