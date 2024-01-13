@@ -50,9 +50,10 @@ async function getCommunityEvents(req, res) {
   const user = req.user;
 
   try {
-    const community = await Community.findOne({ owner: user._id }).populate(
-      "events"
-    );
+    const community = await Community.findOne({
+      owner: user._id,
+    }).populate("events");
+    console.log(community);
 
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
