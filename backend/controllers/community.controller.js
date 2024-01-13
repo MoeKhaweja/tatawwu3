@@ -112,13 +112,30 @@ async function addEvent(req, res) {
 
 async function editEvent(req, res) {
   const user = req.user;
-  const { title, description, schedule, location, duration, img, _id } =
-    req.body;
+  const {
+    title,
+    description,
+    schedule,
+    location,
+    duration,
+    targetedSkills,
+    img,
+    _id,
+  } = req.body;
 
   try {
     // Handle the image if provided
     const imagePath = img ? await handleBase64Image(img) : null;
-    console.log(imagePath);
+    console.log(
+      title,
+      description,
+      schedule,
+      location,
+      duration,
+      targetedSkills,
+      img,
+      _id
+    );
 
     // Create an updatedEventData object
     const updatedEventData = {
@@ -127,24 +144,9 @@ async function editEvent(req, res) {
       schedule,
       location,
       duration,
+      targetedSkills,
       img: imagePath,
     };
-
-    // Ensure that the user owns the community
-    const community = await Community.findOne({ owner: user._id });
-    if (!community) {
-      return res.status(404).json({ error: "Community not found" });
-    }
-
-    // Check if the event is associated with the community
-    const isEventAssociated = community.events.some((eventId) =>
-      eventId.equals(_id)
-    );
-    if (!isEventAssociated) {
-      return res.status(404).json({
-        error: "Event not found or not associated with the community",
-      });
-    }
 
     // Directly update the event by its ID
     const updatedEvent = await Event.findByIdAndUpdate(
@@ -156,6 +158,7 @@ async function editEvent(req, res) {
           schedule: updatedEventData.schedule,
           location: updatedEventData.location,
           duration: updatedEventData.duration,
+          targetedSkills: updatedEventData.targetedSkills,
           img: updatedEventData.img,
         },
       },
