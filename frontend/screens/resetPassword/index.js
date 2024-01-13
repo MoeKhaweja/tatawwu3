@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, HelperText } from "react-native-paper";
 import { sendPin, verifyPin } from "../../store/user";
 import { useDispatch } from "react-redux";
 import LoadingOrError from "../../components/loadingOrError";
 
 const ResetPassword = ({ navigation }) => {
   dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
@@ -37,9 +39,9 @@ const ResetPassword = ({ navigation }) => {
     const resetPin = pin.join("");
     console.log(password, resetPin);
     setPin(["", "", "", "", "", ""]);
-    setSend(false);
 
     if (email && password && resetPin) {
+      setSend(false);
       try {
         dispatch(
           verifyPin({
@@ -59,10 +61,17 @@ const ResetPassword = ({ navigation }) => {
         console.log(error);
       }
     } else {
-      console.log("Please fill in all fields");
+      setError(true);
+      setErrorMessage("Please fill in all fields");
+      return;
     }
   };
   const handleSend = () => {
+    if (!email) {
+      setError(true);
+      setErrorMessage("Please fill in all fields");
+      return;
+    }
     console.log(email);
     setSend(true);
 
@@ -101,11 +110,18 @@ const ResetPassword = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <HelperText type='error' visible={error}>
+        {errorMessage}
+      </HelperText>
       <TextInput
         label='Email'
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text) => {
+          setEmail(text);
+          setError("");
+        }}
         style={styles.input}
+        error={error && !email}
       />
       <Button mode='contained' onPress={handleSend} style={styles.button}>
         Send Reset Pin
@@ -135,8 +151,12 @@ const ResetPassword = ({ navigation }) => {
           <TextInput
             label='New Password'
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => {
+              setPassword(text);
+              setError("");
+            }}
             style={styles.input}
+            error={error && !password}
           />
 
           <Button mode='contained' onPress={handleSubmit} style={styles.button}>
