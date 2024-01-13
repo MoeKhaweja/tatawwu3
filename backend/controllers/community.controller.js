@@ -115,14 +115,6 @@ async function editEvent(req, res) {
   const user = req.user;
   const { title, description, schedule, location, duration, img, _id } =
     req.body;
-  const updatedEventData = {
-    title,
-    description,
-    schedule,
-    location,
-    duration,
-    img,
-  };
 
   try {
     // Handle the image if provided
@@ -150,11 +142,9 @@ async function editEvent(req, res) {
       eventId.equals(_id)
     );
     if (!isEventAssociated) {
-      return res
-        .status(404)
-        .json({
-          error: "Event not found or not associated with the community",
-        });
+      return res.status(404).json({
+        error: "Event not found or not associated with the community",
+      });
     }
 
     // Directly update the event by its ID

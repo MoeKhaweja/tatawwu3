@@ -54,10 +54,23 @@ eventSchema.pre("save", function (next) {
   const eventId = this._id;
   const communityId = this.community;
 
-  // Update the community's events array with the new event ID
   Community.findByIdAndUpdate(
     communityId,
     { $push: { events: eventId } },
+    { new: true }
+  )
+    .then(() => next())
+    .catch(next);
+});
+
+// Post-remove hook to update the community's events array after an event is removed
+eventSchema.post("remove", function (doc, next) {
+  const eventId = doc._id;
+  const communityId = doc.community;
+
+  Community.findByIdAndUpdate(
+    communityId,
+    { $pull: { events: eventId } },
     { new: true }
   )
     .then(() => next())
