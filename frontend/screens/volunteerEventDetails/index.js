@@ -29,10 +29,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
     console.log("Applying for the event");
   };
 
-  const handleCancelApplication = () => {
-    // Logic to cancel the application and update the applicantStatus state
-    console.log("Canceling the application");
-  };
+  const handleCancel = () => {};
 
   return (
     <ScrollView style={styles.container}>
@@ -52,12 +49,12 @@ const VolunteerEventDetails = ({ route, navigation }) => {
 
       <View style={styles.section}>
         {!statusOrNull && (
-          <Button mode='contained' onPress={handleCancelApplication}>
+          <Button mode='contained' onPress={handleApply}>
             Apply
           </Button>
         )}
         {(statusOrNull == "approved" || statusOrNull == "pending") && (
-          <Button mode='contained' onPress={handleCancelApplication}>
+          <Button mode='contained' onPress={handleCancel}>
             Cancel
           </Button>
         )}
