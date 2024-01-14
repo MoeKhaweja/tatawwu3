@@ -18,6 +18,7 @@ import CommunityEventDetails from "../screens/communityEventDetails";
 import VolunteerEventDetails from "../screens/volunteerEventDetails";
 import CommunityAddEvents from "../screens/communityEventsAdd";
 import CommunityEditEvent from "../screens/communityEventEdit";
+import ProfilePage from "../screens/profile";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,8 @@ const Navigation = () => {
           options={{ headerShown: false }}
           component={HomeScreen}
         />
+
+        <Stack.Screen name='ProfilePage' component={ProfilePage} />
 
         <Stack.Screen
           name='CommunityEventDetails'
