@@ -63,6 +63,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
             Cancel
           </Button>
         )}
+        <LoadingOrError></LoadingOrError>
       </View>
     </ScrollView>
   );
