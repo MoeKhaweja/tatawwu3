@@ -462,4 +462,5 @@ module.exports = {
   cancelApplication,
   acceptApplication,
   rejectApplication,
+  getAllCommunities,
 };
