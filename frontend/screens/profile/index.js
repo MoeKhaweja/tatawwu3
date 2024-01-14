@@ -11,55 +11,72 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ProfilePage = () => {
-  const community = {
-    name: "Sample Community55",
-    description: "This is a test community55",
-    img: null, // Replace with your community image URL if available
-    events: [
-      { $oid: "65a2db38b34cc596f8db1bbd" },
-      { $oid: "65a2de08b34cc596f8db1bd1" },
-      // ... (add more events as needed)
+  const user = {
+    firstName: "John",
+    lastName: "Doe",
+    bio: "Passionate developer exploring the world of React Native!",
+    userImage: "https://example.com/profile-image.jpg", // Replace with your user image URL
+    skills: [
+      "React Native",
+      "JavaScript",
+      "Node.js",
+      "JavaScript",
+      "Node.js",
+      "JavaScript",
+      "Node.js",
+      "JavaScript",
+      "Node.js",
+      "JavaScript",
+      "Node.js",
+      "JavaScript",
+      "Node.js",
     ],
-    owner: { $oid: "659682fb2eed07a7cd58db2f" },
+    academicBackground: [
+      "Bachelor in Computer Science",
+      "Master in Software Engineering",
+    ],
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Top section with circular avatar, community name, and description */}
+    <View style={styles.container}>
+      {/* Top section with circular avatar, first and last name */}
       <View style={styles.topSection}>
         <Avatar.Image
           size={150}
-          source={{ uri: community.img }} // Use community image if available
+          source={{ uri: user.userImage }}
           style={styles.avatar}
         />
         <View style={styles.nameContainer}>
-          <Title>{community.name}</Title>
-          <Paragraph>{community.description}</Paragraph>
+          <Title>{user.firstName}</Title>
+          <Title>{user.lastName}</Title>
         </View>
       </View>
-
       <ScrollView>
-        {/* Community details */}
         <Card style={{ margin: 3 }}>
           <Card.Content>
+            <Paragraph>{user.bio}</Paragraph>
+
+            <Divider style={styles.divider} />
+
             <List.Section>
-              <List.Subheader>Owner</List.Subheader>
-              {/* Display owner information (you may fetch it from your API) */}
+              <List.Subheader>Skills</List.Subheader>
+              {user.skills.map((skill, index) => (
+                <List.Item key={index} title={skill} />
+              ))}
             </List.Section>
 
             <Divider style={styles.divider} />
 
             <List.Section>
-              <List.Subheader>Upcoming Events</List.Subheader>
-              {community.events.map((event, index) => (
-                <List.Item key={index} title={`Event ${index + 1}`} />
-                // You may want to fetch and display more details for each event
+              <List.Subheader>Academic Background</List.Subheader>
+              {user.academicBackground.map((background, index) => (
+                <List.Item key={index} title={background} />
               ))}
             </List.Section>
           </Card.Content>
         </Card>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -73,11 +90,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  avatar: {
-    borderRadius: 75, // Make it circular
-  },
+
   nameContainer: {
     flex: 1,
+    flexDirection: "row",
+    gap: 10,
     marginLeft: 16,
   },
   divider: {
