@@ -5,6 +5,7 @@ const {
   applyForEvent,
   updateUserImage,
   applicationStatus,
+  findEventsByApplicant,
 } = require("../controllers/volunteer.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
@@ -14,6 +15,7 @@ router.post("/follow", followCommunity);
 router.post("/update", updateProfile);
 router.post("/apply", authMiddleware, applyForEvent);
 router.post("/status", authMiddleware, applicationStatus);
+router.post("/find", authMiddleware, findEventsByApplicant);
 router.post("/image", updateUserImage);
 
 module.exports = router;
