@@ -209,6 +209,31 @@ export const apply = createAsyncThunk(
   }
 );
 
+export const cancel = createAsyncThunk(
+  "user/cancel",
+  async (eventId, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(cancel.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.5:8000/community/cancel",
+        eventId,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(cancel.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(cancel.rejected(error.message));
+      return rejectWithValue("error applying");
+    }
+  }
+);
+
 export const getMatchingEvents = createAsyncThunk(
   "user/getMatchingEvents",
   async (_, { dispatch, getState, rejectWithValue }) => {
