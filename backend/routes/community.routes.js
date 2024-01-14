@@ -12,11 +12,13 @@ const {
   cancelApplication,
   acceptApplication,
   rejectApplication,
+  getAllCommunities,
 } = require("../controllers/community.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
+router.get("/", authMiddleware, getAllCommunities);
 router.post("/create", authMiddleware, createCommunity);
 router.post("/addEvent", authMiddleware, addEvent);
 router.post("/editEvent", authMiddleware, editEvent);
