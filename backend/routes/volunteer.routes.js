@@ -15,7 +15,7 @@ router.post("/follow", followCommunity);
 router.post("/update", updateProfile);
 router.post("/apply", authMiddleware, applyForEvent);
 router.post("/status", authMiddleware, applicationStatus);
-router.post("/find", authMiddleware, findEventsByApplicant);
+router.get("/find", authMiddleware, findEventsByApplicant);
 router.post("/image", updateUserImage);
 
 module.exports = router;
