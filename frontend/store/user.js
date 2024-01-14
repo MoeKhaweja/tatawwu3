@@ -36,6 +36,7 @@ const initialState = {
   communityEvents: [],
   volunteerEvents: [],
   volunteerMatchingEvents: [],
+  eventsApplicationStatus: [],
 };
 
 export const createRoom = createAsyncThunk(
