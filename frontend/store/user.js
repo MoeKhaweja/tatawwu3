@@ -33,6 +33,7 @@ const initialState = {
   rooms: [],
   notRooms: [],
   chat: {},
+  communities: [],
   communityEvents: [],
   volunteerEvents: [],
   volunteerMatchingEvents: [],
