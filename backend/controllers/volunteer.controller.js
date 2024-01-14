@@ -138,14 +138,19 @@ async function updateUserImage(req, res) {
     return res.status(500).json({ error: error.message });
   }
 }
-
 const findEventsByApplicant = async (req, res) => {
   const userId = req.user.id;
 
   try {
     const events = await Event.findEventsByApplicant(userId);
 
-    res.status(200).send(events);
+    // Map the result to transform the structure
+    const transformedEvents = events.map((event) => ({
+      _id: event._id,
+      status: event.applicants.length > 0 ? event.applicants[0].status : null,
+    }));
+
+    res.status(200).send(transformedEvents);
   } catch (error) {
     console.error("Error finding events by applicant:", error);
     res.status(500).json({ error: "Internal Server Error" });
