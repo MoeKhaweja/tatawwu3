@@ -834,6 +834,18 @@ const userSlice = createSlice({
       .addCase(cancel.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getCommunities.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCommunities.fulfilled, (state, action) => {
+        state.loading = false;
+        state.communities = action.payload;
+      })
+      .addCase(getCommunities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
