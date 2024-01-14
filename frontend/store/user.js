@@ -727,6 +727,18 @@ const userSlice = createSlice({
       .addCase(getMatchingEvents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(findEventsByApplicant.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(findEventsByApplicant.fulfilled, (state, action) => {
+        state.loading = false;
+        state.eventsApplicationStatus = action.payload;
+      })
+      .addCase(findEventsByApplicant.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
