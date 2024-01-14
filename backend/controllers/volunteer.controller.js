@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const Community = require("../models/community.model");
+const Event = require("../models/event.model");
 const fs = require("fs");
 
 async function followCommunity(req, res) {
@@ -137,6 +138,19 @@ async function updateUserImage(req, res) {
     return res.status(500).json({ error: error.message });
   }
 }
+
+const findEventsByApplicant = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const events = await Event.findEventsByApplicant(userId);
+
+    res.status(200).send(events);
+  } catch (error) {
+    console.error("Error finding events by applicant:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   followCommunity,
