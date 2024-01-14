@@ -17,10 +17,10 @@ const SplashScreen = ({ navigation }) => {
       useNativeDriver: true,
     }).start(() => {
       // Once animation finishes, navigate to main app screen
-      navigation.navigate("ProfilePage");
+      navigation.navigate("Home");
       navigation.reset({
         index: 0,
-        routes: [{ name: "ProfilePage" }],
+        routes: [{ name: "Home" }],
       });
     });
   }, []);

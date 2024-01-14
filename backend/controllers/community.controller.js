@@ -6,6 +6,16 @@ const User = require("../models/user.model");
 const fs = require("fs");
 const path = require("path");
 
+const getAllCommunities = async (req, res) => {
+  try {
+    const communities = await Community.find();
+    res.status(200).json(communities);
+  } catch (error) {
+    console.error("Error getting communities:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 async function createCommunity(req, res) {
   const user = req.user;
   const { name, description, img } = req.body;
