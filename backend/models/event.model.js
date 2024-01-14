@@ -76,8 +76,7 @@ eventSchema.pre(
 );
 
 eventSchema.statics.findEventsByApplicant = function (userId) {
-  return this.find({ "applicants.user": userId });
+  return this.find({ "applicants.user": userId }).select("_id applicants.$");
 };
-
 const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;
