@@ -4,6 +4,7 @@ import { Button, Card, Title, Paragraph } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   apply,
+  cancel,
   createCommunity,
   findEventsByApplicant,
 } from "../../store/user";
@@ -26,7 +27,6 @@ const VolunteerEventDetails = ({ route, navigation }) => {
 
   const handleApply = async () => {
     try {
-      console.log(event.applicants);
       await dispatch(apply({ eventId: event._id }));
       await dispatch(findEventsByApplicant());
     } catch {}
@@ -34,7 +34,14 @@ const VolunteerEventDetails = ({ route, navigation }) => {
     console.log("Applying for the event");
   };
 
-  const handleCancel = () => {};
+  const handleCancel = async () => {
+    try {
+      await dispatch(cancel({ eventId: event._id }));
+      await dispatch(findEventsByApplicant());
+    } catch {}
+    // Logic to apply for the event and update the applicantStatus state
+    console.log("Applying for the event");
+  };
 
   return (
     <ScrollView style={styles.container}>
