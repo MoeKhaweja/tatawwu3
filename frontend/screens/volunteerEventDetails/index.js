@@ -7,7 +7,16 @@ import { createCommunity } from "../../store/user";
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
   const user = useSelector((state) => state.user.user.user);
-
+  const eventsApplicationStatus = useSelector(
+    (state) => state.user.eventsApplicationStatus
+  );
+  // Use find to check if the currentEventId is in the array
+  const eventStatus = eventsApplicationStatus.find(
+    (element) => element._id === event._id
+  );
+  // If eventStatus is found, return the status; otherwise, return null
+  const statusOrNull = eventStatus ? eventStatus.status : null;
+  console.log(statusOrNull);
   const dispatch = useDispatch();
 
   const [applicantStatus, setApplicantStatus] = useState(null);
@@ -42,11 +51,16 @@ const VolunteerEventDetails = ({ route, navigation }) => {
       </Card>
 
       <View style={styles.section}>
-        {
+        {!statusOrNull && (
           <Button mode='contained' onPress={handleCancelApplication}>
-            Cancel Application
+            Apply
           </Button>
-        }
+        )}
+        {(statusOrNull == "approved" || statusOrNull == "pending") && (
+          <Button mode='contained' onPress={handleCancelApplication}>
+            Cancel
+          </Button>
+        )}
       </View>
     </ScrollView>
   );

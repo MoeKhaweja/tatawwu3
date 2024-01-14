@@ -20,6 +20,10 @@ const Feed = () => {
   const pageSize = 10;
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
+  const eventsApplicationStatus = useSelector(
+    (state) => state.user.eventsApplicationStatus
+  );
+
   const volunteerMatchingEvents = useSelector(
     (state) => state.user.volunteerMatchingEvents
   );
@@ -72,9 +76,10 @@ const Feed = () => {
       <Card
         key={index}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
-        onPress={() =>
-          navigation.navigate("VolunteerEventDetails", { event: item })
-        }
+        onPress={() => {
+          navigation.navigate("VolunteerEventDetails", { event: item });
+          console.log(eventsApplicationStatus);
+        }}
       >
         <View style={{ flexDirection: "row" }} key={item.id}>
           <View>
