@@ -158,4 +158,5 @@ module.exports = {
   applyForEvent,
   updateUserImage,
   applicationStatus,
+  findEventsByApplicant,
 };
