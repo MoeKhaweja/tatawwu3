@@ -3,7 +3,11 @@ import { ScrollView, Image, View } from "react-native";
 import { Card, Avatar, Text, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllEvents, getMatchingEvents } from "../../store/user";
+import {
+  findEventsByApplicant,
+  getAllEvents,
+  getMatchingEvents,
+} from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
 
 const Feed = () => {
@@ -28,9 +32,7 @@ const Feed = () => {
         await dispatch(getAllEvents());
         setPage((prevPage) => prevPage + 1);
 
-        // Check if events is defined before accessing paginatedEvents
-
-        // Uncomment the following line if you need to update the page
+        dispatch(findEventsByApplicant());
       } catch (error) {
         console.log("Error fetching data:", error);
       }
