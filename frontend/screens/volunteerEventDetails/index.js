@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { Button, Card, Title, Paragraph } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { createCommunity } from "../../store/user";
+import {
+  apply,
+  createCommunity,
+  findEventsByApplicant,
+} from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
@@ -19,11 +24,11 @@ const VolunteerEventDetails = ({ route, navigation }) => {
   console.log(statusOrNull);
   const dispatch = useDispatch();
 
-  const [applicantStatus, setApplicantStatus] = useState(null);
-
-  const handleApply = () => {
+  const handleApply = async () => {
     try {
       console.log(event.applicants);
+      await dispatch(apply({ eventId: event._id }));
+      await dispatch(findEventsByApplicant());
     } catch {}
     // Logic to apply for the event and update the applicantStatus state
     console.log("Applying for the event");
