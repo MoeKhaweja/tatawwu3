@@ -208,6 +208,31 @@ export const getMatchingEvents = createAsyncThunk(
   }
 );
 
+export const findEventsByApplicant = createAsyncThunk(
+  "user/findEventsByApplicant",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(findEventsByApplicant.pending());
+      const currentState = getState();
+
+      const response = await axios.get(
+        "http://192.168.1.5:8000/volunteer/find",
+
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(findEventsByApplicant.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(findEventsByApplicant.rejected(error.message));
+      return rejectWithValue("error getting events");
+    }
+  }
+);
+
 export const getNotUserRooms = createAsyncThunk(
   "user/getNotUserRooms",
   async (_, { dispatch, getState, rejectWithValue }) => {
