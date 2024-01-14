@@ -42,11 +42,11 @@ const VolunteerEventDetails = ({ route, navigation }) => {
       </Card>
 
       <View style={styles.section}>
-        {isUserApplied && (
+        {
           <Button mode='contained' onPress={handleCancelApplication}>
             Cancel Application
           </Button>
-        )}
+        }
       </View>
     </ScrollView>
   );
