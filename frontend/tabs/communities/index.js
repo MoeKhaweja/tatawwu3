@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const DemoData = [
   {
     id: "1",
-    title: "Card Title 1",
+    name: "Card Title 1",
     description: "Description for Card 1",
     avatar: "https://via.placeholder.com/50", // Replace with actual avatar image URL
     image: "https://via.placeholder.com/300", // Replace with actual image URL
@@ -14,7 +14,7 @@ const DemoData = [
   },
   {
     id: "2",
-    title: "Card Title 2",
+    name: "Card Title 2",
     description: "Description for Card 2",
     avatar: "https://via.placeholder.com/50", // Replace with actual avatar image URL
     image: "https://via.placeholder.com/300", // Replace with actual image URL
@@ -22,7 +22,7 @@ const DemoData = [
   },
   {
     id: "3",
-    title: "Card Title 1",
+    name: "Card Title 1",
     description: "Description for Card 1",
     avatar: "https://via.placeholder.com/50", // Replace with actual avatar image URL
     image: "https://via.placeholder.com/300", // Replace with actual image URL
@@ -30,7 +30,7 @@ const DemoData = [
   },
   {
     id: "4",
-    title: "Card Title 2",
+    name: "Card Title 2",
     description: "Description for Card 2",
     avatar: "https://via.placeholder.com/50", // Replace with actual avatar image URL
     image: "https://via.placeholder.com/300", // Replace with actual image URL
@@ -81,7 +81,7 @@ const Communities = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Text variant='titleMedium'>{item.title}</Text>
+                  <Text variant='titleMedium'>{item.name}</Text>
                 </View>
               </View>
             </Card.Content>
