@@ -160,6 +160,28 @@ export const getCommunityEvents = createAsyncThunk(
     }
   }
 );
+
+export const getCommunities = createAsyncThunk(
+  "user/getCommunities",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getCommunities.pending());
+      const currentState = getState();
+
+      const response = await axios.get("http://192.168.1.5:8000/community/", {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
+
+      dispatch(getCommunities.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getCommunities.rejected(error.message));
+      return rejectWithValue("error getting communities");
+    }
+  }
+);
+
 export const getAllEvents = createAsyncThunk(
   "user/getAllEvents",
   async (page, { dispatch, getState, rejectWithValue }) => {
