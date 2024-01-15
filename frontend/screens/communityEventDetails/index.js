@@ -18,28 +18,6 @@ const CommunityEventDetails = ({ route }) => {
   const dispatch = useDispatch();
 
   const [eventDetails, setEventDetails] = useState(event);
-  const [applicants, setApplicants] = useState([
-    {
-      _id: "1",
-      user: { _id: "user1", name: "Applicant 1" },
-      status: "applied",
-    },
-    {
-      _id: "2",
-      user: { _id: "user2", name: "Applicant 2" },
-      status: "applied",
-    },
-    {
-      _id: "3",
-      user: { _id: "user3", name: "Applicant 3" },
-      status: "accepted",
-    },
-    {
-      _id: "4",
-      user: { _id: "user4", name: "Applicant 4" },
-      status: "denied",
-    },
-  ]);
 
   useFocusEffect(
     useCallback(() => {
