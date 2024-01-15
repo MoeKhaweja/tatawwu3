@@ -14,11 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
 import { useNavigation } from "@react-navigation/native";
 
-const chatRoomsData = [
-  { id: "1", title: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
-  { id: "2", title: "Room 2", lastMessage: "What's up?", avatar: "R2" },
-];
-
 const ChatRoomList = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
