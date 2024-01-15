@@ -1,4 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text, Image } from "react-native";
 import {
@@ -10,8 +10,9 @@ import {
   Title,
 } from "react-native-paper";
 
-const CommunityEventDetails = ({ route, navigation }) => {
+const CommunityEventDetails = ({ route }) => {
   const { event } = route.params;
+  const navigation = useNavigation();
 
   const [eventDetails, setEventDetails] = useState(event);
   const [applicants, setApplicants] = useState([
@@ -96,7 +97,14 @@ const CommunityEventDetails = ({ route, navigation }) => {
       <View style={styles.section}>
         <Text style={styles.heading}>Applicants</Text>
         {event.applicants?.map((applicant) => (
-          <Card key={applicant._id} style={styles.applicant}>
+          <Card
+            key={applicant._id}
+            style={styles.applicant}
+            onPress={() => {
+              console.log(applicant);
+              navigation.navigate("ProfilePage", { user: applicant.user });
+            }}
+          >
             <Card.Content
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
@@ -106,7 +114,8 @@ const CommunityEventDetails = ({ route, navigation }) => {
               <Text>Status: {applicant.status}</Text>
             </Card.Content>
             <Card.Actions>
-              {applicant.status === "applied" && (
+              {(applicant.status === "applied" ||
+                applicant.status === "pending") && (
                 <View style={styles.buttonsContainer}>
                   <Button onPress={() => handleAcceptApplicant(applicant._id)}>
                     Accept

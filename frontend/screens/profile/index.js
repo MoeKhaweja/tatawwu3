@@ -42,7 +42,7 @@ const ProfilePage = ({ route, userInfo }) => {
 
               <List.Section>
                 <List.Subheader>Skills</List.Subheader>
-                {user.skills.map((skill, index) => (
+                {user.skills?.map((skill, index) => (
                   <List.Item key={index} title={skill} />
                 ))}
               </List.Section>
