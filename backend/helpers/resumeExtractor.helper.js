@@ -9,7 +9,7 @@ const path = require("path");
 const pdf = require("pdf-parse");
 const mammoth = require("mammoth");
 const MODEL_NAME = "gemini-pro";
-const API_KEY = "AIzaSyB2HaRbyfk23Dg_O1VpOGU5MxQ7q4GoBlw";
+const API_KEY = process.env.GEMINI_API;
 
 async function run(extracted) {
   const genAI = new GoogleGenerativeAI(API_KEY);
