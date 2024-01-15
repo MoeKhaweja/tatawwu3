@@ -90,11 +90,11 @@ async function getCommunityEventApplicants(req, res) {
     });
     console.log(event);
 
-    if (!community) {
+    if (!event) {
       return res.status(404).json({ error: "Community not found" });
     }
 
-    return res.status(200).send({ events: event });
+    return res.status(200).send({ events: event.applicants });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
