@@ -945,6 +945,17 @@ const userSlice = createSlice({
       .addCase(accept.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(reject.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(reject.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(reject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
