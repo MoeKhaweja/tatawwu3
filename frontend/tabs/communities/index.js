@@ -69,7 +69,10 @@ const Communities = () => {
       <Card
         key={item._id}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
-        onPress={() => console.log(filteredEvents(events, item))}
+        onPress={() => {
+          navigation.navigate("CommunityProfilePage");
+          console.log(filteredEvents(events, item));
+        }}
       >
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 2 }}>
