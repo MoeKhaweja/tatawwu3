@@ -488,4 +488,5 @@ module.exports = {
   acceptApplication,
   rejectApplication,
   getAllCommunities,
+  getCommunityEventApplicants,
 };
