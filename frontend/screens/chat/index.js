@@ -48,7 +48,7 @@ export default function ChatScreen() {
               </Text>
             )}
             style={{ backgroundColor: theme.colors.tertiary }}
-            indicatorStyle={{ backgroundColor: "green" }} // Set tab bar background color
+            indicatorStyle={{ backgroundColor: theme.colors.secondary }} // Set tab bar background color
           />
         )}
       />
