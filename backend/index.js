@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
 
   socket.on("send-message", (message, room, sender) => {
     if (room) {
-      console.log(message, room, sender);
+      console.log(room, sender);
       // Handle message for all clients
       // socket.emit("receive-message", "hooooyehhh");
       socket.to(room).emit("receive-message", message, sender);

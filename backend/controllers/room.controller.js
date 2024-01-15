@@ -32,7 +32,7 @@ const createRoom = async (req, res) => {
 const getRoom = async (req, res) => {
   try {
     const room = await Room.findById(req.body.room);
-    console.log(JSON.parse(JSON.stringify(room.members)), `'${req.user.id}'`);
+    // console.log(JSON.parse(JSON.stringify(room.members)), `'${req.user.id}'`);
 
     if (!room) {
       return res
@@ -45,7 +45,7 @@ const getRoom = async (req, res) => {
         .status(400)
         .json({ errors: [{ message: "You are not authorized" }] });
     }
-    console.log(room);
+    // console.log(room);
     res.status(200).json(room);
   } catch (error) {
     res.status(500).json({ success: false, error: "Server Error" });
