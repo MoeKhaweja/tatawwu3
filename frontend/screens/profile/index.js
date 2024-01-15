@@ -10,32 +10,8 @@ import {
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const ProfilePage = () => {
-  const user = {
-    firstName: "John",
-    lastName: "Doe",
-    bio: "Passionate developer exploring the world of React Native!",
-    userImage: "https://example.com/profile-image.jpg", // Replace with your user image URL
-    skills: [
-      "React Native",
-      "JavaScript",
-      "Node.js",
-      "JavaScript",
-      "Node.js",
-      "JavaScript",
-      "Node.js",
-      "JavaScript",
-      "Node.js",
-      "JavaScript",
-      "Node.js",
-      "JavaScript",
-      "Node.js",
-    ],
-    academicBackground: [
-      "Bachelor in Computer Science",
-      "Master in Software Engineering",
-    ],
-  };
+const ProfilePage = ({ route }) => {
+  const { user } = route.params;
 
   return (
     <View style={styles.container}>
@@ -70,7 +46,7 @@ const ProfilePage = () => {
             <List.Section>
               <List.Subheader>Academic Background</List.Subheader>
               {user.academicBackground.map((background, index) => (
-                <List.Item key={index} title={background} />
+                <List.Item key={index} title={background.degreeTitle} />
               ))}
             </List.Section>
           </Card.Content>
