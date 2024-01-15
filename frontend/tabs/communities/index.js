@@ -5,6 +5,7 @@ import { Card, Avatar, Text, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunities } from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 const Communities = () => {
   const navigation = useNavigation();
@@ -96,6 +97,7 @@ const Communities = () => {
 
       <ScrollView>
         <Text variant='titleSmall'>Communities</Text>
+        <LoadingOrError></LoadingOrError>
         {renderCards(communities)}
       </ScrollView>
     </SafeAreaView>
