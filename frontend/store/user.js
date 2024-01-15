@@ -38,6 +38,7 @@ const initialState = {
   volunteerEvents: [],
   volunteerMatchingEvents: [],
   eventsApplicationStatus: [],
+  eventApplicants: [],
 };
 
 export const createRoom = createAsyncThunk(
@@ -869,6 +870,18 @@ const userSlice = createSlice({
         state.communities = action.payload;
       })
       .addCase(getCommunities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getEventApplicants.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getEventApplicants.fulfilled, (state, action) => {
+        state.loading = false;
+        state.eventApplicants = action.payload;
+      })
+      .addCase(getEventApplicants.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
