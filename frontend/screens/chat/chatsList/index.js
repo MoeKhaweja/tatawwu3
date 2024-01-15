@@ -62,13 +62,7 @@ const ChatRoomList = () => {
             title: item.title,
           });
         }}
-        left={() => (
-          <Avatar.Image
-            source={{ uri: item.avatar }}
-            style={{ width: 50, height: 50 }}
-            size={40}
-          />
-        )}
+        left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
       />
       {index < rooms.length - 1 && <Divider />}
     </>
