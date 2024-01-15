@@ -36,7 +36,12 @@ const HomeScreen = () => {
       focusedIcon: "hands-helping",
       unfocusedIcon: "hands-helping",
     },
-    { key: "communities", title: "Communities", icon: "album" },
+    {
+      key: "communities",
+      title: "Communities",
+      focusedIcon: "user-friends",
+      unfocusedIcon: "user-friends",
+    },
     { key: "chats", title: "Chats", icon: "history" },
     { key: "notifications", title: "Profile", icon: "bell" },
   ]);
