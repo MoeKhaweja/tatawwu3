@@ -45,7 +45,6 @@ const CommunityEventDetails = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Display event details */}
       <View style={styles.section}>
         <View
           style={{
