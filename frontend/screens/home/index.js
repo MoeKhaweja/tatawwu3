@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Appbar, BottomNavigation, Button, Text } from "react-native-paper";
 import { View, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 import Feed from "../../tabs/volunteer";
 
 import Communities from "../../tabs/communities";
@@ -32,7 +33,8 @@ const HomeScreen = () => {
     {
       key: "volunteer",
       title: "Volunteer",
-      icon: "home",
+      focusedIcon: "hands-helping",
+      unfocusedIcon: "hands-helping",
     },
     { key: "communities", title: "Communities", icon: "album" },
     { key: "chats", title: "Chats", icon: "history" },
@@ -66,6 +68,13 @@ const HomeScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <BottomNavigation
+        renderIcon={({ route, focused, color }) => (
+          <Icon
+            name={focused ? route.focusedIcon : route.unfocusedIcon}
+            size={20}
+            color={color}
+          />
+        )}
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
