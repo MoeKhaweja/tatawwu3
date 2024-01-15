@@ -3,11 +3,14 @@ import { Appbar, BottomNavigation, Button, Text } from "react-native-paper";
 import { View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Feed from "../../tabs/volunteer";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import Communities from "../../tabs/communities";
 import ChatScreen from "../chat";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import ProfilePage from "../profile";
+import { useSelector } from "react-redux";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
@@ -15,35 +18,37 @@ const ChatsRoute = () => <ChatScreen></ChatScreen>;
 const NotificationsRoute = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        alignContent: "center",
-        justifyContent: "center",
-        paddingHorizontal: 20,
-      }}
-    >
-      <Button
-        mode='contained'
-        onPress={async () => {
-          try {
-            await AsyncStorage.removeItem("token");
-          } catch (e) {
-            // remove error
-          }
+    <ProfilePage></ProfilePage>
 
-          console.log("Done.");
+    // <SafeAreaView
+    //   style={{
+    //     flex: 1,
+    //     alignContent: "center",
+    //     justifyContent: "center",
+    //     paddingHorizontal: 20,
+    //   }}
+    // >
+    //   <Button
+    //     mode='contained'
+    //     onPress={async () => {
+    //       try {
+    //         await AsyncStorage.removeItem("token");
+    //       } catch (e) {
+    //         // remove error
+    //       }
 
-          navigation.navigate("Signin");
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Signin" }],
-          });
-        }}
-      >
-        Logout
-      </Button>
-    </SafeAreaView>
+    //       console.log("Done.");
+
+    //       navigation.navigate("Signin");
+    //       navigation.reset({
+    //         index: 0,
+    //         routes: [{ name: "Signin" }],
+    //       });
+    //     }}
+    //   >
+    //     Logout
+    //   </Button>
+    // </SafeAreaView>
   );
 };
 

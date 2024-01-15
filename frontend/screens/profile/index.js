@@ -9,56 +9,59 @@ import {
   Divider,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
-const ProfilePage = ({ route }) => {
-  const { user } = route.params;
+const ProfilePage = ({ route, userInfo }) => {
+  const current = useSelector((state) => state.user.user.user);
+  const user = route?.params ? route?.params : current;
 
   return (
-    <View style={styles.container}>
-      {/* Top section with circular avatar, first and last name */}
-      <View style={styles.topSection}>
-        <Avatar.Image
-          size={150}
-          source={{ uri: user.userImage }}
-          style={styles.avatar}
-        />
-        <View style={styles.nameContainer}>
-          <Title>{user.firstName}</Title>
-          <Title>{user.lastName}</Title>
-        </View>
-      </View>
+    <SafeAreaView>
       <ScrollView>
-        <Card style={{ margin: 3 }}>
-          <Card.Content>
-            <Paragraph>{user.bio}</Paragraph>
+        <View style={styles.container}>
+          {/* Top section with circular avatar, first and last name */}
+          <View style={styles.topSection}>
+            <Avatar.Image
+              size={150}
+              source={{ uri: user.userImage }}
+              style={styles.avatar}
+            />
+            <View style={styles.nameContainer}>
+              <Title>{user.firstName}</Title>
+              <Title>{user.lastName}</Title>
+            </View>
+          </View>
+          <Card style={{ margin: 3 }}>
+            <Card.Content>
+              <Paragraph>{user.bio}</Paragraph>
 
-            <Divider style={styles.divider} />
+              <Divider style={styles.divider} />
 
-            <List.Section>
-              <List.Subheader>Skills</List.Subheader>
-              {user.skills.map((skill, index) => (
-                <List.Item key={index} title={skill} />
-              ))}
-            </List.Section>
+              <List.Section>
+                <List.Subheader>Skills</List.Subheader>
+                {user.skills.map((skill, index) => (
+                  <List.Item key={index} title={skill} />
+                ))}
+              </List.Section>
 
-            <Divider style={styles.divider} />
+              <Divider style={styles.divider} />
 
-            <List.Section>
-              <List.Subheader>Academic Background</List.Subheader>
-              {user.academicBackground.map((background, index) => (
-                <List.Item key={index} title={background.degreeTitle} />
-              ))}
-            </List.Section>
-          </Card.Content>
-        </Card>
+              <List.Section>
+                <List.Subheader>Academic Background</List.Subheader>
+                {user.academicBackground.map((background, index) => (
+                  <List.Item key={index} title={background.degreeTitle} />
+                ))}
+              </List.Section>
+            </Card.Content>
+          </Card>
+        </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
   },
   topSection: {
