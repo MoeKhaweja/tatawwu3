@@ -8,7 +8,11 @@ const path = require("path");
 
 const getAllCommunities = async (req, res) => {
   try {
-    const communities = await Community.find();
+    const communities = await Community.find().populate({
+      path: "owner",
+      select: "-_id firstName lastName bio skills academicBackground userImage",
+    });
+
     res.status(200).json(communities);
   } catch (error) {
     console.error("Error getting communities:", error);
