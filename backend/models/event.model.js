@@ -32,16 +32,24 @@ const eventSchema = new mongoose.Schema({
 
 // Middleware to automatically update the community when a new event is added
 eventSchema.pre("save", function (next) {
-  const eventId = this._id;
-  const communityId = this.community;
-  console.log("hello", eventId, communityId);
-  Community.findByIdAndUpdate(
-    communityId,
-    { $push: { events: eventId } },
-    { new: true }
-  )
-    .then(() => next())
-    .catch(next);
+  // Check if the document is new (created) or being updated
+  if (this.isNew) {
+    const eventId = this._id;
+    const communityId = this.community;
+    console.log("hello", eventId, communityId);
+
+    // Update the community with the new event
+    Community.findByIdAndUpdate(
+      communityId,
+      { $push: { events: eventId } },
+      { new: true }
+    )
+      .then(() => next())
+      .catch(next);
+  } else {
+    // If it's an update or delete, just proceed to the next middleware
+    next();
+  }
 });
 
 // Post-remove hook to update the community's events array after an event is removed
