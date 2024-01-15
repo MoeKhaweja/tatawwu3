@@ -161,6 +161,31 @@ export const getCommunityEvents = createAsyncThunk(
   }
 );
 
+export const getEventApplicants = createAsyncThunk(
+  "user/getEventApplicants",
+  async (event, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getEventApplicants.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.5:8000/community/events",
+        event,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getEventApplicants.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getEventApplicants.rejected(error.message));
+      return rejectWithValue("error getting applicants");
+    }
+  }
+);
+
 export const getCommunities = createAsyncThunk(
   "user/getCommunities",
   async (_, { dispatch, getState, rejectWithValue }) => {
