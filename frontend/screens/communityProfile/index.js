@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
@@ -12,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CommunityProfilePage = ({ route }) => {
+  const navigation = useNavigation();
   const { events, community } = route.params;
 
   return (
@@ -52,7 +54,15 @@ const CommunityProfilePage = ({ route }) => {
               {events.map((event, index) => (
                 <View key={index}>
                   <Divider></Divider>
-                  <List.Item key={index} title={event.title} />
+                  <List.Item
+                    key={index}
+                    title={event.title}
+                    onPress={() =>
+                      navigation.navigate("VolunteerEventDetails", {
+                        event: event,
+                      })
+                    }
+                  />
                 </View>
                 // You may want to fetch and display more details for each event
               ))}
