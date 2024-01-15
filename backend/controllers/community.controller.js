@@ -66,8 +66,7 @@ async function getCommunityEvents(req, res) {
   try {
     const community = await Community.findOne({
       owner: user._id,
-    })
-    .populate({
+    }).populate({
       path: "events",
       populate: {
         path: "applicants.user",
@@ -381,8 +380,8 @@ async function cancelApplication(req, res) {
 }
 
 async function acceptApplication(req, res) {
-  const { eventId, userId } = req.body;
-  console.log(userId, eventId);
+  const { eventId, applicantId } = req.body;
+  console.log(applicantId, eventId);
   try {
     const event = await Event.findById(eventId);
 
@@ -394,7 +393,7 @@ async function acceptApplication(req, res) {
 
     // Find the applicant in the event
     const applicant = event.applicants.find(
-      (app) => app.user && app.user.toString() === userId.toString()
+      (app) => app._id.toString() === applicantId
     );
 
     if (!applicant) {
