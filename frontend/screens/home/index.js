@@ -39,8 +39,8 @@ const HomeScreen = () => {
     {
       key: "communities",
       title: "Communities",
-      focusedIcon: "user-friends",
-      unfocusedIcon: "user-friends",
+      focusedIcon: "users",
+      unfocusedIcon: "users",
     },
     {
       key: "chats",
@@ -48,7 +48,12 @@ const HomeScreen = () => {
       focusedIcon: "comment-dots",
       unfocusedIcon: "comment-dots",
     },
-    { key: "notifications", title: "Profile", icon: "bell" },
+    {
+      key: "notifications",
+      title: "Profile",
+      focusedIcon: "user",
+      unfocusedIcon: "user",
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
