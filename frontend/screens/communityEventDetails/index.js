@@ -10,7 +10,7 @@ import {
   Title,
 } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { accept } from "../../store/user";
+import { accept, reject } from "../../store/user";
 
 const CommunityEventDetails = ({ route }) => {
   const { event } = route.params;
@@ -60,6 +60,9 @@ const CommunityEventDetails = ({ route }) => {
   // Function to handle denying an applicant
   const handleDenyApplicant = (applicantId) => {
     console.log("Denying applicant:", applicantId);
+    try {
+      dispatch(reject({ applicantId: applicantId, eventId: event._id }));
+    } catch {}
   };
 
   return (
