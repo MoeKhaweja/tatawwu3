@@ -13,14 +13,14 @@ const SplashScreen = ({ navigation }) => {
     } catch (e) {}
     Animated.timing(logoScale, {
       toValue: 1,
-      duration: 6000,
+      duration: 3000,
       useNativeDriver: true,
     }).start(() => {
       // Once animation finishes, navigate to main app screen
-      navigation.navigate("Home");
+      navigation.navigate("Signin");
       navigation.reset({
         index: 0,
-        routes: [{ name: "Home" }],
+        routes: [{ name: "Signin" }],
       });
     });
   }, []);
