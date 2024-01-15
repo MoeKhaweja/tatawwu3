@@ -20,6 +20,7 @@ import CommunityAddEvents from "../screens/communityEventsAdd";
 import CommunityEditEvent from "../screens/communityEventEdit";
 import ProfilePage from "../screens/profile";
 import CommunityProfilePage from "../screens/communityProfile";
+import { EventList } from "../screens/userEvents";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ const Navigation = () => {
           options={{ headerShown: false }}
           component={HomeScreen}
         />
+        <Stack.Screen name='EventList' component={EventList} />
         <Stack.Screen
           name='CommunityProfilePage'
           component={CommunityProfilePage}
