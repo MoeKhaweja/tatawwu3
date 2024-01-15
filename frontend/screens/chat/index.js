@@ -5,6 +5,8 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ChatRoomList from "./chatsList";
 import AllRooms from "./allRooms";
 
+import { useTheme } from "react-native-paper";
+
 const FirstRoute = () => <ChatRoomList />;
 
 const SecondRoute = () => <AllRooms></AllRooms>;
@@ -15,6 +17,7 @@ const renderScene = SceneMap({
 });
 
 export default function ChatScreen() {
+  const theme = useTheme();
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
