@@ -9,10 +9,13 @@ import {
   TextInput,
   Title,
 } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { accept } from "../../store/user";
 
 const CommunityEventDetails = ({ route }) => {
   const { event } = route.params;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [eventDetails, setEventDetails] = useState(event);
   const [applicants, setApplicants] = useState([
@@ -49,6 +52,9 @@ const CommunityEventDetails = ({ route }) => {
   // Function to handle accepting an applicant
   const handleAcceptApplicant = (applicantId) => {
     console.log("Accepting applicant:", applicantId);
+    try {
+      dispatch(accept({ applicantId: applicantId, eventId: event._id }));
+    } catch {}
   };
 
   // Function to handle denying an applicant
