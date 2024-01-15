@@ -418,8 +418,8 @@ async function acceptApplication(req, res) {
   }
 }
 async function rejectApplication(req, res) {
-  const { eventId, userId } = req.body;
-  console.log(userId, eventId);
+  const { eventId, applicantId } = req.body;
+  console.log(applicantId, eventId);
   try {
     const event = await Event.findById(eventId);
 
@@ -431,7 +431,7 @@ async function rejectApplication(req, res) {
 
     // Find the applicant in the event
     const applicantIndex = event.applicants.findIndex(
-      (app) => app.user && app.user.toString() === userId.toString()
+      (app) => app.id && app.id === applicantId
     );
 
     if (applicantIndex === -1) {
@@ -441,7 +441,7 @@ async function rejectApplication(req, res) {
     }
 
     // Remove the applicant from the list
-    event.applicants.splice(applicantIndex, 1);
+    event.applicants[applicantIndex].status = "rejected";
 
     await event.save();
 
