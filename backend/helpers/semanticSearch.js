@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI("AIzaSyB2HaRbyfk23Dg_O1VpOGU5MxQ7q4GoBlw");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
 
 const semanticSearch = async (query, skills) => {
   // For embeddings, use the embedding-001 model
