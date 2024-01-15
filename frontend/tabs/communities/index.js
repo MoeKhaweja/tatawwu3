@@ -46,6 +46,7 @@ const Communities = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const communities = useSelector((state) => state.user.communities);
+  const events = useSelector((state) => state.user.volunteerEvents);
 
   useFocusEffect(
     useCallback(() => {
@@ -54,6 +55,9 @@ const Communities = () => {
       } catch {}
     }, [])
   );
+
+  const filteredEvents = (events, community) =>
+    events.filter((event) => event.community === community._id);
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const onChangeSearch = (query) => {
@@ -65,6 +69,7 @@ const Communities = () => {
       <Card
         key={item._id}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
+        onPress={() => console.log(filteredEvents(events, item))}
       >
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 2 }}>
