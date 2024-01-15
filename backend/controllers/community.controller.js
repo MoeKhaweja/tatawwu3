@@ -66,7 +66,15 @@ async function getCommunityEvents(req, res) {
   try {
     const community = await Community.findOne({
       owner: user._id,
-    }).populate("events");
+    })
+    .populate({
+      path: "events",
+      populate: {
+        path: "applicants.user",
+        select:
+          "-_id firstName lastName bio skills academicBackground userImage",
+      },
+    });
     console.log(community);
 
     if (!community) {
