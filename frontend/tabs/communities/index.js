@@ -1,7 +1,10 @@
-import React from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useCallback } from "react";
 import { ScrollView, Image, View } from "react-native";
 import { Card, Avatar, Text, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { getCommunities } from "../../store/user";
 
 const DemoData = [
   {
@@ -40,6 +43,18 @@ const DemoData = [
 ];
 
 const Communities = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const communities = useSelector((state) => state.user.communities);
+
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        dispatch(getCommunities());
+      } catch {}
+    }, [])
+  );
+
   const [searchQuery, setSearchQuery] = React.useState("");
   const onChangeSearch = (query) => {
     setSearchQuery(query);
@@ -48,7 +63,7 @@ const Communities = () => {
   const renderCards = (items) => {
     return items.map((item) => (
       <Card
-        key={item.id}
+        key={item._id}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
       >
         <View style={{ flexDirection: "row" }}>
@@ -72,7 +87,7 @@ const Communities = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Avatar.Image size={40} source={{ uri: item.avatar }} />
+                  <Avatar.Image size={40} source={{ uri: item.img }} />
                 </View>
 
                 <View
@@ -101,12 +116,8 @@ const Communities = () => {
       />
 
       <ScrollView>
-        <Text variant='titleSmall'>For You</Text>
-        {renderCards(DemoData)}
-        <Text variant='titleSmall'>For You</Text>
-        {renderCards(DemoData)}
-        <Text variant='titleSmall'>For You</Text>
-        {renderCards(DemoData)}
+        <Text variant='titleSmall'>All Communities</Text>
+        {renderCards(communities)}
       </ScrollView>
     </SafeAreaView>
   );
