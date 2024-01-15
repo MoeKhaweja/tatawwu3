@@ -909,6 +909,17 @@ const userSlice = createSlice({
       .addCase(getEventApplicants.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(accept.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(accept.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(accept.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
