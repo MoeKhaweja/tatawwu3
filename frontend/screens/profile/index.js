@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
@@ -7,14 +9,15 @@ import {
   Card,
   List,
   Divider,
+  Button,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 
 const ProfilePage = ({ route, userInfo }) => {
   const current = useSelector((state) => state.user.user.user);
-  const user = route?.params ? route?.params : current;
-
+  const user = route?.params ? route?.params.user : current;
+  const navigation = useNavigation();
   return (
     <SafeAreaView>
       <ScrollView>
@@ -54,6 +57,28 @@ const ProfilePage = ({ route, userInfo }) => {
               </List.Section>
             </Card.Content>
           </Card>
+          {!route?.params && (
+            <Button
+              mode='contained'
+              onPress={() => {
+                try {
+                  AsyncStorage.removeItem("token").then(() => {
+                    navigation.navigate("Signin");
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Signin" }],
+                    });
+                  });
+                } catch (e) {
+                  // remove error
+                }
+
+                console.log("Done.");
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
