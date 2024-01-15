@@ -80,7 +80,6 @@ async function getCommunityEvents(req, res) {
 }
 
 async function getCommunityEventApplicants(req, res) {
-  const user = req.user;
   const { eventId } = req.body;
 
   try {
