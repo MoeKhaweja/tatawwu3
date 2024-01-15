@@ -7,6 +7,7 @@ import {
   Card,
   List,
   Divider,
+  Text,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,7 +19,7 @@ const CommunityProfilePage = ({ route }) => {
       {/* Top section with circular avatar, community name, and description */}
       <View style={styles.topSection}>
         <Avatar.Image
-          size={150}
+          size={100}
           source={{ uri: community.img }} // Use community image if available
           style={styles.avatar}
         />
@@ -32,9 +33,16 @@ const CommunityProfilePage = ({ route }) => {
         {/* Community details */}
         <Card style={{ margin: 3 }}>
           <Card.Content>
-            <List.Section>
-              <List.Subheader>Owner</List.Subheader>
-              {/* Display owner information (you may fetch it from your API) */}
+            <List.Section
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <List.Subheader onPress={() => {}}>Owner</List.Subheader>
+              <Text>
+                {community.owner.firstName + " " + community.owner.lastName}
+              </Text>
             </List.Section>
 
             <Divider style={styles.divider} />
