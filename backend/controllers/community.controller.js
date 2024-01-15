@@ -79,6 +79,27 @@ async function getCommunityEvents(req, res) {
   }
 }
 
+async function getCommunityEventApplicants(req, res) {
+  const user = req.user;
+  const { eventId } = req.body;
+
+  try {
+    const event = await Event.findById(eventId).populate({
+      path: "applicants.user",
+      select: "-_id firstName lastName bio skills academicBackground userImage",
+    });
+    console.log(event);
+
+    if (!community) {
+      return res.status(404).json({ error: "Community not found" });
+    }
+
+    return res.status(200).send({ events: event });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+}
+
 async function addEvent(req, res) {
   const user = req.user;
   const {
