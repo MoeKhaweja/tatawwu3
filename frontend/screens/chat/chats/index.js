@@ -113,6 +113,7 @@ const ChatsScreen = ({ route }) => {
       room,
       user.firstName + " " + user.lastName
     );
+    setInputValue("");
   };
 
   return (
@@ -150,6 +151,7 @@ const ChatsScreen = ({ route }) => {
             flex: 1,
             backgroundColor: "",
           }}
+          value={inputValue}
           onChangeText={(text) => handleInputChange(text)}
           dense
           right={
