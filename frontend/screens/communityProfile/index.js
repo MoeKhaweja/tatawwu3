@@ -41,8 +41,12 @@ const CommunityProfilePage = ({ route }) => {
                 alignItems: "center",
               }}
             >
-              <List.Subheader onPress={() => {}}>Owner</List.Subheader>
-              <Text>
+              <List.Subheader>Owner</List.Subheader>
+              <Text
+                onPress={() =>
+                  navigation.navigate("ProfilePage", { user: community.owner })
+                }
+              >
                 {community.owner.firstName + " " + community.owner.lastName}
               </Text>
             </List.Section>
