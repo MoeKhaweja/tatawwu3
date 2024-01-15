@@ -95,12 +95,14 @@ const CommunityEventDetails = ({ route, navigation }) => {
       {/* Display list of applicants */}
       <View style={styles.section}>
         <Text style={styles.heading}>Applicants</Text>
-        {applicants.map((applicant) => (
+        {event.applicants?.map((applicant) => (
           <Card key={applicant._id} style={styles.applicant}>
             <Card.Content
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text>{applicant.user.name}</Text>
+              <Text>
+                {applicant.user.firstName + " " + applicant.user.lastName}
+              </Text>
               <Text>Status: {applicant.status}</Text>
             </Card.Content>
             <Card.Actions>
