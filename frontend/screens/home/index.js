@@ -15,42 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
 const ChatsRoute = () => <ChatScreen></ChatScreen>;
-const NotificationsRoute = () => {
-  const navigation = useNavigation();
-  return (
-    <ProfilePage></ProfilePage>
-
-    // <SafeAreaView
-    //   style={{
-    //     flex: 1,
-    //     alignContent: "center",
-    //     justifyContent: "center",
-    //     paddingHorizontal: 20,
-    //   }}
-    // >
-    //   <Button
-    //     mode='contained'
-    //     onPress={async () => {
-    //       try {
-    //         await AsyncStorage.removeItem("token");
-    //       } catch (e) {
-    //         // remove error
-    //       }
-
-    //       console.log("Done.");
-
-    //       navigation.navigate("Signin");
-    //       navigation.reset({
-    //         index: 0,
-    //         routes: [{ name: "Signin" }],
-    //       });
-    //     }}
-    //   >
-    //     Logout
-    //   </Button>
-    // </SafeAreaView>
-  );
-};
+const NotificationsRoute = () => <ProfilePage></ProfilePage>;
 
 const FeedItem = ({ content }) => {
   return (
