@@ -77,6 +77,7 @@ const ChatsScreen = ({ route }) => {
           style={{
             alignItems: alignRight ? "flex-end" : "flex-start",
             margin: 5,
+            marginBottom: 15,
           }}
         >
           {!alignRight && (
