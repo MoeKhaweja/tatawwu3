@@ -47,7 +47,7 @@ export default function ChatScreen() {
                 {route.title.toLowerCase()}
               </Text>
             )}
-            style={{ backgroundColor: "red" }}
+            style={{ backgroundColor: theme.colors.tertiary }}
             indicatorStyle={{ backgroundColor: "green" }} // Set tab bar background color
           />
         )}
