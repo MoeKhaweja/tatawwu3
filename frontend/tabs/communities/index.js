@@ -70,7 +70,10 @@ const Communities = () => {
         key={item._id}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
         onPress={() => {
-          navigation.navigate("CommunityProfilePage");
+          navigation.navigate("CommunityProfilePage", {
+            events: events,
+            community: item,
+          });
           console.log(filteredEvents(events, item));
         }}
       >

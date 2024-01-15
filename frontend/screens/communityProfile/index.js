@@ -10,18 +10,8 @@ import {
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CommunityProfilePage = () => {
-  const community = {
-    name: "Sample Community55",
-    description: "This is a test community55",
-    img: null, // Replace with your community image URL if available
-    events: [
-      { $oid: "65a2db38b34cc596f8db1bbd" },
-      { $oid: "65a2de08b34cc596f8db1bd1" },
-      // ... (add more events as needed)
-    ],
-    owner: { $oid: "659682fb2eed07a7cd58db2f" },
-  };
+const CommunityProfilePage = ({ route }) => {
+  const { events, community } = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,9 +40,12 @@ const CommunityProfilePage = () => {
             <Divider style={styles.divider} />
 
             <List.Section>
-              <List.Subheader>Upcoming Events</List.Subheader>
-              {community.events.map((event, index) => (
-                <List.Item key={index} title={`Event ${index + 1}`} />
+              <List.Subheader>Events:</List.Subheader>
+              {events.map((event, index) => (
+                <View key={index}>
+                  <Divider></Divider>
+                  <List.Item key={index} title={event.title} />
+                </View>
                 // You may want to fetch and display more details for each event
               ))}
             </List.Section>
