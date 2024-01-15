@@ -66,16 +66,7 @@ const ChatsScreen = ({ route }) => {
   const handleInputChange = (text) => {
     setInputValue(text);
   };
-  const [messages, setMessages] = useState([
-    { id: 1, message: "Hi there!", sender: "user", createdAt: "dsfsdf" },
-    {
-      id: 2,
-      message: "Hello!",
-      sender: user.firstName + " " + user.lastName,
-      createdAt: "sdfsdf",
-    },
-    // Add more demo data as needed
-  ]);
+  const [messages, setMessages] = useState([]);
   const renderMessages = (messages) => {
     return messages.map((message) => {
       const alignRight =
