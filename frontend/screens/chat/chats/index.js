@@ -68,12 +68,12 @@ const ChatsScreen = ({ route }) => {
   };
   const [messages, setMessages] = useState([]);
   const renderMessages = (messages) => {
-    return messages.map((message) => {
+    return messages.map((message, index) => {
       const alignRight =
         message.sender === user.firstName + " " + user.lastName;
       return (
         <View
-          key={message.createdAt}
+          key={index}
           style={{
             alignItems: alignRight ? "flex-end" : "flex-start",
             margin: 5,
