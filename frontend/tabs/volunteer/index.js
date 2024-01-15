@@ -9,6 +9,7 @@ import {
   getMatchingEvents,
 } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
+import LoadingOrError from "../../components/loadingOrError";
 
 const Feed = () => {
   const navigation = useNavigation();
@@ -71,69 +72,79 @@ const Feed = () => {
   //   }
   // };
 
-  const renderCards = (items) => {
-    return items.map((item, index) => (
-      <Card
-        key={index}
-        style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
-        onPress={() => {
-          navigation.navigate("VolunteerEventDetails", { event: item });
-          console.log(eventsApplicationStatus);
-        }}
-      >
-        <View style={{ flexDirection: "row" }} key={item.id}>
-          <View>
-            <Card.Content
-              style={{
-                padding: 10,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 15,
-                  justifyContent: "flex-start",
-                }}
-              >
-                <View
+  const renderCards = (items, title) => {
+    return (
+      <View>
+        <Text variant='titleSmall'>{title} </Text>
+        <LoadingOrError></LoadingOrError>
+        {items.map((item, index) => (
+          <Card
+            key={index}
+            style={{
+              marginVertical: 5,
+              marginHorizontal: 2,
+              overflow: "hidden",
+            }}
+            onPress={() => {
+              navigation.navigate("VolunteerEventDetails", { event: item });
+              console.log(eventsApplicationStatus);
+            }}
+          >
+            <View style={{ flexDirection: "row" }} key={item.id}>
+              <View>
+                <Card.Content
                   style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    padding: 10,
                   }}
                 >
-                  <Avatar.Image size={40} source={{ uri: item.avatar }} />
-                </View>
-
-                <View
-                  tyle={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
-                    numberOfLines={2}
-                    ellipsizeMode='middle'
-                    variant='titleMedium'
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 15,
+                      justifyContent: "flex-start",
+                    }}
                   >
-                    {item.title}{" "}
-                  </Text>
-                  <Text numberOfLines={3} variant='bodySmall'>
-                    {item.description}
-                  </Text>
-                </View>
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Avatar.Image size={40} source={{ uri: item.avatar }} />
+                    </View>
+
+                    <View
+                      tyle={{
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        numberOfLines={2}
+                        ellipsizeMode='middle'
+                        variant='titleMedium'
+                      >
+                        {item.title}{" "}
+                      </Text>
+                      <Text numberOfLines={3} variant='bodySmall'>
+                        {item.description}
+                      </Text>
+                    </View>
+                  </View>
+                </Card.Content>
               </View>
-            </Card.Content>
-          </View>
-          <View style={{ minWidth: 80, flexDirection: "column" }}>
-            <Image
-              style={{ flex: 1 }}
-              source={{ uri: item.image }}
-              resizeMode='cover'
-            />
-          </View>
-        </View>
-      </Card>
-    ));
+              <View style={{ minWidth: 80, flexDirection: "column" }}>
+                <Image
+                  style={{ flex: 1 }}
+                  source={{ uri: item.image }}
+                  resizeMode='cover'
+                />
+              </View>
+            </View>
+          </Card>
+        ))}
+      </View>
+    );
   };
 
   return (
@@ -146,10 +157,9 @@ const Feed = () => {
       />
       {/* onScroll={({ nativeEvent }) => handleScroll(nativeEvent)} */}
       <ScrollView>
-        <Text variant='titleSmall'>Events based on your preference </Text>
-        {renderCards(data2)}
-        <Text variant='titleSmall'>All events </Text>
-        {renderCards(data)}
+        {renderCards(data2, "Events based on your preference ")}
+
+        {renderCards(data, "All Events")}
       </ScrollView>
     </SafeAreaView>
   );
