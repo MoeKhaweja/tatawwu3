@@ -146,6 +146,13 @@ const findEventsByApplicant = async (req, res) => {
 
     // Map the result to transform the structure
     const transformedEvents = events.map((event) => ({
+      title: event.title,
+      description: event.description,
+      schedule: event.schedule,
+      location: event.location,
+      targetedSkills: event.targetedSkills,
+      img: event.img,
+      duration: event.duration,
       _id: event._id,
       status: event.applicants.length > 0 ? event.applicants[0].status : null,
     }));
