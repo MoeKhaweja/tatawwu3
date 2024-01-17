@@ -1,6 +1,8 @@
-import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
+import { useDispatch } from "react-redux";
 
 // Dummy data for events
 const eventData = [
@@ -10,6 +12,16 @@ const eventData = [
 ];
 
 const EventList = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        dispatch(findEventsByApplicant());
+      } catch {}
+    }, [])
+  );
+
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
