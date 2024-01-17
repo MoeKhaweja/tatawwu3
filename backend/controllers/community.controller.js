@@ -88,6 +88,24 @@ async function getAllEvents(req, res) {
   }
 }
 
+async function getCommunityEventsUser(req, res) {
+  const { communityId } = req.body;
+
+  try {
+    const community = await Community.findById(communityId);
+    console.log(community);
+
+    if (!community) {
+      return res.status(404).json({ error: "Community not found" });
+    }
+
+    return res.status(200).send({ events: community.events });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+}
+
+// as a community
 async function getCommunityEvents(req, res) {
   const user = req.user;
 
