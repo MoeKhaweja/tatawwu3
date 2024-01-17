@@ -23,6 +23,7 @@ const EventList = ({ navigation }) => {
       <Card.Content>
         <Text style={styles.eventName}>{item.title}</Text>
         <Text style={styles.schedule}>{item.schedule}</Text>
+        <Text style={styles.schedule}>{item.status}</Text>
       </Card.Content>
       <Card.Actions>
         <Button
@@ -38,9 +39,11 @@ const EventList = ({ navigation }) => {
         >
           Details
         </Button>
-        <Button onPress={() => console.log(`Cancel event ${item._id}`)}>
-          Cancel
-        </Button>
+        {(item.status == "pending" || item.status == "approved") && (
+          <Button onPress={() => console.log(`Cancel event ${item._id}`)}>
+            Cancel
+          </Button>
+        )}
       </Card.Actions>
     </Card>
   );
