@@ -217,7 +217,7 @@ export const getCommunity = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.get(
-        "http://192.168.1.5:8000/community/",
+        "http://192.168.1.5:8000/community/details",
         community,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
