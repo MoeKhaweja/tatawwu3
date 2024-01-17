@@ -217,7 +217,7 @@ export const getCommunity = createAsyncThunk(
       dispatch(getCommunity.pending());
       const currentState = getState();
 
-      const response = await axios.get(
+      const response = await axios.post(
         "http://192.168.1.5:8000/community/details",
         community,
         {
