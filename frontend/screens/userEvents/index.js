@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { findEventsByApplicant } from "../../store/user";
+import { findEventsByApplicant, getEvent } from "../../store/user";
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -25,9 +25,12 @@ const EventList = ({ navigation }) => {
       </Card.Content>
       <Card.Actions>
         <Button
-          onPress={() =>
-            navigation.navigate("EventDetails", { eventId: item._id })
-          }
+          onPress={() => {
+            try {
+              dispatch(getEvent({ eventId: item._id }));
+            } catch {}
+            navigation.navigate("EventDetails", { eventId: item._id });
+          }}
         >
           Details
         </Button>
