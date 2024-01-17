@@ -1017,11 +1017,11 @@ const userSlice = createSlice({
         state.loading = false;
         state.community = action.payload;
       })
-      .addCase(getEvent.rejected, (state, action) => {
+      .addCase(getCommunity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(getCommunity.pending, (state) => {
+      .addCase(getEvent.pending, (state) => {
         state.loading = true;
         state.error = null;
       })

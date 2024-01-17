@@ -8,6 +8,7 @@ import { findEventsByApplicant, getEvent } from "../../store/user";
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
   const userEvents = useSelector((state) => state.user.eventsApplicationStatus);
+  const event = useSelector((state) => state.user.event);
 
   useFocusEffect(
     useCallback(() => {
@@ -27,9 +28,10 @@ const EventList = ({ navigation }) => {
         <Button
           onPress={() => {
             try {
-              dispatch(getEvent({ eventId: item._id }));
+              dispatch(getEvent({ eventId: item._id })).then(
+                navigation.navigate("VolunteerEventDetails", { event: event })
+              );
             } catch {}
-            navigation.navigate("EventDetails", { eventId: item._id });
           }}
         >
           Details
