@@ -40,6 +40,7 @@ const initialState = {
   eventsApplicationStatus: [],
   eventApplicants: [],
   community: null,
+  event: null,
 };
 
 export const createRoom = createAsyncThunk(
