@@ -11,13 +11,13 @@ import {
   Text,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEventsUser } from "../../store/user";
 
 const CommunityProfilePage = ({ route }) => {
   const navigation = useNavigation();
-  const { events, community } = route.params;
-
+  const { community } = route.params;
+  const events = useSelector((state) => state.user.volunteerEvents);
   const dispatch = useDispatch();
   useEffect(() => {
     try {
