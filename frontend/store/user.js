@@ -39,6 +39,7 @@ const initialState = {
   volunteerMatchingEvents: [],
   eventsApplicationStatus: [],
   eventApplicants: [],
+  community: null,
 };
 
 export const createRoom = createAsyncThunk(
@@ -203,6 +204,31 @@ export const getCommunities = createAsyncThunk(
       return response.data;
     } catch (error) {
       dispatch(getCommunities.rejected(error.message));
+      return rejectWithValue("error getting communities");
+    }
+  }
+);
+
+export const getCommunity = createAsyncThunk(
+  "user/getCommunity",
+  async (id, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getCommunity.pending());
+      const currentState = getState();
+
+      const response = await axios.get(
+        "http://192.168.1.5:8000/community/",
+        id,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getCommunity.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getCommunity.rejected(error.message));
       return rejectWithValue("error getting communities");
     }
   }
