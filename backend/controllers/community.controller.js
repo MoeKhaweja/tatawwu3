@@ -60,6 +60,19 @@ async function createCommunity(req, res) {
     return res.status(400).json({ error: error.message });
   }
 }
+
+async function getEvent(req, res) {
+  const { eventId } = req.body;
+
+  try {
+    const allEvents = await Event.find(eventId).select("-applicants");
+
+    return res.status(200).json(allEvents);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 async function getAllEvents(req, res) {
   const page = parseInt(req.body.page) || 1; // Extract the page from query parameters or default to page 1
   const pageSize = 10; // Set the number of events per page as needed
