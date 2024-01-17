@@ -153,6 +153,7 @@ const findEventsByApplicant = async (req, res) => {
       targetedSkills: event.targetedSkills,
       img: event.img,
       duration: event.duration,
+      community: event.community,
       _id: event._id,
       status: event.applicants.length > 0 ? event.applicants[0].status : null,
     }));
