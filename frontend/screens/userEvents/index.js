@@ -26,12 +26,12 @@ const EventList = ({ navigation }) => {
       </Card.Content>
       <Card.Actions>
         <Button
-          onPress={() => {
+          onPress={async () => {
             try {
-              dispatch(getEvent({ eventId: item._id })).then(
-                console.log(event)
-              );
+              x = await dispatch(getEvent({ eventId: item._id }));
+              console.log(x.payload);
             } catch {}
+            navigation.navigate("VolunteerEventDetails", { event: x.payload });
           }}
         >
           Details
