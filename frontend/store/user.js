@@ -211,14 +211,14 @@ export const getCommunities = createAsyncThunk(
 
 export const getCommunity = createAsyncThunk(
   "user/getCommunity",
-  async (id, { dispatch, getState, rejectWithValue }) => {
+  async (community, { dispatch, getState, rejectWithValue }) => {
     try {
       dispatch(getCommunity.pending());
       const currentState = getState();
 
       const response = await axios.get(
         "http://192.168.1.5:8000/community/",
-        id,
+        community,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
         }
