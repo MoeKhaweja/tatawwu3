@@ -7,15 +7,17 @@ import {
   cancel,
   createCommunity,
   findEventsByApplicant,
+  getCommunity,
 } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
-  const user = useSelector((state) => state.user.user.user);
+  const community = useSelector((state) => state.user.community);
   const eventsApplicationStatus = useSelector(
     (state) => state.user.eventsApplicationStatus
   );
+
   // Use find to check if the currentEventId is in the array
   const eventStatus = eventsApplicationStatus.find(
     (element) => element && element._id === event._id
@@ -25,7 +27,11 @@ const VolunteerEventDetails = ({ route, navigation }) => {
   const statusOrNull = eventStatus ? eventStatus.status : null;
   console.log(statusOrNull);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    try {
+      dispatch(getCommunity({ community: event.community }));
+    } catch {}
+  }, []);
   const handleApply = async () => {
     try {
       await dispatch(apply({ eventId: event._id }));
@@ -53,6 +59,8 @@ const VolunteerEventDetails = ({ route, navigation }) => {
         />
         <Card.Content>
           <Title>{event.title}</Title>
+          {community && <Paragraph>{community.name}</Paragraph>}
+
           <Paragraph>{event.description}</Paragraph>
           <Paragraph>Schedule: {event.schedule}</Paragraph>
           <Paragraph>Location: {event.location}</Paragraph>
