@@ -30,8 +30,10 @@ const EventList = ({ navigation }) => {
             try {
               x = await dispatch(getEvent({ eventId: item._id }));
               console.log(x.payload);
+              navigation.navigate("VolunteerEventDetails", {
+                event: x.payload,
+              });
             } catch {}
-            navigation.navigate("VolunteerEventDetails", { event: x.payload });
           }}
         >
           Details

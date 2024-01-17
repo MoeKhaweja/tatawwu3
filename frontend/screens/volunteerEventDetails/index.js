@@ -61,9 +61,11 @@ const VolunteerEventDetails = ({ route, navigation }) => {
           <Title>{event.title}</Title>
           {community && (
             <Paragraph
-              onPress={navigation.navigate("CommunityProfilePage", {
-                community: community,
-              })}
+              onPress={() =>
+                navigation.navigate("CommunityProfilePage", {
+                  community: community,
+                })
+              }
             >
               {community.name}
             </Paragraph>

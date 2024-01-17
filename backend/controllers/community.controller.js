@@ -92,14 +92,7 @@ async function getCommunityEventsUser(req, res) {
   const { communityId } = req.body;
 
   try {
-    const community = await Community.findById(communityId).populate({
-      path: "events",
-      populate: {
-        path: "applicants.user",
-        select:
-          "-_id firstName lastName bio skills academicBackground userImage",
-      },
-    });
+    const community = await Community.findById(communityId);
     console.log(community);
 
     if (!community) {

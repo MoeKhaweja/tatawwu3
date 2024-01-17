@@ -64,21 +64,22 @@ const CommunityProfilePage = ({ route }) => {
 
             <List.Section>
               <List.Subheader>Events:</List.Subheader>
-              {events.map((event, index) => (
-                <View key={index}>
-                  <Divider></Divider>
-                  <List.Item
-                    key={index}
-                    title={event.title}
-                    onPress={() =>
-                      navigation.navigate("VolunteerEventDetails", {
-                        event: event,
-                      })
-                    }
-                  />
-                </View>
-                // You may want to fetch and display more details for each event
-              ))}
+              {events &&
+                events?.map((event, index) => (
+                  <View key={index}>
+                    <Divider></Divider>
+                    <List.Item
+                      key={index}
+                      title={event.title}
+                      onPress={() =>
+                        navigation.navigate("VolunteerEventDetails", {
+                          event: event,
+                        })
+                      }
+                    />
+                  </View>
+                  // You may want to fetch and display more details for each event
+                ))}
             </List.Section>
           </Card.Content>
         </Card>
