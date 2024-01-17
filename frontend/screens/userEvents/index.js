@@ -5,13 +5,6 @@ import { Card, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { findEventsByApplicant } from "../../store/user";
 
-// Dummy data for events
-const eventData = [
-  { id: "1", name: "Event 1", schedule: "January 20, 2024 08:00 AM" },
-  { id: "2", name: "Event 2", schedule: "January 25, 2024 02:30 PM" },
-  // Add more events as needed
-];
-
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
   const userEvents = useSelector((state) => state.user.eventsApplicationStatus);
