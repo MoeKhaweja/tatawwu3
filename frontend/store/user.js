@@ -234,6 +234,31 @@ export const getCommunity = createAsyncThunk(
   }
 );
 
+export const getEvent = createAsyncThunk(
+  "user/getEvent",
+  async (event, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getEvent.pending());
+      const currentState = getState();
+
+      const response = await axios.get(
+        "http://192.168.1.5:8000/community/event",
+        event,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getEvent.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getEvent.rejected(error.message));
+      return rejectWithValue("error getting event");
+    }
+  }
+);
+
 export const getAllEvents = createAsyncThunk(
   "user/getAllEvents",
   async (page, { dispatch, getState, rejectWithValue }) => {
