@@ -2,7 +2,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { findEventsByApplicant } from "../../store/user";
 
 // Dummy data for events
 const eventData = [
@@ -13,6 +14,7 @@ const eventData = [
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
+  const userEvents = useSelector((state) => state.user.eventsApplicationStatus);
 
   useFocusEffect(
     useCallback(() => {
@@ -25,18 +27,18 @@ const EventList = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
-        <Text style={styles.eventName}>{item.name}</Text>
+        <Text style={styles.eventName}>{item.title}</Text>
         <Text style={styles.schedule}>{item.schedule}</Text>
       </Card.Content>
       <Card.Actions>
         <Button
           onPress={() =>
-            navigation.navigate("EventDetails", { eventId: item.id })
+            navigation.navigate("EventDetails", { eventId: item._id })
           }
         >
           Details
         </Button>
-        <Button onPress={() => console.log(`Cancel event ${item.id}`)}>
+        <Button onPress={() => console.log(`Cancel event ${item._id}`)}>
           Cancel
         </Button>
       </Card.Actions>
@@ -46,8 +48,8 @@ const EventList = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={eventData}
-        keyExtractor={(item) => item.id}
+        data={userEvents}
+        keyExtractor={(item) => item._id}
         renderItem={renderItem}
       />
     </View>
