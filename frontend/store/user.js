@@ -1054,7 +1054,19 @@ const userSlice = createSlice({
         state.loading = false;
         state.event = action.payload;
       })
-      .addCase(getEvent.rejected, (state, action) => {
+      .addCase(getCommunityEventsUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getEvent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCommunityEventsUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.event = action.payload;
+      })
+      .addCase(getCommunityEventsUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

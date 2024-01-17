@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
   Avatar,
@@ -11,10 +11,19 @@ import {
   Text,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
+import { getCommunityEventsUser } from "../../store/user";
 
 const CommunityProfilePage = ({ route }) => {
   const navigation = useNavigation();
   const { events, community } = route.params;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    try {
+      dispatch(getCommunityEventsUser({ communityId: community._id }));
+    } catch {}
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
