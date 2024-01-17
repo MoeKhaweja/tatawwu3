@@ -20,6 +20,21 @@ const getAllCommunities = async (req, res) => {
   }
 };
 
+const getCommunity = async (req, res) => {
+  const { community } = req.body;
+  try {
+    const communities = await Community.findById(community).populate({
+      path: "owner",
+      select: "-_id firstName lastName bio skills academicBackground userImage",
+    });
+
+    res.status(200).json(communities);
+  } catch (error) {
+    console.error("Error getting communities:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 async function createCommunity(req, res) {
   const user = req.user;
   const { name, description, img } = req.body;
@@ -495,4 +510,5 @@ module.exports = {
   rejectApplication,
   getAllCommunities,
   getCommunityEventApplicants,
+  getCommunity,
 };
