@@ -543,4 +543,5 @@ module.exports = {
   getCommunityEventApplicants,
   getCommunity,
   getEvent,
+  getCommunityEventsUser,
 };
