@@ -65,7 +65,7 @@ async function getEvent(req, res) {
   const { eventId } = req.body;
 
   try {
-    const allEvents = await Event.find(eventId).select("-applicants");
+    const allEvents = await Event.findById(eventId).select("-applicants");
 
     return res.status(200).json(allEvents);
   } catch (error) {
