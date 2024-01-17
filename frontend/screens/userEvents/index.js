@@ -29,7 +29,7 @@ const EventList = ({ navigation }) => {
           onPress={() => {
             try {
               dispatch(getEvent({ eventId: item._id })).then(
-                navigation.navigate("VolunteerEventDetails", { event: event })
+                console.log(event)
               );
             } catch {}
           }}

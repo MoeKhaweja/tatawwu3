@@ -18,8 +18,9 @@ const VolunteerEventDetails = ({ route, navigation }) => {
   );
   // Use find to check if the currentEventId is in the array
   const eventStatus = eventsApplicationStatus.find(
-    (element) => element._id === event._id
+    (element) => element && element._id === event._id
   );
+
   // If eventStatus is found, return the status; otherwise, return null
   const statusOrNull = eventStatus ? eventStatus.status : null;
   console.log(statusOrNull);
