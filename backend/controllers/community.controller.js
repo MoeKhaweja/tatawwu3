@@ -99,7 +99,7 @@ async function getCommunityEventsUser(req, res) {
       return res.status(404).json({ error: "Community not found" });
     }
 
-    return res.status(200).send({ events: community.events });
+    return res.status(200).send(community.events);
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
