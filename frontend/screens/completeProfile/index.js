@@ -114,15 +114,17 @@ const CompleteProfilePage = ({ route }) => {
   const handleSubmit = () => {
     navigation.navigate("Home");
 
-    // dispatch(
-    //   updateUser({
-    //     firstName,
-    //     lastName,
-    //     skills,
-    //     academicBackground,
-    //     bio,
-    //   })
-    // );
+    dispatch(
+      updateUser({
+        firstName,
+        lastName,
+        skills,
+        academicBackground,
+        bio,
+        birthdate: date,
+        gender,
+      })
+    );
   };
 
   return (
