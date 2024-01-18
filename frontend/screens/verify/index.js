@@ -49,8 +49,10 @@ export default function Verify() {
       setStep(2);
     }
     if (isResumeUploaded == true && isIdImageUploaded == true) {
+      navigation.navigate("Home");
       setStep(3);
     }
+
     console.log("extracted", extracted);
     if (extracted) {
       setData(extracted);

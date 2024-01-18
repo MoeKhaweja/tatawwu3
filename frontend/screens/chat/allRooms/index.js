@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import {
   List,
@@ -16,8 +16,9 @@ import {
   getNotUserRooms,
   getRoom,
   getUserRooms,
+  join,
 } from "../../../store/user";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const chatRoomsData = [
   { id: "1", title: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
@@ -40,11 +41,14 @@ const AllRooms = () => {
       dispatch(getUserRooms());
     } catch {}
   };
-  useEffect(() => {
-    try {
-      dispatch(getNotUserRooms());
-    } catch {}
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        dispatch(getNotUserRooms());
+      } catch {}
+    }, [])
+  );
 
   useEffect(() => {
     console.log(rooms?.[0]?._id);
@@ -59,7 +63,17 @@ const AllRooms = () => {
         left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
         right={() => (
           <View style={{ alignContent: "center", justifyContent: "center" }}>
-            <Button mode='contained'>Join</Button>
+            <Button
+              onPress={async () => {
+                try {
+                  const x = await dispatch(join({ room: item._id }));
+                  console.log(x);
+                } catch {}
+              }}
+              mode='contained'
+            >
+              Join
+            </Button>
           </View>
         )}
       />
