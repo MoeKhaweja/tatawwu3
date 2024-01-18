@@ -18,6 +18,7 @@ import { createEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import theme from "../../theme";
 
 const CommunityAddEvents = () => {
   const [inputValue, setInputValue] = useState("");
@@ -261,16 +262,26 @@ const CommunityAddEvents = () => {
             </Button>
           </View>
         )}
-
-        <TextInput
-          label='Enter value'
-          value={inputValue}
-          onChangeText={(text) => setInputValue(text)}
-          style={{ marginBottom: 16 }}
-        />
-        <Button mode='contained' onPress={handleAdd} style={styles.input}>
-          Add
-        </Button>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <TextInput
+            label='Event Targeted Skills'
+            value={inputValue}
+            onChangeText={(text) => setInputValue(text)}
+            style={{ flex: 1 }}
+          />
+          <IconButton
+            icon={() => (
+              <Icon name='plus' size={24} color={theme.colors.primary} />
+            )} // You can customize the icon here
+            onPress={handleAdd}
+          />
+        </View>
 
         {listData.length > 0 && (
           <List.Section style={{ marginTop: 16 }}>
