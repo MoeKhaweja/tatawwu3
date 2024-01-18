@@ -67,7 +67,12 @@ const AllRooms = () => {
               onPress={async () => {
                 try {
                   const x = await dispatch(join({ room: item._id }));
-                  console.log(x);
+                  if (x.meta.requestStatus == "fulfilled") {
+                    navigation.navigate("ChatsScreen", {
+                      room: item._id,
+                      title: item.title,
+                    });
+                  }
                 } catch {}
               }}
               mode='contained'
