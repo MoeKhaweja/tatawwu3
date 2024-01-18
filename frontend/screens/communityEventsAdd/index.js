@@ -122,7 +122,7 @@ const CommunityAddEvents = () => {
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <TextInput
-          label='Title'
+          label='Event Title'
           value={eventDetails.title}
           onChangeText={(text) =>
             setEventDetails({ ...eventDetails, title: text })
@@ -302,8 +302,9 @@ const CommunityAddEvents = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    alignContent: "center",
+    paddingHorizontal: 20,
+
+    alignContent: "flex-start",
 
     flex: 1,
   },
