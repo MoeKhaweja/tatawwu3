@@ -22,7 +22,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const CommunityAddEvents = () => {
   const [inputValue, setInputValue] = useState("");
   const [listData, setListData] = useState([]);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ const CommunityAddEvents = () => {
     const year = date.getFullYear();
 
     setOpen(false);
-    setDate(`${day}/${month}/${year}`);
+    setDate(date);
     console.log(day, month, year);
   };
   const handleAdd = () => {
@@ -159,33 +159,20 @@ const CommunityAddEvents = () => {
             marginBottom: 10,
           }}
         >
-          {date ? (
-            <Button
-              onPress={() => setOpen(true)}
-              uppercase={false}
-              mode='contained'
-              icon={() => (
-                <Icon2 name='calendar' size={20} color='white'></Icon2>
-              )}
-            >
-              {date.toString()}
-            </Button>
-          ) : (
-            <Button
-              onPress={() => setOpen(true)}
-              uppercase={false}
-              mode='contained'
-              icon={() => (
-                <Icon2 name='calendar' size={20} color='white'></Icon2>
-              )}
-            >
-              Event Date
-            </Button>
-          )}
+          <Button
+            onPress={() => setOpen(true)}
+            uppercase={false}
+            mode='contained'
+            icon={() => <Icon2 name='calendar' size={20} color='white'></Icon2>}
+          >
+            Date
+          </Button>
+
           <DateTimePickerModal
             minimumDate={new Date()}
             isVisible={open}
             mode='date'
+            date={date}
             onConfirm={onConfirmSingle}
             onCancel={onDismissSingle}
           />
@@ -206,7 +193,7 @@ const CommunityAddEvents = () => {
               uppercase={false}
               icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
             >
-              Starts At
+              Starts
             </Button>
           )}
           <DateTimePickerModal
@@ -215,14 +202,31 @@ const CommunityAddEvents = () => {
             onConfirm={onConfirm}
             onCancel={onDismiss}
           />
-          {/* <TimePickerModal
-            visible={visible}
-            onDismiss={onDismiss}
-            onConfirm={onConfirm}
-            use24HourClock={false}
-            hours={12}
-            minutes={14}
-          /> */}
+          {endTime ? (
+            <Button
+              mode='contained'
+              onPress={() => setVisible2(true)}
+              uppercase={false}
+              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
+            >
+              {endTime}
+            </Button>
+          ) : (
+            <Button
+              mode='contained'
+              onPress={() => setVisible2(true)}
+              uppercase={false}
+              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
+            >
+              Ends
+            </Button>
+          )}
+          <DateTimePickerModal
+            isVisible={visible2}
+            mode='time'
+            onConfirm={onConfirm2}
+            onCancel={onDismiss2}
+          />
         </View>
 
         {image ? (
@@ -258,18 +262,6 @@ const CommunityAddEvents = () => {
           </View>
         )}
 
-        <TextInput
-          label='Duration (in minutes)'
-          value={eventDetails.duration.toString()}
-          onChangeText={(text) =>
-            setEventDetails({
-              ...eventDetails,
-              duration: parseFloat(text) || 0,
-            })
-          }
-          keyboardType='numeric'
-          style={styles.input}
-        />
         <TextInput
           label='Enter value'
           value={inputValue}
