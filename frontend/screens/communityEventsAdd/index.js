@@ -130,7 +130,7 @@ const CommunityAddEvents = () => {
           style={styles.input}
         />
         <TextInput
-          label='Description'
+          label='Event Description'
           value={eventDetails.description}
           onChangeText={(text) =>
             setEventDetails({ ...eventDetails, description: text })
