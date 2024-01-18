@@ -297,7 +297,7 @@ const CommunityAddEvents = () => {
                 marginHorizontal: 2,
                 backgroundColor: theme.colors.tertiary,
               }}
-              icon='close'
+              icon={() => <Icon name='close' size={12} color='white' />}
               onPress={() => handleDelete(index)}
             >
               {item}
