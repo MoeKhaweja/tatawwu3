@@ -31,6 +31,7 @@ const CommunityAddEvents = () => {
   const onConfirm = useCallback(
     ({ hours, minutes }) => {
       setVisible(false);
+      setTime(`${hours}:${minutes}`);
       console.log({ hours, minutes });
     },
     [setVisible]
@@ -177,14 +178,26 @@ const CommunityAddEvents = () => {
             date={date}
             onConfirm={onConfirmSingle}
           />
-          <Button
-            mode='contained'
-            onPress={() => setVisible(true)}
-            uppercase={false}
-            icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
-          >
-            Starts At
-          </Button>
+          {time ? (
+            <Button
+              mode='contained'
+              onPress={() => setVisible(true)}
+              uppercase={false}
+              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
+            >
+              {time}
+            </Button>
+          ) : (
+            <Button
+              mode='contained'
+              onPress={() => setVisible(true)}
+              uppercase={false}
+              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
+            >
+              Starts At
+            </Button>
+          )}
+
           <TimePickerModal
             visible={visible}
             onDismiss={onDismiss}
