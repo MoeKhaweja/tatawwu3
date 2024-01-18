@@ -169,7 +169,7 @@ async function getResume(req, res) {
 
     const updatedUserData = {
       resume: resume.path, // Save the file path in the user's data
-      isResumeUploaded: false,
+      isResumeUploaded: true,
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
