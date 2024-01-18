@@ -239,14 +239,7 @@ const CommunityAddEvents = () => {
             Pick Image
           </Button>
         )}
-        <TextInput
-          label='Image URL'
-          value={eventDetails.img}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, img: text })
-          }
-          style={styles.input}
-        />
+
         <TextInput
           label='Duration (in minutes)'
           value={eventDetails.duration.toString()}
