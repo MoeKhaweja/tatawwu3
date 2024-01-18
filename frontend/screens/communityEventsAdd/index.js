@@ -208,14 +208,7 @@ const CommunityAddEvents = () => {
             minutes={14}
           />
         </View>
-        <TextInput
-          label='Schedule'
-          value={eventDetails.schedule}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, schedule: text })
-          }
-          style={styles.input}
-        />
+
         <TextInput
           label='Location'
           value={eventDetails.location}
