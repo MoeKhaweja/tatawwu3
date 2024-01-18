@@ -17,13 +17,17 @@ import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 const CommunityAddEvents = () => {
   const [inputValue, setInputValue] = useState("");
   const [listData, setListData] = useState([]);
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const onDismiss = useCallback(() => {
     setVisible(false);
   }, [setVisible]);
@@ -31,36 +35,38 @@ const CommunityAddEvents = () => {
   const onConfirm = useCallback(
     ({ hours, minutes }) => {
       setVisible(false);
-      setTime(`${hours}:${minutes}`);
+      setStartTime(`${hours}:${minutes}`);
       console.log({ hours, minutes });
     },
     [setVisible]
+  );
+
+  const onDismiss2 = useCallback(() => {
+    setVisible2(false);
+  }, [setVisible2]);
+
+  const onConfirm2 = useCallback(
+    ({ hours, minutes }) => {
+      setVisible2(false);
+      setEndTime(`${hours}:${minutes}`);
+      console.log({ hours, minutes });
+    },
+    [setVisible2]
   );
 
   const onDismissSingle = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
 
-  function transformDateString(inputDateString) {
-    const dateObject = new Date(inputDateString);
+  const onConfirmSingle = (date) => {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
 
-    const day = dateObject.getDate().toString().padStart(2, "0");
-    const month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Note: Months are zero-based
-    const year = dateObject.getFullYear();
-
-    const formattedDate = `${day}/${month}/${year}`;
-
-    return formattedDate;
-  }
-
-  const onConfirmSingle = useCallback(
-    (params) => {
-      setOpen(false);
-      setDate(transformDateString(params.date));
-      console.log(transformDateString(params.date));
-    },
-    [setOpen, setDate]
-  );
+    setOpen(false);
+    setDate(`${day}/${month}/${year}`);
+    console.log(day, month, year);
+  };
   const handleAdd = () => {
     if (inputValue.trim() !== "") {
       setListData([...listData, inputValue]);
@@ -178,22 +184,22 @@ const CommunityAddEvents = () => {
               Event Date
             </Button>
           )}
-          <DatePickerModal
-            locale='en-GB'
-            mode='single'
-            visible={open}
-            onDismiss={onDismissSingle}
-            date={date}
+          <DateTimePickerModal
+            minimumDate={new Date()}
+            isVisible={open}
+            mode='date'
             onConfirm={onConfirmSingle}
+            onCancel={onDismissSingle}
           />
-          {time ? (
+
+          {startTime ? (
             <Button
               mode='contained'
               onPress={() => setVisible(true)}
               uppercase={false}
               icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
             >
-              {time}
+              {startTime}
             </Button>
           ) : (
             <Button
