@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import {
   List,
@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();
@@ -30,11 +30,14 @@ const ChatRoomList = () => {
       dispatch(getUserRooms());
     } catch {}
   };
-  useEffect(() => {
-    try {
-      dispatch(getUserRooms());
-    } catch {}
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        dispatch(getUserRooms());
+      } catch {}
+    }, [])
+  );
 
   useEffect(() => {
     console.log(rooms?.[0]?._id);
