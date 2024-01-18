@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import {
@@ -11,15 +11,55 @@ import {
 
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Icon2 from "react-native-vector-icons/Ionicons";
 import { TextInput, Button, List, IconButton } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
 const CommunityAddEvents = () => {
   const [inputValue, setInputValue] = useState("");
   const [listData, setListData] = useState([]);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const onDismiss = useCallback(() => {
+    setVisible(false);
+  }, [setVisible]);
 
+  const onConfirm = useCallback(
+    ({ hours, minutes }) => {
+      setVisible(false);
+      console.log({ hours, minutes });
+    },
+    [setVisible]
+  );
+
+  const onDismissSingle = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  function transformDateString(inputDateString) {
+    const dateObject = new Date(inputDateString);
+
+    const day = dateObject.getDate().toString().padStart(2, "0");
+    const month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Note: Months are zero-based
+    const year = dateObject.getFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
+  }
+
+  const onConfirmSingle = useCallback(
+    (params) => {
+      setOpen(false);
+      setDate(transformDateString(params.date));
+      console.log(transformDateString(params.date));
+    },
+    [setOpen, setDate]
+  );
   const handleAdd = () => {
     if (inputValue.trim() !== "") {
       setListData([...listData, inputValue]);
@@ -96,6 +136,64 @@ const CommunityAddEvents = () => {
           }
           style={styles.input}
         />
+        <View
+          style={{
+            justifyContent: "space-evenly",
+            flex: 1,
+            alignItems: "center",
+            flexDirection: "row",
+            marginBottom: 10,
+          }}
+        >
+          {date ? (
+            <Button
+              onPress={() => setOpen(true)}
+              uppercase={false}
+              mode='contained'
+              icon={() => (
+                <Icon2 name='calendar' size={20} color='white'></Icon2>
+              )}
+            >
+              {date.toString()}
+            </Button>
+          ) : (
+            <Button
+              onPress={() => setOpen(true)}
+              uppercase={false}
+              mode='contained'
+              icon={() => (
+                <Icon2 name='calendar' size={20} color='white'></Icon2>
+              )}
+            >
+              Event Date
+            </Button>
+          )}
+
+          <DatePickerModal
+            locale='en-GB'
+            mode='single'
+            visible={open}
+            onDismiss={onDismissSingle}
+            date={date}
+            onConfirm={onConfirmSingle}
+          />
+          <Button
+            mode='contained'
+            onPress={() => setVisible(true)}
+            uppercase={false}
+            icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
+          >
+            Starts At
+          </Button>
+          <TimePickerModal
+            visible={visible}
+            onDismiss={onDismiss}
+            onConfirm={onConfirm}
+            use24HourClock={false}
+            hours={12}
+            minutes={14}
+          />
+        </View>
         <TextInput
           label='Schedule'
           value={eventDetails.schedule}

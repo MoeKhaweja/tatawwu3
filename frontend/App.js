@@ -10,8 +10,9 @@ import { Provider } from "react-redux";
 import Navigation from "./navigation";
 
 import theme from "./theme";
-
+import { enGB, registerTranslation } from "react-native-paper-dates";
 const App = () => {
+  registerTranslation("en-GB", enGB);
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
