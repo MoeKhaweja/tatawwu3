@@ -230,14 +230,24 @@ const CommunityAddEvents = () => {
             />
           </View>
         ) : (
-          <Button
-            mode='contained'
-            icon={() => <Icon name='camera' size={20} color='white' />}
-            onPress={pickImage}
-            style={styles.input}
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              flex: 1,
+              alignItems: "center",
+              flexDirection: "row",
+              marginBottom: 10,
+            }}
           >
-            Pick Image
-          </Button>
+            <Button
+              mode='contained'
+              icon={() => <Icon name='camera' size={20} color='white' />}
+              onPress={pickImage}
+              style={styles.input}
+            >
+              Pick Image
+            </Button>
+          </View>
         )}
 
         <TextInput
