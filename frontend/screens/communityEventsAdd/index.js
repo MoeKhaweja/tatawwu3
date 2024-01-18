@@ -136,6 +136,7 @@ const CommunityAddEvents = () => {
             setEventDetails({ ...eventDetails, description: text })
           }
           style={styles.input}
+          multiline
         />
         <View
           style={{
