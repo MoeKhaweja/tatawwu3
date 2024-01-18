@@ -12,7 +12,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
-import { TextInput, Button, List, IconButton } from "react-native-paper";
+import { TextInput, Button, List, IconButton, Chip } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -282,25 +282,33 @@ const CommunityAddEvents = () => {
             onPress={handleAdd}
           />
         </View>
-
-        {listData.length > 0 && (
-          <List.Section style={{ marginTop: 16 }}>
-            <List.Subheader>Values</List.Subheader>
-            {listData.map((item, index) => (
-              <List.Item
-                key={index}
-                title={item}
-                right={() => (
-                  <IconButton
-                    icon='delete'
-                    onPress={() => handleDelete(index)}
-                  />
-                )}
-              />
-            ))}
-          </List.Section>
-        )}
-        <Button mode='contained' onPress={handleCreateEvent}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          {listData.map((item, index) => (
+            <Chip
+              key={index}
+              textStyle={{ color: "white" }}
+              style={{
+                marginHorizontal: 2,
+                backgroundColor: theme.colors.tertiary,
+              }}
+              icon='close'
+              onPress={() => handleDelete(index)}
+            >
+              {item}
+            </Chip>
+          ))}
+        </View>
+        <Button
+          mode='contained'
+          onPress={handleCreateEvent}
+          style={styles.createEventButton}
+        >
           Create Event
         </Button>
       </SafeAreaView>
@@ -311,9 +319,7 @@ const CommunityAddEvents = () => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-
     alignContent: "flex-start",
-
     flex: 1,
   },
   card: {
@@ -322,6 +328,9 @@ const styles = StyleSheet.create({
 
   input: {
     marginBottom: 10,
+  },
+  createEventButton: {
+    marginVertical: 20, // Adjust the vertical margin as needed
   },
 });
 
