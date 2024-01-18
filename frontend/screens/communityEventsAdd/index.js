@@ -32,27 +32,25 @@ const CommunityAddEvents = () => {
     setVisible(false);
   }, [setVisible]);
 
-  const onConfirm = useCallback(
-    ({ hours, minutes }) => {
-      setVisible(false);
-      setStartTime(`${hours}:${minutes}`);
-      console.log({ hours, minutes });
-    },
-    [setVisible]
-  );
+  const onConfirm = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    setVisible(false);
+    setStartTime(`${hours}:${minutes}`);
+    console.log(hours, minutes);
+  };
 
   const onDismiss2 = useCallback(() => {
     setVisible2(false);
   }, [setVisible2]);
 
-  const onConfirm2 = useCallback(
-    ({ hours, minutes }) => {
-      setVisible2(false);
-      setEndTime(`${hours}:${minutes}`);
-      console.log({ hours, minutes });
-    },
-    [setVisible2]
-  );
+  const onConfirm2 = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    setVisible(false);
+    setEndTime(`${hours}:${minutes}`);
+    console.log(hours, minutes);
+  };
 
   const onDismissSingle = useCallback(() => {
     setOpen(false);
@@ -211,14 +209,20 @@ const CommunityAddEvents = () => {
               Starts At
             </Button>
           )}
-          <TimePickerModal
+          <DateTimePickerModal
+            isVisible={visible}
+            mode='time'
+            onConfirm={onConfirm}
+            onCancel={onDismiss}
+          />
+          {/* <TimePickerModal
             visible={visible}
             onDismiss={onDismiss}
             onConfirm={onConfirm}
             use24HourClock={false}
             hours={12}
             minutes={14}
-          />
+          /> */}
         </View>
 
         {image ? (
