@@ -138,6 +138,14 @@ const CommunityAddEvents = () => {
           style={styles.input}
           multiline
         />
+        <TextInput
+          label='Event Location'
+          value={eventDetails.location}
+          onChangeText={(text) =>
+            setEventDetails({ ...eventDetails, location: text })
+          }
+          style={styles.input}
+        />
         <View
           style={{
             justifyContent: "space-evenly",
@@ -170,7 +178,6 @@ const CommunityAddEvents = () => {
               Event Date
             </Button>
           )}
-
           <DatePickerModal
             locale='en-GB'
             mode='single'
@@ -198,7 +205,6 @@ const CommunityAddEvents = () => {
               Starts At
             </Button>
           )}
-
           <TimePickerModal
             visible={visible}
             onDismiss={onDismiss}
@@ -209,14 +215,6 @@ const CommunityAddEvents = () => {
           />
         </View>
 
-        <TextInput
-          label='Location'
-          value={eventDetails.location}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, location: text })
-          }
-          style={styles.input}
-        />
         {image ? (
           <View>
             <TouchableOpacity onPress={removeImage}>
