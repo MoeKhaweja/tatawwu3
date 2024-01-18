@@ -481,6 +481,31 @@ export const getNotUserRooms = createAsyncThunk(
   }
 );
 
+export const join = createAsyncThunk(
+  "user/join",
+  async (room, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(join.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.5:8000/rooms/join",
+        room,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(join.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(join.rejected(error.message));
+      return rejectWithValue("error joining room");
+    }
+  }
+);
+
 export const getRoom = createAsyncThunk(
   "user/getRoom",
   async (room, { dispatch, getState, rejectWithValue }) => {
