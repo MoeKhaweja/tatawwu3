@@ -138,6 +138,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
   },
+  eventImage: {
+    borderRadius: 0,
+  },
 
   title: {
     fontSize: 24,
