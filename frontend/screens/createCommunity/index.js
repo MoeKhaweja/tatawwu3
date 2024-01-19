@@ -27,6 +27,10 @@ const CreateCommunityScreen = () => {
 
   if (owner == true) {
     navigation.navigate("ViewCommunityEvents");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ViewCommunityEvents" }],
+    });
   }
 
   const handleCreateCommunity = async () => {
@@ -46,6 +50,10 @@ const CreateCommunityScreen = () => {
       return;
     }
     navigation.navigate("ViewCommunityEvents");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ViewCommunityEvents" }],
+    });
     // Here, you can handle the logic to create a community
     console.log("Creating community:", { name, description });
     // Add your logic to create the community using the provided name and description
