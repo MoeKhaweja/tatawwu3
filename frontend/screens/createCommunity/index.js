@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { createCommunity } from "../../store/user";
 import theme from "../../theme";
 import LoadingOrError from "../../components/loadingOrError";
+import { useNavigation } from "@react-navigation/native";
 
 const CreateCommunityScreen = () => {
   const [name, setName] = useState("");
@@ -21,21 +22,25 @@ const CreateCommunityScreen = () => {
   const [base64, setBase64] = useState(null);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  const handleCreateCommunity = () => {
+  const handleCreateCommunity = async () => {
     if (!name || !description) {
       setError(true);
       return;
     }
     try {
-      dispatch(
+      await dispatch(
         createCommunity({
           name: name,
           description: description,
           img: base64,
         })
       );
-    } catch {}
+    } catch {
+      return;
+    }
+    navigation.navigate("ViewCommunityEvents");
     // Here, you can handle the logic to create a community
     console.log("Creating community:", { name, description });
     // Add your logic to create the community using the provided name and description
