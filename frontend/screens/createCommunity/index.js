@@ -30,7 +30,6 @@ const CreateCommunityScreen = () => {
       createCommunity({
         name: name,
         description: description,
-
         img: base64,
       })
     );
