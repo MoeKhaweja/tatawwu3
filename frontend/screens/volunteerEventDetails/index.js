@@ -51,47 +51,62 @@ const VolunteerEventDetails = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Card>
-        <Card.Cover
-          src={`http://192.168.1.5:8000/images/${event.img}`}
-          style={styles.eventImage}
-        />
-        <Card.Content>
-          <Title>{event.title}</Title>
-          {community && (
-            <Paragraph
-              onPress={() =>
-                navigation.navigate("CommunityProfilePage", {
-                  community: community,
-                })
-              }
-            >
-              {community.name}
+    <View style={styles.container}>
+      <ScrollView>
+        <Card style={styles.card}>
+          <Card.Cover
+            source={{ uri: `http://192.168.1.5:8000/images/${event.img}` }}
+            style={styles.eventImage}
+          />
+          <Card.Content>
+            <Title style={styles.title}>{event.title}</Title>
+            {community && (
+              <Paragraph
+                style={styles.community}
+                onPress={() =>
+                  navigation.navigate("CommunityProfilePage", {
+                    community: community,
+                  })
+                }
+              >
+                {community.name}
+              </Paragraph>
+            )}
+            <Paragraph style={styles.description}>
+              {event.description}
             </Paragraph>
-          )}
-
-          <Paragraph>{event.description}</Paragraph>
-          <Paragraph>Schedule: {event.schedule.date}</Paragraph>
-          <Paragraph>Location: {event.location}</Paragraph>
-          <Paragraph>Duration: {event.duration} minutes</Paragraph>
-        </Card.Content>
-      </Card>
+            <Paragraph style={styles.details}>
+              Schedule: {event.schedule.date}
+            </Paragraph>
+            <Paragraph style={styles.details}>
+              Location: {event.location}
+            </Paragraph>
+            <Paragraph style={styles.details}>
+              Duration: {event.duration} minutes
+            </Paragraph>
+            {statusOrNull && (
+              <Paragraph style={styles.details}>
+                Application status: {statusOrNull}
+              </Paragraph>
+            )}
+          </Card.Content>
+        </Card>
+      </ScrollView>
 
       <View style={styles.section}>
         {!statusOrNull && (
-          <Button mode='contained' onPress={handleApply}>
+          <Button mode='contained' style={styles.button} onPress={handleApply}>
             Apply
           </Button>
         )}
         {(statusOrNull == "approved" || statusOrNull == "pending") && (
-          <Button mode='contained' onPress={handleCancel}>
+          <Button mode='contained' style={styles.button} onPress={handleCancel}>
             Cancel
           </Button>
         )}
         <LoadingOrError></LoadingOrError>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -99,12 +114,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    justifyContent: "space-between",
+  },
+  card: {
+    margin: 3,
+    borderRadius: 15,
+    overflow: "hidden",
+  },
+
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginVertical: 20,
+  },
+  community: {
+    color: "#007AFF",
+    marginBottom: 10,
+  },
+  description: {
+    marginBottom: 10,
+  },
+  details: {
+    fontSize: 14,
+    color: "#888",
+    marginBottom: 10,
   },
   section: {
     marginBottom: 20,
   },
-  eventImage: {
-    height: 200,
+  button: {
+    borderRadius: 25,
   },
 });
 
