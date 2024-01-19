@@ -94,6 +94,7 @@ const CreateCommunityScreen = () => {
         error={error && !name}
       />
       <TextInput
+        multiline
         error={error && !description}
         label='Description'
         value={description}
