@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   community: {
-    color: "#007AFF",
+    color: theme.colors.primary,
     marginBottom: 10,
   },
   description: {
