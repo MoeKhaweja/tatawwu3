@@ -7,6 +7,7 @@ import {
   Searchbar,
   Title,
   Paragraph,
+  Chip,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +26,7 @@ const Feed = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
+  const [selectedChip, setSelectedChip] = useState("All Events");
   const pageSize = 10;
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
@@ -212,11 +214,32 @@ const Feed = () => {
         onChangeText={(query) => setSearchQuery(query)}
         value={searchQuery}
       />
-      {/* onScroll={({ nativeEvent }) => handleScroll(nativeEvent)} */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginBottom: 10,
+        }}
+      >
+        <Chip
+          mode='outlined'
+          selected={selectedChip === "All Events"}
+          onPress={() => setSelectedChip("All Events")}
+        >
+          All Events
+        </Chip>
+        <Chip
+          mode='outlined'
+          selected={selectedChip === "Preferenced Events"}
+          onPress={() => setSelectedChip("Preferenced Events")}
+        >
+          Preferenced Events
+        </Chip>
+      </View>
       <ScrollView>
-        {renderCards(data2, "Events based on your preference ")}
-
-        {renderCards(data, "All Events")}
+        {selectedChip === "All Events" && renderCards(data, "All Events")}
+        {selectedChip === "Preferenced Events" &&
+          renderCards(data2, "Events based on your preference ")}
       </ScrollView>
     </SafeAreaView>
   );
