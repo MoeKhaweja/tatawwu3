@@ -74,7 +74,7 @@ const CommunityEventDetails = ({ route }) => {
           <Image
             resizeMode='cover'
             style={{ width: "100%", height: 150 }}
-            src={`http://192.168.1.2:8000/images/${eventDetails.img}`}
+            src={`http://192.168.1.5:8000/images/${eventDetails.img}`}
           ></Image>
         </Card>
       </View>
