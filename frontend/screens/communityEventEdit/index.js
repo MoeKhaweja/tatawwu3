@@ -89,12 +89,16 @@ const CommunityEditEvent = ({ route }) => {
   );
   const [base64, setBase64] = useState(null);
   const [eventDetails, setEventDetails] = useState({
-    title: "",
-    description: "",
-    schedule: "",
-    location: "",
+    title: event.title,
+    description: event.description,
+    schedule: {
+      date: event.date,
+      startTime: event.startTime,
+      endTime: event.endTime,
+    },
+    location: event.location,
     duration: 0,
-    img: "", // URL to the event image
+    img: event.img, // URL to the event image
   });
   const dispatch = useDispatch();
   const pickImage = async () => {
