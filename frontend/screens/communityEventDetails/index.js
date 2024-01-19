@@ -4,6 +4,7 @@ import { Button, Card, IconButton, Chip } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { accept, reject } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import theme from "../../theme";
 
 const CommunityEventDetails = ({ route }) => {
   const { event } = route.params;
@@ -92,7 +93,11 @@ const CommunityEventDetails = ({ route }) => {
               />
               <View style={styles.chipsContainer}>
                 {eventDetails.targetedSkills.map((skill, index) => (
-                  <Chip key={index} style={styles.chip}>
+                  <Chip
+                    key={index}
+                    style={styles.chip}
+                    textStyle={{ color: "white" }}
+                  >
                     {skill}
                   </Chip>
                 ))}
@@ -187,6 +192,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   chip: {
+    backgroundColor: theme.colors.tertiary,
+
     marginRight: 5,
     marginBottom: 5,
   },
