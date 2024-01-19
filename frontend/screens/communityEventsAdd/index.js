@@ -12,7 +12,14 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/Ionicons";
-import { TextInput, Button, List, IconButton, Chip } from "react-native-paper";
+import {
+  TextInput,
+  Button,
+  List,
+  IconButton,
+  Chip,
+  HelperText,
+} from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { createEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,6 +36,8 @@ const CommunityAddEvents = () => {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const onDismiss = useCallback(() => {
     setVisible(false);
   }, [setVisible]);
@@ -114,6 +123,20 @@ const CommunityAddEvents = () => {
   };
   // Function to handle creating an event
   const handleCreateEvent = async () => {
+    if (
+      !image ||
+      !eventDetails.title ||
+      !eventDetails.description ||
+      !eventDetails.location ||
+      !date ||
+      !startTime ||
+      !endTime ||
+      !listData
+    ) {
+      setErrorMessage("All Inputs Required");
+      setError(true);
+      return;
+    }
     try {
       dispatch(
         createEvent({
@@ -130,30 +153,41 @@ const CommunityAddEvents = () => {
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
+        {error && (
+          <HelperText type='error' visible={error}>
+            {errorMessage}
+          </HelperText>
+        )}
         <TextInput
           label='Event Title'
           value={eventDetails.title}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, title: text })
-          }
+          onChangeText={(text) => {
+            setEventDetails({ ...eventDetails, title: text });
+            setError("");
+          }}
           style={styles.input}
+          error={error && !eventDetails.title}
         />
         <TextInput
           label='Event Description'
           value={eventDetails.description}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, description: text })
-          }
+          onChangeText={(text) => {
+            setError("");
+            setEventDetails({ ...eventDetails, description: text });
+          }}
           style={styles.input}
           multiline
+          error={error && !eventDetails.description}
         />
         <TextInput
           label='Event Location'
           value={eventDetails.location}
-          onChangeText={(text) =>
-            setEventDetails({ ...eventDetails, location: text })
-          }
+          onChangeText={(text) => {
+            setError("");
+            setEventDetails({ ...eventDetails, location: text });
+          }}
           style={styles.input}
+          error={error && !eventDetails.location}
         />
         <View
           style={{
@@ -280,7 +314,10 @@ const CommunityAddEvents = () => {
           <TextInput
             label='Event Targeted Skills'
             value={inputValue}
-            onChangeText={(text) => setInputValue(text)}
+            onChangeText={(text) => {
+              setError("");
+              setInputValue(text);
+            }}
             style={{ flex: 1 }}
             right={
               <TextInput.Icon
@@ -290,6 +327,7 @@ const CommunityAddEvents = () => {
                 onPress={handleAdd}
               />
             }
+            error={error && listData != []}
           />
         </View>
         <View
