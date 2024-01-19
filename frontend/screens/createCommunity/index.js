@@ -11,6 +11,7 @@ import { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import { createCommunity } from "../../store/user";
+import theme from "../../theme";
 
 const CreateCommunityScreen = () => {
   const [name, setName] = useState("");
@@ -61,7 +62,7 @@ const CreateCommunityScreen = () => {
       {image ? (
         <View>
           <TouchableOpacity onPress={removeImage}>
-            <Icon name='times-circle' size={20} color='red' />
+            <Icon name='times-circle' size={20} color={theme.colors.tertiary} />
           </TouchableOpacity>
           <Avatar.Image
             size={150}
