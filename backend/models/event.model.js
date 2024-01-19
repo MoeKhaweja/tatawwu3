@@ -18,7 +18,7 @@ const applicantSchema = new mongoose.Schema({
 const eventSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  schedule: { type: String, required: true },
+  schedule: { type: Object, required: true },
   location: { type: String, required: true },
   applicants: [applicantSchema],
   targetedSkills: [{ type: String }],

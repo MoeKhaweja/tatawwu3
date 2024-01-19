@@ -67,13 +67,8 @@ const CommunityAddEvents = () => {
   }, [setOpen]);
 
   const onConfirmSingle = (date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-
     setOpen(false);
     setDate(date);
-    console.log(day, month, year);
   };
   const handleAdd = () => {
     if (inputValue.trim() !== "") {
@@ -138,10 +133,13 @@ const CommunityAddEvents = () => {
       return;
     }
     try {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
       dispatch(
         createEvent({
           ...eventDetails,
-          schedule: `${date},${startTime},${endTime}`,
+
           targetedSkills: [...listData],
         })
       ).then(() => {
@@ -314,10 +312,7 @@ const CommunityAddEvents = () => {
           <TextInput
             label='Event Targeted Skills'
             value={inputValue}
-            onChangeText={(text) => {
-              setError("");
-              setInputValue(text);
-            }}
+            onChangeText={(text) => setInputValue(text)}
             style={{ flex: 1 }}
             right={
               <TextInput.Icon
