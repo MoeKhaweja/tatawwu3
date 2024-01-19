@@ -18,6 +18,7 @@ import {
 } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../components/loadingOrError";
+import theme from "../../theme";
 
 const Feed = () => {
   const navigation = useNavigation();
@@ -227,6 +228,15 @@ const Feed = () => {
           mode='outlined'
           selected={selectedChip === "All Events"}
           onPress={() => setSelectedChip("All Events")}
+          style={{
+            backgroundColor:
+              selectedChip === "All Events"
+                ? theme.colors.secondary
+                : theme.colors.tertiary, // Change background color for the active chip
+            // Change text color for the active chip
+          }}
+          selectedColor='white'
+          textStyle={{ color: "white" }}
         >
           All Events
         </Chip>
@@ -234,6 +244,15 @@ const Feed = () => {
           mode='outlined'
           selected={selectedChip === "Preferenced Events"}
           onPress={() => setSelectedChip("Preferenced Events")}
+          style={{
+            backgroundColor:
+              selectedChip === "Preferenced Events"
+                ? theme.colors.secondary
+                : theme.colors.tertiary, // Change background color for the active chip
+            // Change text color for the active chip
+          }}
+          selectedColor='white'
+          textStyle={{ color: "white" }}
         >
           Preferenced Events
         </Chip>
