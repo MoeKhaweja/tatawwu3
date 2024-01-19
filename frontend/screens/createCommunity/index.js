@@ -28,9 +28,9 @@ const CreateCommunityScreen = () => {
 
     dispatch(
       createCommunity({
-        name: "Sample Community3",
-        description: "This is a test community3",
-        schedule: "Test schedule3",
+        name: name,
+        description: description,
+
         img: base64,
       })
     );
