@@ -99,7 +99,12 @@ const Feed = () => {
         <Card.Title
           title={post.title}
           left={(props) => (
-            <Avatar.Image {...props} source={{ uri: post.img }} />
+            <Avatar.Image
+              {...props}
+              source={{
+                uri: `http://192.168.1.5:8000/images/${post.community.img}`,
+              }}
+            />
           )}
           titleStyle={{ color: "#000", fontWeight: "bold" }}
           subtitle={

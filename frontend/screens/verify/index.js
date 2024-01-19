@@ -49,7 +49,7 @@ export default function Verify() {
       setStep(2);
     }
     if (isResumeUploaded == true && isIdImageUploaded == true) {
-      navigation.navigate("CreateCommunityScreen");
+      navigation.navigate("Home");
       setStep(3);
     }
 
