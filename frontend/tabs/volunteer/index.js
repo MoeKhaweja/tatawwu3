@@ -79,9 +79,10 @@ const Feed = () => {
   //   }
   // };
 
-  const InstagramPost = (post) => {
+  const InstagramPost = (post, index) => {
     return (
       <Card
+        key={index}
         style={{
           margin: 3,
           marginVertical: 10,
@@ -89,6 +90,10 @@ const Feed = () => {
           shadowOpacity: 0.3,
           shadowRadius: 2,
           elevation: 5,
+        }}
+        onPress={() => {
+          navigation.navigate("VolunteerEventDetails", { event: post });
+          console.log(eventsApplicationStatus);
         }}
       >
         <Card.Title
@@ -124,7 +129,7 @@ const Feed = () => {
         <Text variant='titleSmall'>{title} </Text>
         <LoadingOrError></LoadingOrError>
         {items.map(
-          (item, index) => InstagramPost(item)
+          (item, index) => InstagramPost(item, index)
           // <Card
           //   key={index}
           //   style={{
@@ -132,10 +137,10 @@ const Feed = () => {
           //     marginHorizontal: 2,
           //     overflow: "hidden",
           //   }}
-          //   onPress={() => {
-          //     navigation.navigate("VolunteerEventDetails", { event: item });
-          //     console.log(eventsApplicationStatus);
-          //   }}
+          // onPress={() => {
+          //   navigation.navigate("VolunteerEventDetails", { event: item });
+          //   console.log(eventsApplicationStatus);
+          // }}
           // >
           //   <View style={{ flexDirection: "row" }} key={item.id}>
           //     <View>
