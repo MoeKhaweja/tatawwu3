@@ -109,7 +109,7 @@ const CommunityEditEvent = ({ route, navigation }) => {
             <Image
               resizeMode='cover'
               style={{ width: "100%", height: 150, marginBottom: 10 }}
-              src={`http://192.168.1.2:8000/images/${eventDetails.img}`}
+              src={`http://192.168.1.5:8000/images/${eventDetails.img}`}
             ></Image>
           )}
 
