@@ -174,9 +174,10 @@ const ViewCommunityEvents = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 20,
   },
   card: {
-    margin: 10,
+    margin: 5,
   },
   fab: {
     position: "absolute",
