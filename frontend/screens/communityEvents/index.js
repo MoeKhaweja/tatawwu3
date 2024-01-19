@@ -164,6 +164,7 @@ const ViewCommunityEvents = () => {
       </ScrollView>
       <FAB
         style={styles.fab}
+        color='white'
         icon='plus'
         onPress={() => navigation.navigate("CommunityAddEvents")}
       />
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+    backgroundColor: theme.colors.primary,
   },
   filterChipsContainer: {
     flexDirection: "row",
