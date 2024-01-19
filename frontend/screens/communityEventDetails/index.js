@@ -168,13 +168,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    borderColor: "#ccc",
     padding: 10,
     marginBottom: 10,
+    margin: 3,
   },
   applicantCard: {
-    borderColor: "#ccc",
+    padding: 5,
     marginBottom: 10,
+    margin: 3,
   },
   applicantContent: {
     flexDirection: "row",
