@@ -72,7 +72,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
           )}
 
           <Paragraph>{event.description}</Paragraph>
-          <Paragraph>Schedule: {event.schedule}</Paragraph>
+          <Paragraph>Schedule: {event.schedule.date}</Paragraph>
           <Paragraph>Location: {event.location}</Paragraph>
           <Paragraph>Duration: {event.duration} minutes</Paragraph>
         </Card.Content>
