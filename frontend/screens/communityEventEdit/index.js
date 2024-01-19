@@ -26,6 +26,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import theme from "../../theme";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CommunityEditEvent = ({ route }) => {
   const { event } = route.params;
@@ -336,6 +337,7 @@ const CommunityEditEvent = ({ route }) => {
         >
           Update Event
         </Button>
+        <LoadingOrError></LoadingOrError>
       </SafeAreaView>
     </ScrollView>
   );
