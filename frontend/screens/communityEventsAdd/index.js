@@ -116,7 +116,11 @@ const CommunityAddEvents = () => {
   const handleCreateEvent = async () => {
     try {
       dispatch(
-        createEvent({ ...eventDetails, targetedSkills: [...listData] })
+        createEvent({
+          ...eventDetails,
+          schedule: `${date},${startTime},${endTime}`,
+          targetedSkills: [...listData],
+        })
       ).then(() => {
         navigation.navigate("ViewCommunityEvents");
       });
@@ -229,11 +233,14 @@ const CommunityAddEvents = () => {
             onCancel={onDismiss2}
           />
         </View>
-
         {image ? (
           <View>
             <TouchableOpacity onPress={removeImage}>
-              <Icon name='times-circle' size={20} color='red' />
+              <Icon
+                name='times-circle'
+                size={20}
+                color={theme.colors.tertiary}
+              />
             </TouchableOpacity>
             <Image
               resizeMode='cover'
@@ -262,6 +269,7 @@ const CommunityAddEvents = () => {
             </Button>
           </View>
         )}
+
         <View
           style={{
             flexDirection: "row",
@@ -274,12 +282,14 @@ const CommunityAddEvents = () => {
             value={inputValue}
             onChangeText={(text) => setInputValue(text)}
             style={{ flex: 1 }}
-          />
-          <IconButton
-            icon={() => (
-              <Icon name='plus' size={24} color={theme.colors.primary} />
-            )} // You can customize the icon here
-            onPress={handleAdd}
+            right={
+              <TextInput.Icon
+                icon={() => (
+                  <Icon name='plus' size={24} color={theme.colors.primary} />
+                )} // You can customize the icon here
+                onPress={handleAdd}
+              />
+            }
           />
         </View>
         <View
@@ -287,6 +297,7 @@ const CommunityAddEvents = () => {
             flexDirection: "row",
             alignItems: "center",
             marginBottom: 8,
+            flexWrap: "wrap",
           }}
         >
           {listData.map((item, index) => (
@@ -294,7 +305,7 @@ const CommunityAddEvents = () => {
               key={index}
               textStyle={{ color: "white" }}
               style={{
-                marginHorizontal: 2,
+                margin: 2,
                 backgroundColor: theme.colors.tertiary,
               }}
               icon={() => <Icon name='close' size={12} color='white' />}
