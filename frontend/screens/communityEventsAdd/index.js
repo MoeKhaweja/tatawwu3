@@ -139,7 +139,11 @@ const CommunityAddEvents = () => {
       dispatch(
         createEvent({
           ...eventDetails,
-
+          schedule: {
+            date: `${day}/${month}/${year}`,
+            startTime: startTime,
+            endTime: endTime,
+          },
           targetedSkills: [...listData],
         })
       ).then(() => {
