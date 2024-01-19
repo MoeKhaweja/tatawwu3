@@ -140,7 +140,7 @@ const CommunityAddEvents = () => {
         createEvent({
           ...eventDetails,
           schedule: {
-            date: `${day}-${month}-${year}`,
+            date: `${year}-${month}-${day}`,
             startTime: startTime,
             endTime: endTime,
           },
