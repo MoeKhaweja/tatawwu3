@@ -7,7 +7,7 @@ import {
   HelperText,
 } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { createCommunity } from "../../store/user";
@@ -25,13 +25,15 @@ const CreateCommunityScreen = () => {
   const navigation = useNavigation();
   const owner = useSelector((state) => state.user.user.user.isCommunityOwner);
 
-  if (owner == true) {
-    navigation.navigate("ViewCommunityEvents");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "ViewCommunityEvents" }],
-    });
-  }
+  useEffect(() => {
+    if (owner == true) {
+      navigation.navigate("ViewCommunityEvents");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ViewCommunityEvents" }],
+      });
+    }
+  }, []);
 
   const handleCreateCommunity = async () => {
     if (!name || !description) {
