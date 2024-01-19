@@ -26,15 +26,15 @@ const CreateCommunityScreen = () => {
       setError(true);
       return;
     }
-
-    dispatch(
-      createCommunity({
-        name: name,
-        description: description,
-        img: base64,
-      })
-    );
-
+    try {
+      dispatch(
+        createCommunity({
+          name: name,
+          description: description,
+          img: base64,
+        })
+      );
+    } catch {}
     // Here, you can handle the logic to create a community
     console.log("Creating community:", { name, description });
     // Add your logic to create the community using the provided name and description
