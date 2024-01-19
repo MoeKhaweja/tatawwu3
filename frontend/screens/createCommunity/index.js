@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import { createCommunity } from "../../store/user";
 import theme from "../../theme";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CreateCommunityScreen = () => {
   const [name, setName] = useState("");
@@ -111,6 +112,7 @@ const CreateCommunityScreen = () => {
       >
         Create Community
       </Button>
+      <LoadingOrError></LoadingOrError>
     </View>
   );
 };
