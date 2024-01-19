@@ -27,33 +27,40 @@ const ViewCommunityEvents = () => {
   const filterEvents = (event) => {
     // Split the date part into day, month, and year
 
-    var [day, month, year] = event.schedule.date?.split("/");
-    var [hours, minutes] = event.schedule.startTime.split(":");
-    const myDate = new Date(year, month + 1, day, hours, minutes);
     const currentDate = new Date();
+    const eventDate = new Date(event.schedule.date);
 
-    const filteredEvents = communityEvents.events.filter((event) => {
-      const eventDate = new Date(event.schedule.date);
-      const eventStartTime = new Date(
-        `${event.schedule.date} ${event.schedule.startTime}`
-      );
-      const eventEndTime = new Date(
-        `${event.schedule.date} ${event.schedule.endTime}`
-      );
-      console.log(myDate);
+    const year1 = currentDate.getFullYear();
+    const month1 = currentDate.getMonth();
+    const day1 = currentDate.getDate();
 
-      if (filter === "past") {
-        // Filter past events
-        return eventEndTime < currentDate;
-      } else if (filter === "upcoming") {
-        // Filter upcoming events
-        return eventStartTime >= currentDate;
+    const year2 = eventDate.getFullYear();
+    const month2 = eventDate.getMonth();
+    const day2 = eventDate.getDate();
+
+    if (filter === "past") {
+      if (
+        year1 > year2 ||
+        (year1 == year2 && month1 > month2) ||
+        (year1 == year2 && month1 == month2 && day1 > day2)
+      ) {
+        return event;
+      } else {
+        return null;
       }
-      // No filter or "all" filter
-      return true;
-    });
-
-    return filteredEvents;
+    } else if (filter === "upcoming") {
+      if (
+        year1 < year2 ||
+        (year1 == year2 && month1 < month2) ||
+        (year1 == year2 && month1 == month2 && day1 < day2)
+      ) {
+        return event;
+      } else {
+        return null;
+      }
+    }
+    // No filter or "all" filter
+    return event;
   };
 
   // Function to render filter chips
@@ -98,7 +105,7 @@ const ViewCommunityEvents = () => {
           const filterResult = filterEvents(event);
 
           // Skip events based on the selected filter
-          if (filter !== "all" && filterResult !== filter) {
+          if (filter !== "all" && filterResult == null) {
             return null;
           }
 
