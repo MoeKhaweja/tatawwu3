@@ -24,15 +24,36 @@ const ViewCommunityEvents = () => {
   );
 
   // Function to filter events based on date
-  const filterEvents = (eventDate) => {
-    const currentDate = new Date();
-    const eventDateTime = new Date(eventDate);
+  const filterEvents = (event) => {
+    // Split the date part into day, month, and year
 
-    if (eventDateTime < currentDate) {
-      return "past";
-    } else if (eventDateTime >= currentDate) {
-      return "upcoming";
-    }
+    var [day, month, year] = event.schedule.date?.split("/");
+    var [hours, minutes] = event.schedule.startTime.split(":");
+    const myDate = new Date(year, month + 1, day, hours, minutes);
+    const currentDate = new Date();
+
+    const filteredEvents = communityEvents.events.filter((event) => {
+      const eventDate = new Date(event.schedule.date);
+      const eventStartTime = new Date(
+        `${event.schedule.date} ${event.schedule.startTime}`
+      );
+      const eventEndTime = new Date(
+        `${event.schedule.date} ${event.schedule.endTime}`
+      );
+      console.log(myDate);
+
+      if (filter === "past") {
+        // Filter past events
+        return eventEndTime < currentDate;
+      } else if (filter === "upcoming") {
+        // Filter upcoming events
+        return eventStartTime >= currentDate;
+      }
+      // No filter or "all" filter
+      return true;
+    });
+
+    return filteredEvents;
   };
 
   // Function to render filter chips
@@ -74,7 +95,7 @@ const ViewCommunityEvents = () => {
         {communityEvents.events?.map((event, index) => {
           const { title, description, schedule } = event;
           const { date, startTime, endTime } = schedule;
-          const filterResult = filterEvents(date);
+          const filterResult = filterEvents(event);
 
           // Skip events based on the selected filter
           if (filter !== "all" && filterResult !== filter) {
