@@ -92,6 +92,7 @@ const Feed = () => {
           shadowOpacity: 0.3,
           shadowRadius: 2,
           elevation: 5,
+          overflow: "hidden",
         }}
         onPress={() => {
           navigation.navigate("VolunteerEventDetails", { event: post });
@@ -125,6 +126,7 @@ const Feed = () => {
         <Card.Cover
           src={`http://192.168.1.5:8000/images/${post.img}`}
           source={{ uri: post.image }}
+          style={{ borderRadius: 0 }}
         />
       </Card>
     );
