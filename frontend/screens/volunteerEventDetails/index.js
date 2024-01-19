@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { Button, Card, Title, Paragraph } from "react-native-paper";
+import { Button, Card, Title, Paragraph, Chip, Icon } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   apply,
@@ -10,6 +10,7 @@ import {
   getCommunity,
 } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
+import theme from "../../theme";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
@@ -89,6 +90,22 @@ const VolunteerEventDetails = ({ route, navigation }) => {
                 Application status: {statusOrNull}
               </Paragraph>
             )}
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {event.targetedSkills?.map((item, index) => (
+                <Chip
+                  key={index}
+                  textStyle={{ color: "white" }}
+                  style={{
+                    margin: 2,
+                    backgroundColor: theme.colors.tertiary,
+                  }}
+                  icon={() => <Icon name='close' size={12} color='white' />}
+                  onPress={() => handleDelete(index)}
+                >
+                  {item}
+                </Chip>
+              ))}
+            </View>
           </Card.Content>
         </Card>
       </ScrollView>
