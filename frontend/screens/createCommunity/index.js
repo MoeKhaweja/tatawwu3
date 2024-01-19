@@ -9,7 +9,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createCommunity } from "../../store/user";
 import theme from "../../theme";
 import LoadingOrError from "../../components/loadingOrError";
@@ -23,6 +23,11 @@ const CreateCommunityScreen = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const owner = useSelector((state) => state.user.user.user.isCommunityOwner);
+
+  if (owner == true) {
+    navigation.navigate("ViewCommunityEvents");
+  }
 
   const handleCreateCommunity = async () => {
     if (!name || !description) {
