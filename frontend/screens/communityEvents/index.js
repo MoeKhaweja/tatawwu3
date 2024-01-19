@@ -4,6 +4,7 @@ import { Card, Title, Paragraph, FAB, Chip } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import theme from "../../theme";
 
 const ViewCommunityEvents = () => {
   const navigation = useNavigation();
@@ -71,25 +72,58 @@ const ViewCommunityEvents = () => {
           mode='outlined'
           onPress={() => setFilter("all")}
           selected={filter === "all"}
-          style={styles.filterChip}
+          selectedColor='white'
+          style={[
+            styles.filterChip,
+            {
+              backgroundColor:
+                filter === "all"
+                  ? theme.colors.secondary
+                  : theme.colors.tertiary, // Change background color for the active chip
+              // Change text color for the active chip
+            },
+          ]}
+          textStyle={{ color: "white" }}
         >
-          All Events
+          All
         </Chip>
         <Chip
           mode='outlined'
+          selectedColor='white'
           onPress={() => setFilter("past")}
           selected={filter === "past"}
-          style={styles.filterChip}
+          style={[
+            styles.filterChip,
+            {
+              backgroundColor:
+                filter === "past"
+                  ? theme.colors.secondary
+                  : theme.colors.tertiary, // Change background color for the active chip
+              // Change text color for the active chip
+            },
+          ]}
+          textStyle={{ color: "white" }}
         >
-          Past Events
+          Completed
         </Chip>
         <Chip
           mode='outlined'
           onPress={() => setFilter("upcoming")}
           selected={filter === "upcoming"}
-          style={styles.filterChip}
+          style={[
+            styles.filterChip,
+            {
+              backgroundColor:
+                filter === "upcoming"
+                  ? theme.colors.secondary
+                  : theme.colors.tertiary, // Change background color for the active chip
+              // Change text color for the active chip
+            },
+          ]}
+          selectedColor='white'
+          textStyle={{ color: "white" }}
         >
-          Upcoming Events
+          Upcoming
         </Chip>
       </View>
     );
@@ -152,11 +186,11 @@ const styles = StyleSheet.create({
   },
   filterChipsContainer: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     marginVertical: 10,
   },
   filterChip: {
-    marginHorizontal: 5,
+    marginHorizontal: 2,
   },
 });
 
