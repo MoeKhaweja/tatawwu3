@@ -77,7 +77,10 @@ const VolunteerEventDetails = ({ route, navigation }) => {
               {event.description}
             </Paragraph>
             <Paragraph style={styles.details}>
-              Schedule: {event.schedule.date}
+              Date: {event.schedule.date}
+            </Paragraph>
+            <Paragraph style={styles.details}>
+              Time: {event.schedule.startTime} - {event.schedule.endTime}
             </Paragraph>
             <Paragraph style={styles.details}>
               Location: {event.location}
