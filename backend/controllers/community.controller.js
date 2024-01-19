@@ -79,6 +79,7 @@ async function getAllEvents(req, res) {
 
   try {
     const allEvents = await Event.find()
+      .populate({ path: "community", select: "img" })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
