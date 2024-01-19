@@ -21,7 +21,7 @@ import {
   HelperText,
 } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { createEvent } from "../../store/user";
+import { createEvent, editEvent } from "../../store/user";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -92,9 +92,9 @@ const CommunityEditEvent = ({ route }) => {
     title: event.title,
     description: event.description,
     schedule: {
-      date: event.date,
-      startTime: event.startTime,
-      endTime: event.endTime,
+      date: event.schedule.date,
+      startTime: event.schedule.startTime,
+      endTime: event.schedule.endTime,
     },
     location: event.location,
     duration: 0,
@@ -125,7 +125,7 @@ const CommunityEditEvent = ({ route }) => {
   };
   const handleEditEvent = () => {
     try {
-      dispatch(editEvent(eventDetails));
+      dispatch(editEvent({ ...eventDetails, _id: event._id }));
     } catch {}
     navigation.navigate("ViewCommunityEvents");
   };
