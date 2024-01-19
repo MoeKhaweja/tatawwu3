@@ -330,7 +330,7 @@ const CommunityEditEvent = ({ route }) => {
           onPress={handleEditEvent}
           style={styles.createEventButton}
         >
-          Create Event
+          Update Event
         </Button>
       </SafeAreaView>
     </ScrollView>
