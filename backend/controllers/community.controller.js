@@ -75,7 +75,7 @@ async function getEvent(req, res) {
 
 async function getAllEvents(req, res) {
   const page = parseInt(req.body.page) || 1; // Extract the page from query parameters or default to page 1
-  const pageSize = 10; // Set the number of events per page as needed
+  const pageSize = 2; // Set the number of events per page as needed
 
   try {
     const allEvents = await Event.find()
