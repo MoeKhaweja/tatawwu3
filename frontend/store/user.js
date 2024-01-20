@@ -588,13 +588,10 @@ export const verifyImage = createAsyncThunk(
       const currentState = getState();
       console.log("Current State:", currentState);
       dispatch(verifyImage.pending());
-      const response = await FileSystem.uploadAsync(
+      const response = await axios.post(
         "http://192.168.1.5:8000/auth/verify",
         data,
         {
-          httpMethod: "POST",
-          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-          fieldName: "private",
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
         }
       );
