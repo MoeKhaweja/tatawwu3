@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import axios from "axios"; // Import Axios
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ export default function SignIn() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [loading, setLoading] = useState(false); // State variable for loading
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,6 +43,8 @@ export default function SignIn() {
         });
         localStorage.setItem("jwt", response.data.token);
 
+        navigate("/users");
+
         // Handle the API response here, e.g., store user data in state or localStorage
 
         console.log("API Response:", response.data);
@@ -57,7 +61,6 @@ export default function SignIn() {
     <Container component='main' maxWidth='xs'>
       <Box
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
