@@ -25,7 +25,6 @@ const isAdmin = async (req, res, next) => {
       }
     }
   }
-  return res.status(400).json({ error: "Forbidden" });
 };
 
 module.exports = {

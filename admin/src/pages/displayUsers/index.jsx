@@ -9,10 +9,24 @@ import axios from "axios";
 export default function Users() {
   const [editRows, setEditRows] = useState([]);
   useEffect(() => {
-    try {
-      const response = axios.get("http://127.0.0.1:8000/admin/");
-      console.log(response.data);
-    } catch {}
+    async function fetchUsers() {
+      try {
+        const token = await localStorage.getItem("jwt");
+        const response = await axios.get("http://127.0.0.1:8000/admin/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Handle Axios errors (e.g., network issues, timeouts, etc.)
+          console.error("Axios Error:", error.message);
+        } else {
+          // Handle other types of errors
+          console.error("Error:", error.message);
+        }
+      }
+    }
+    fetchUsers();
   }, []);
   const [users, setUsers] = useState([
     {
