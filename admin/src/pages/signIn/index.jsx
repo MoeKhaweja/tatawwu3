@@ -35,7 +35,7 @@ export default function SignIn() {
 
       try {
         // Make the API request using Axios
-        const response = await axios.post("http://127.0.0.1:8000/auth/login", {
+        const response = await axios.post("http://127.0.0.1:8000/admin/login", {
           email,
           password,
         });
