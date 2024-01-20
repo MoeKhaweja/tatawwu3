@@ -39,6 +39,7 @@ export default function SignIn() {
           email,
           password,
         });
+        localStorage.setItem("jwt", response.data.token);
 
         // Handle the API response here, e.g., store user data in state or localStorage
 
