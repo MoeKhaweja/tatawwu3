@@ -15,7 +15,7 @@ const getAllUsers = async (req, res) => {
 // Update a user by ID
 const updateUserById = async (req, res) => {
   try {
-    const userId = req.body.id;
+    const userId = req.body.userId;
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
       new: true,
     });
