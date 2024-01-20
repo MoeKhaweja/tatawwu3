@@ -105,6 +105,9 @@ app.use("/mail", sendEmail);
 const roomRoutes = require("./routes/room.routes");
 app.use("/rooms", roomRoutes);
 
+const adminRoutes = require("./routes/admin.route");
+app.use("/admin", adminRoutes);
+
 server.listen(8000, () => {
   console.log("Server listining on PORT: ", 8000);
   connectToMongoDB();
