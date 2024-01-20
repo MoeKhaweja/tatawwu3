@@ -28,16 +28,22 @@ export default function Users() {
   ]);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "role", headerName: "Role", width: 130 },
-    { field: "verified", headerName: "Verified", width: 130 },
+    { field: "id", headerName: "ID", minWidth: 70, flex: 1 },
+    { field: "firstName", headerName: "First name", minWidth: 130, flex: 1 },
+    { field: "lastName", headerName: "Last name", minWidth: 130, flex: 1 },
+    { field: "email", headerName: "Email", minWidth: 200, flex: 1 },
+    { field: "role", headerName: "Role", minWidth: 130, flex: 1 },
+    {
+      field: "verified",
+      headerName: "Verified",
+      minWidth: 130,
+      renderCell: (params) => (params.value ? "true" : "false"),
+      flex: 1,
+    },
     {
       field: "identificationImage",
       headerName: "ID Image",
-      width: 200,
+      minWidth: 200,
       renderCell: (params) => (
         <img
           src={params.value}
@@ -45,11 +51,13 @@ export default function Users() {
           style={{ width: "50px", height: "50px" }}
         />
       ),
+      flex: 1,
     },
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
+      minWidth: 200,
+      flex: 1,
       renderCell: (params) => (
         <>
           {editRows.includes(params.row.id) ? (
@@ -84,7 +92,7 @@ export default function Users() {
 
   const handleSave = (id) => {
     // Handle save operation here
-    console.log("Save user:", id);
+    console.log("Save user:", id, editRows);
     setEditRows((prev) => prev.filter((rowId) => rowId !== id));
   };
 
@@ -102,12 +110,20 @@ export default function Users() {
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
+        autoHeight
+        sx={{
+          ".MuiDataGrid-columnHeader": {
+            backgroundColor: "#F77C47",
+            color: "white",
+          },
+        }}
         rows={users}
         columns={columns.map((column) => ({
           ...column,
           renderCell: (params) =>
             column.field !== "actions" &&
             column.field !== "identificationImage" &&
+            column.field !== "id" &&
             editRows.includes(params.row.id) ? (
               <TextField
                 value={params.value}
@@ -121,7 +137,6 @@ export default function Users() {
               params.value
             ),
         }))}
-        pageSize={5}
       />
     </div>
   );
