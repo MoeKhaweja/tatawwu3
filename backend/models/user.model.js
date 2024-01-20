@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Community = require("../models/community.model");
+const Event = require("../models/event.model");
+const Room = require("../models/room.model");
 
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true, minlength: 2 },
@@ -60,6 +63,42 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+userSchema.pre(
+  "findOneAndDelete",
+  { document: true, query: true },
+  async function (next) {
+    try {
+      const user = await this.model.findOne(this.getFilter());
+      console.log(user);
+      // Handle community owner deletion
+      if (user.isCommunityOwner) {
+        await Community.findOneAndDelete({ owner: user.id }); // Delete the community
+        await Event.deleteMany({ community: user.id }); // Delete community events
+      }
+
+      // Handle event applicant removal
+      await Event.updateMany(
+        { "applicants.user": user.id },
+        { $pull: { applicants: { user: user.id } } }
+      );
+
+      // Handle room chat admin deletion
+      await Room.deleteOne({ admin: user.id });
+
+      // Handle room chat member removal
+      await Room.updateMany(
+        { members: user.id },
+        { $pull: { members: user.id } }
+      );
+
+      next();
+    } catch (error) {
+      console.error("Error during user deletion:", error);
+      next(error);
+    }
+  }
+);
 
 userSchema.pre("save", async function (next) {
   try {
