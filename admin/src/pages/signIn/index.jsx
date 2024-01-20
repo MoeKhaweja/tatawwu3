@@ -4,31 +4,51 @@ import {
   Box,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
+  CircularProgress,
 } from "@mui/material";
+import axios from "axios"; // Import Axios
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false); // State variable for loading
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setEmailError(false);
     setPasswordError(false);
 
     if (email === "") {
       setEmailError(true);
+      return;
     }
     if (password === "") {
       setPasswordError(true);
+      return;
     }
+
     if (email !== "" && password !== "") {
-      console.log("Email:", email);
-      console.log("Password:", password);
+      setLoading(true); // Set loading to true when the API request starts
+
+      try {
+        // Make the API request using Axios
+        const response = await axios.post("http://127.0.0.1:8000/auth/login", {
+          email,
+          password,
+        });
+
+        // Handle the API response here, e.g., store user data in state or localStorage
+
+        console.log("API Response:", response.data);
+      } catch (error) {
+        // Handle errors from the API request
+        console.error("API Error:", error.response.data);
+      } finally {
+        setLoading(false); // Set loading to false when the API request is completed
+      }
     }
   };
 
@@ -47,6 +67,7 @@ export default function SignIn() {
         </Typography>
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
+            style={{ backgroundColor: "white" }}
             variant='filled'
             margin='normal'
             required
@@ -62,6 +83,7 @@ export default function SignIn() {
             helperText={emailError ? "Email is required" : ""}
           />
           <TextField
+            style={{ backgroundColor: "white" }}
             variant='filled'
             margin='normal'
             required
@@ -76,10 +98,6 @@ export default function SignIn() {
             error={passwordError}
             helperText={passwordError ? "Password is required" : ""}
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
           <Button
             type='submit'
             fullWidth
@@ -88,6 +106,8 @@ export default function SignIn() {
           >
             Sign In
           </Button>
+          {loading && <CircularProgress sx={{ mt: 2 }} />}{" "}
+          {/* Show loading component conditionally */}
         </Box>
       </Box>
     </Container>
