@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
+import axios from "axios";
 
 export default function Users() {
   const [editRows, setEditRows] = useState([]);
+  useEffect(() => {
+    try {
+      const response = axios.get("http://127.0.0.1:8000/admin/");
+      console.log(response.data);
+    } catch {}
+  }, []);
   const [users, setUsers] = useState([
     {
       id: 1,
