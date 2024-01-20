@@ -8,6 +8,7 @@ import {
   Title,
   Paragraph,
   Chip,
+  Button,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,8 +44,9 @@ const Feed = () => {
     const fetch = async () => {
       try {
         // Make sure getAllEvents dispatches an action that updates the state with events data
+        const page = Math.ceil(data.length / 2) + 1;
         await dispatch(getMatchingEvents());
-        await dispatch(getAllEvents());
+        await dispatch(getAllEvents({ page: page }));
         setPage((prevPage) => prevPage + 1);
 
         dispatch(findEventsByApplicant());
@@ -205,8 +207,23 @@ const Feed = () => {
           //   </View>
           // </Card>
         )}
+        <Button onPress={loadMoreEvents} mode='text'>
+          Load More
+        </Button>
       </View>
     );
+  };
+  const loadMoreEvents = async () => {
+    setIsLoading(true);
+
+    try {
+      const page = Math.ceil(data.length / 2) + 1;
+      await dispatch(getAllEvents({ page: page }));
+    } catch (error) {
+      console.error("Error loading more events:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
