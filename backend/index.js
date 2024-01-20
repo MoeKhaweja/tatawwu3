@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const http = require("http");
+const cors = require("cors");
 require("dotenv").config();
 const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
@@ -10,6 +11,13 @@ const Room = require("./models/room.model");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Add your client's origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(
   express.json({
