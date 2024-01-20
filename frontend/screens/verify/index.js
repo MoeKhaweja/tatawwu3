@@ -73,7 +73,8 @@ export default function Verify() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      base64: true,
+      aspect: [16, 9],
       quality: 1,
     });
     if (!result.canceled) {
