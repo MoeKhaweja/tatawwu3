@@ -6,6 +6,7 @@ const {
   deleteUserById,
 } = require("../controllers/admin.controller");
 const { login } = require("../controllers/auth.controllers");
+const { isAdmin } = require("../middlewares/admin.middleware");
 
 router.get("/", getAllUsers);
 router.post("/login", login);
