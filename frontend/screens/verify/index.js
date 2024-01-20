@@ -28,6 +28,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Verify() {
   const theme = useTheme();
   const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState(null);
   const [step, setStep] = useState(1);
   const [data, setData] = useState();
   const [snackbarVisible, setSnackbarVisible] = useState(false);
@@ -77,6 +78,7 @@ export default function Verify() {
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      setBase64(result.assets[0].base64);
     }
   };
 
@@ -97,6 +99,7 @@ export default function Verify() {
   };
   const removeImage = () => {
     setImage(null);
+    setBase64(null);
   };
   const removefile = () => {
     setPickedDocument(null);
@@ -106,7 +109,7 @@ export default function Verify() {
     // console.log(user);
 
     try {
-      dispatch(verifyImage(image));
+      dispatch(verifyImage({ image: base64 }));
       // Handle successful login
     } catch (error) {
       console.log(error);
