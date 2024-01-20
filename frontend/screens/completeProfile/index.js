@@ -12,11 +12,15 @@ import {
   Portal,
   Modal,
   Card,
+  Chip,
 } from "react-native-paper";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
+import theme from "../../theme";
 
 const CompleteProfilePage = ({ route }) => {
   const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
@@ -197,30 +201,30 @@ const CompleteProfilePage = ({ route }) => {
           onPress={showModal}
         />
       </View>
-      <Card>
-        {skills.map((skill, index) => {
-          return (
-            <View key={index}>
-              <List.Item
-                titleNumberOfLines={4}
-                descriptionNumberOfLines={4}
-                titleStyle={{ flexWrap: "wrap" }}
-                key={index}
-                title={skill}
-                right={() => (
-                  <IconButton
-                    icon='delete'
-                    style={{ padding: 0, margin: 0 }}
-                    size={20}
-                    onPress={() => handleRemoveSkill(index)}
-                  />
-                )}
-              />
-              <Divider></Divider>
-            </View>
-          );
-        })}
-      </Card>
+
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 8,
+          flexWrap: "wrap",
+        }}
+      >
+        {skills.map((skill, index) => (
+          <Chip
+            key={index}
+            textStyle={{ color: "white" }}
+            style={{
+              margin: 2,
+              backgroundColor: theme.colors.tertiary,
+            }}
+            icon={() => <Icon name='close' size={12} color='white' />}
+            onPress={() => handleRemoveSkill(index)}
+          >
+            {skill}
+          </Chip>
+        ))}
+      </View>
 
       <View
         style={{
