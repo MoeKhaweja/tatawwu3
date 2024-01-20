@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const fs = require("fs");
 const { extract } = require("../helpers/resumeExtractor.helper");
+const { handleBase64Image } = require("../helpers/base64.helper");
+const path = require("path");
 
 const verify = async (req, res) => {
   if (!req.user) {
@@ -125,21 +127,29 @@ async function updateUser(req, res) {
 
 async function updateVerificationImage(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
-  const private = req.files.private[0]; // Access the uploaded file information
-  console.log(private);
+  const img = req.body.image; // Access the uploaded file information
+
+  const imagePath = img ? await handleBase64Image(img) : null;
+  console.log(imagePath);
 
   try {
-    if (!private) {
+    if (!img) {
       return res.status(400).send("Please upload a valid image file.");
     }
 
     const updatedUserData = {
-      identificationImage: private.path, // Save the file path in the user's data
+      identificationImage: imagePath, // Save the file path in the user's data
       isIdImageUploaded: true,
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
-    fs.unlink(user.identificationImage, (err) => {
+    const oldImage = await path.join(
+      path.resolve(path.join(__dirname, "..")),
+      "images",
+      user.identificationImage
+    );
+    console.log(oldImage);
+    fs.unlink(oldImage, (err) => {
       if (err) {
         console.error("Error deleting the previous image:", err);
       } else {
