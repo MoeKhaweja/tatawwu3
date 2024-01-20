@@ -1,31 +1,15 @@
 const express = require("express");
-const crypto = require("crypto");
-const cookieSession = require("cookie-session");
 const multer = require("multer");
-const passport = require("passport");
 const path = require("path");
 const http = require("http");
 require("dotenv").config();
 const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
-const passportSetup = require("./configs/passport-setup");
-const bodyParser = require("body-parser");
 const Room = require("./models/room.model");
 
-// initialize passport
-// app.use(passport.initialize());
-
 const app = express();
-// app.use(bodyParser.json({ limit: "35mb" }));
 
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//     limit: "35mb",
-//     parameterLimit: 500000,
-//   })
-// );
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(
   express.json({
