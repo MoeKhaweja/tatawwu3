@@ -7,10 +7,11 @@ const {
 } = require("../controllers/admin.controller");
 const { login } = require("../controllers/auth.controllers");
 const { isAdmin } = require("../middlewares/admin.middleware");
+const { authMiddleware } = require("../middlewares/auth.middleware");
 
-router.get("/", isAdmin, getAllUsers);
-router.post("/login", login);
-router.post("/update", updateUserById);
-router.post("/delete", deleteUserById);
+router.get("/", authMiddleware, isAdmin, getAllUsers);
+router.post("/login", authMiddleware, isAdmin, login);
+router.post("/update", authMiddleware, isAdmin, updateUserById);
+router.post("/delete", authMiddleware, isAdmin, deleteUserById);
 
 module.exports = router;
