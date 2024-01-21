@@ -84,6 +84,7 @@ const CompleteProfilePage = ({ route }) => {
   };
   const removeImage = () => {
     setImage(null);
+    setBase64(null);
   };
 
   useEffect(() => {
@@ -149,6 +150,7 @@ const CompleteProfilePage = ({ route }) => {
         bio,
         birthdate: date,
         gender,
+        userImage: base64,
       })
     );
   };
