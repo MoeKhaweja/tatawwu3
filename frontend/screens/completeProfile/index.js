@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import {
   Text,
   TextInput,
@@ -13,6 +13,7 @@ import {
   Modal,
   Card,
   Chip,
+  Avatar,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -21,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
+import * as ImagePicker from "expo-image-picker";
 
 const CompleteProfilePage = ({ route }) => {
   const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
@@ -38,6 +40,8 @@ const CompleteProfilePage = ({ route }) => {
   const [bio, setBio] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
+  const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState(null);
   const user = useSelector((state) => state.user.user.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -63,6 +67,24 @@ const CompleteProfilePage = ({ route }) => {
   const showModal2 = () => setModalVisible2(true);
   const hideModal = () => setModalVisible(false);
   const hideModal2 = () => setModalVisible2(false);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      base64: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setBase64(result.assets[0].base64);
+    }
+  };
+  const removeImage = () => {
+    setImage(null);
+  };
 
   useEffect(() => {
     if (extracted?.extracted.skills) {
@@ -133,6 +155,33 @@ const CompleteProfilePage = ({ route }) => {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        {image ? (
+          <View>
+            <TouchableOpacity onPress={removeImage}>
+              <Icon
+                name='times-circle'
+                size={20}
+                color={theme.colors.tertiary}
+              />
+            </TouchableOpacity>
+            <Avatar.Image
+              size={150}
+              style={{ marginBottom: 10 }}
+              source={{ uri: image }}
+            />
+          </View>
+        ) : (
+          <TouchableOpacity onPress={pickImage}>
+            <Avatar.Icon
+              size={150}
+              icon='camera'
+              onPress={pickImage}
+              style={{ marginBottom: 10 }}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
       <TextInput
         label='First Name'
         value={firstName}
@@ -262,7 +311,7 @@ const CompleteProfilePage = ({ route }) => {
           />
         ))}
       </Card>
-      <Button mode='contained' onPress={handleSubmit}>
+      <Button style={{ marginTop: 15 }} mode='contained' onPress={handleSubmit}>
         Submit
       </Button>
 
