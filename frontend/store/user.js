@@ -1128,6 +1128,18 @@ const userSlice = createSlice({
       .addCase(join.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getQueryEvents.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getQueryEvents.fulfilled, (state, action) => {
+        state.loading = false;
+        state.searchEvents = action.payload;
+      })
+      .addCase(getQueryEvents.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
