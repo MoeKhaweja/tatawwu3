@@ -12,6 +12,7 @@ import {
   Button,
   Chip,
   Subheading,
+  Text,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
@@ -34,37 +35,34 @@ const ProfilePage = ({ route, userInfo }) => {
           </View>
           <Divider></Divider>
 
-          <Card style={{ margin: 3 }}>
-            <Card.Content>
-              <Paragraph>{user.bio}</Paragraph>
+          <Paragraph>{user.bio}</Paragraph>
 
-              <Divider style={styles.divider} />
-              <Title>Skills:</Title>
-              <View style={styles.chipsContainer}>
-                {user.skills?.map((skill, index) => (
-                  <Chip
-                    key={index}
-                    textStyle={{ color: "white" }}
-                    style={{
-                      margin: 2,
-                      backgroundColor: theme.colors.tertiary,
-                    }}
-                  >
-                    {skill}
-                  </Chip>
-                ))}
-              </View>
+          <Divider style={styles.divider} />
+          <Text variant='titleSmall'>Skills:</Text>
+          <View style={styles.chipsContainer}>
+            {user.skills?.map((skill, index) => (
+              <Chip
+                key={index}
+                textStyle={{ color: "white" }}
+                style={{
+                  margin: 2,
+                  backgroundColor: theme.colors.tertiary,
+                }}
+              >
+                {skill}
+              </Chip>
+            ))}
+          </View>
 
-              <Divider style={styles.divider} />
+          <Divider style={styles.divider} />
 
-              <List.Section>
-                <List.Subheader>Academic Background</List.Subheader>
-                {user.academicBackground.map((background, index) => (
-                  <List.Item key={index} title={background.degreeTitle} />
-                ))}
-              </List.Section>
-            </Card.Content>
-          </Card>
+          <List.Section>
+            <List.Subheader>Academic Background</List.Subheader>
+            {user.academicBackground.map((background, index) => (
+              <List.Item key={index} title={background.degreeTitle} />
+            ))}
+          </List.Section>
+
           {!route?.params && (
             <Button
               mode='contained'
