@@ -101,19 +101,46 @@ const changePassword = async (req, res) => {
 
 async function updateUser(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
-  const { firstName, lastName, skills, academicBackground, bio } = req.body;
+  const {
+    firstName,
+    lastName,
+    skills,
+    academicBackground,
+    bio,
+    userImage,
+    birthdate,
+    gender,
+  } = req.body;
   console.log([...academicBackground]);
   try {
+    const imagePath = userImage ? await handleBase64Image(userImage) : null;
     const updatedUserData = {
       firstName,
       lastName,
+      gender,
       skills,
       academicBackground: [...academicBackground],
       bio,
+      birthdate,
+      userImage: imagePath,
     };
 
-    const user = await User.findByIdAndUpdate(userId, updatedUserData);
-
+    const user = await User.findByIdAndUpdate(userId, updatedUserData, {
+      new: true,
+    });
+    const oldImage = await path.join(
+      path.resolve(path.join(__dirname, "..")),
+      "images",
+      user.userImage
+    );
+    console.log(oldImage);
+    fs.unlink(oldImage, (err) => {
+      if (err) {
+        console.error("Error deleting the previous image:", err);
+      } else {
+        console.log("Previous image deleted successfully!");
+      }
+    });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }

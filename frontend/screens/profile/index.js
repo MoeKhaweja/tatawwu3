@@ -60,7 +60,7 @@ const ProfilePage = ({ route, userInfo }) => {
                 titleNumberOfLines={3}
                 key={index}
                 title={background.degreeTitle}
-                description={background.institute}
+                description={background.Institution}
               />
             ))}
           </List.Section>
