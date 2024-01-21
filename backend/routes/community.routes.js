@@ -17,6 +17,7 @@ const {
   getCommunity,
   getEvent,
   getCommunityEventsUser,
+  sortByQuery,
 } = require("../controllers/community.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
@@ -39,5 +40,6 @@ router.post("/event", authMiddleware, getEvent);
 router.post("/details", authMiddleware, getCommunity);
 router.post("/applicants", authMiddleware, getCommunityEventApplicants);
 router.get("/sort", authMiddleware, sortBySkills);
+router.get("/search", authMiddleware, sortByQuery);
 
 module.exports = router;
