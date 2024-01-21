@@ -54,12 +54,17 @@ const ProfilePage = ({ route, userInfo }) => {
           <Divider style={styles.divider} />
 
           <List.Section>
-            <List.Subheader>Academic Background</List.Subheader>
+            <Text variant='titleSmall'>Academic Background:</Text>
             {user.academicBackground.map((background, index) => (
-              <List.Item key={index} title={background.degreeTitle} />
+              <List.Item
+                titleNumberOfLines={3}
+                key={index}
+                title={background.degreeTitle}
+                description={background.institute}
+              />
             ))}
           </List.Section>
-
+          <Divider style={styles.divider} />
           {!route?.params && (
             <Button
               mode='contained'
