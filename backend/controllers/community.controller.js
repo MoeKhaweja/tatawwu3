@@ -549,7 +549,7 @@ async function sortByQuery(req, res) {
     });
 
     // Use semanticEvents or any other logic to calculate similarities
-    const similarities = await semanticEvents(query, allEvents);
+    const similarities = await semanticEvents(query, allEvents, 0.7);
 
     function getSimilarEvents(allEvents, similarities) {
       const similarEventIds = similarities.map((similarity) => similarity.id);
