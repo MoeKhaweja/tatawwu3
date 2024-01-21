@@ -16,6 +16,7 @@ import {
   findEventsByApplicant,
   getAllEvents,
   getMatchingEvents,
+  getQueryEvents,
 } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../components/loadingOrError";
@@ -32,6 +33,7 @@ const Feed = () => {
   const pageSize = 10;
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
+  const queryEvents = useSelector((state) => state.user.searchEvents);
   const eventsApplicationStatus = useSelector(
     (state) => state.user.eventsApplicationStatus
   );
@@ -78,6 +80,9 @@ const Feed = () => {
     if (searchQuery) {
       const delayedSearch = () => {
         console.log("Perform search with query:", searchQuery);
+        try {
+          dispatch(getQueryEvents({ query: searchQuery }));
+        } catch {}
         // Perform your search or any other action here
       };
 
@@ -294,8 +299,15 @@ const Feed = () => {
         </Chip>
       </View>
       <ScrollView>
-        {selectedChip === "All Events" && renderCards(data, "All Events")}
+        {queryEvents &&
+          searchQuery &&
+          renderCards(queryEvents, "Search Results")}
+
+        {selectedChip === "All Events" &&
+          !searchQuery &&
+          renderCards(data, "All Events")}
         {selectedChip === "Preferenced Events" &&
+          !searchQuery &&
           renderCards(data2, "Events based on your preference ")}
       </ScrollView>
     </SafeAreaView>
