@@ -31,12 +31,9 @@ const ProfilePage = ({ route, userInfo }) => {
             <Title style={styles.title}>
               {user.firstName} {user.lastName}
             </Title>
-            <Subheading style={styles.subheading}>{user.bio}</Subheading>
           </View>
-          <Divider></Divider>
-
-          <Paragraph>{user.bio}</Paragraph>
-
+          <Text variant='titleSmall'>Bio:</Text>
+          <Text variant='bodyMedium'>{user.bio}</Text>
           <Divider style={styles.divider} />
           <Text variant='titleSmall'>Skills:</Text>
           <View style={styles.chipsContainer}>
