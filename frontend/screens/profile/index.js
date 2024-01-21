@@ -41,6 +41,7 @@ const ProfilePage = ({ route, userInfo }) => {
               <Paragraph>{user.bio}</Paragraph>
 
               <Divider style={styles.divider} />
+              <Title>Skills:</Title>
               <View style={styles.chipsContainer}>
                 {user.skills?.map((skill, index) => (
                   <Chip
