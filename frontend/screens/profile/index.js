@@ -56,13 +56,6 @@ const ProfilePage = ({ route, userInfo }) => {
                 ))}
               </View>
 
-              <List.Section>
-                <List.Subheader>Skills</List.Subheader>
-                {user.skills?.map((skill, index) => (
-                  <List.Item key={index} title={skill} />
-                ))}
-              </List.Section>
-
               <Divider style={styles.divider} />
 
               <List.Section>
