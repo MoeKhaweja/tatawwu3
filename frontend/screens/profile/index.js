@@ -11,6 +11,7 @@ import {
   Divider,
   Button,
   Chip,
+  Subheading,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
@@ -24,18 +25,15 @@ const ProfilePage = ({ route, userInfo }) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-          {/* Top section with circular avatar, first and last name */}
-          <View style={styles.topSection}>
-            <Avatar.Image
-              size={150}
-              source={{ uri: user.userImage }}
-              style={styles.avatar}
-            />
-            <View style={styles.nameContainer}>
-              <Title>{user.firstName}</Title>
-              <Title>{user.lastName}</Title>
-            </View>
+          <View style={styles.header}>
+            <Avatar.Image size={120} source={user.image} />
+            <Title style={styles.title}>
+              {user.firstName} {user.lastName}
+            </Title>
+            <Subheading style={styles.subheading}>{user.bio}</Subheading>
           </View>
+          <Divider></Divider>
+
           <Card style={{ margin: 3 }}>
             <Card.Content>
               <Paragraph>{user.bio}</Paragraph>
@@ -117,6 +115,21 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 16,
+  },
+
+  header: {
+    marginVertical: 16,
+    alignItems: "center",
+  },
+  title: {
+    marginTop: 8,
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  subheading: {
+    marginTop: 4,
+    fontSize: 16,
+    color: "#666",
   },
 });
 
