@@ -73,6 +73,22 @@ const Feed = () => {
     }
   }, [JSON.stringify(volunteerMatchingEvents)]);
 
+  useEffect(() => {
+    // This function will be called after a 2-second delay
+    if (searchQuery) {
+      const delayedSearch = () => {
+        console.log("Perform search with query:", searchQuery);
+        // Perform your search or any other action here
+      };
+
+      // Set a timer for 2 seconds
+      const timerId = setTimeout(delayedSearch, 1000);
+
+      // Clear the timer if a new letter is entered before the 2 seconds elapse
+      return () => clearTimeout(timerId);
+    }
+  }, [searchQuery]); // Execute the effect w
+
   // const handleScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
   //   const paddingToBottom = 20;
   //   if (
@@ -231,7 +247,10 @@ const Feed = () => {
       <Searchbar
         style={{ marginBottom: 10 }}
         placeholder='Search'
-        onChangeText={(query) => setSearchQuery(query)}
+        onChangeText={(query) => {
+          setTimeout(() => {});
+          setSearchQuery(query);
+        }}
         value={searchQuery}
       />
       <View
