@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Appbar, BottomNavigation, Button, Text } from "react-native-paper";
 import { View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon3 from "react-native-vector-icons/MaterialIcons";
+import Icon2 from "react-native-vector-icons/Entypo";
 
 import Feed from "../../tabs/volunteer";
 
@@ -17,7 +19,7 @@ import theme from "../../theme";
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
 const ChatsRoute = () => <ChatScreen></ChatScreen>;
-const NotificationsRoute = () => <ProfilePage></ProfilePage>;
+const ProfileRoute = () => <ProfilePage></ProfilePage>;
 
 const FeedItem = ({ content }) => {
   return (
@@ -46,14 +48,14 @@ const HomeScreen = () => {
     {
       key: "chats",
       title: "Chats",
-      focusedIcon: "comment-dots",
-      unfocusedIcon: "comment-dots",
+      focusedIcon: "chat",
+      unfocusedIcon: "chat",
     },
     {
-      key: "notifications",
+      key: "profile",
       title: "Profile",
-      focusedIcon: "user",
-      unfocusedIcon: "user",
+      focusedIcon: "person",
+      unfocusedIcon: "person",
     },
   ]);
 
@@ -61,7 +63,7 @@ const HomeScreen = () => {
     volunteer: VolunteerRoute,
     communities: CommunitiesRoute,
     chats: ChatsRoute,
-    notifications: NotificationsRoute,
+    profile: ProfileRoute,
   });
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,13 +89,33 @@ const HomeScreen = () => {
         barStyle={{ backgroundColor: theme.colors.primary }}
         inactiveColor='white'
         activeColor='white'
-        renderIcon={({ route, focused, color }) => (
-          <Icon
-            name={focused ? route.focusedIcon : route.unfocusedIcon}
-            size={20}
-            color={color}
-          />
-        )}
+        renderIcon={({ route, focused, color }) => {
+          if (route.key == "chats") {
+            return (
+              <Icon2
+                name={focused ? route.focusedIcon : route.unfocusedIcon}
+                size={20}
+                color={color}
+              />
+            );
+          }
+          if (route.key == "profile") {
+            return (
+              <Icon3
+                name={focused ? route.focusedIcon : route.unfocusedIcon}
+                size={20}
+                color={color}
+              />
+            );
+          }
+          return (
+            <Icon
+              name={focused ? route.focusedIcon : route.unfocusedIcon}
+              size={20}
+              color={color}
+            />
+          );
+        }}
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}

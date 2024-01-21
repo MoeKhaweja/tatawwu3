@@ -10,7 +10,7 @@ const theme = {
     onPrimaryContainer: "rgb(0, 30, 47)",
     secondary: "#4BA0A4",
     onSecondary: "rgb(255, 255, 255)",
-    secondaryContainer: "#F77C47",
+    secondaryContainer: "#4BA0A4",
     onSecondaryContainer: "rgb(0, 32, 33)",
     tertiary: "#F77C47",
     onTertiary: "rgb(255, 255, 255)",
