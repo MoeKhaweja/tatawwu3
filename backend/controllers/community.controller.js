@@ -537,6 +537,34 @@ async function sortBySkills(req, res) {
   }
 }
 
+async function sortByQuery(req, res) {
+  const user = req.user;
+  const { query } = req.body;
+
+  try {
+    // Retrieve all events from the Event model
+    const allEvents = await Event.find().populate({
+      path: "community",
+      select: "img",
+    });
+
+    // Use semanticEvents or any other logic to calculate similarities
+    const similarities = await semanticEvents(query, allEvents);
+
+    function getSimilarEvents(allEvents, similarities) {
+      const similarEventIds = similarities.map((similarity) => similarity.id);
+      return allEvents.filter((event) => similarEventIds.includes(event.id));
+    }
+
+    // Get the filtered events
+    const filteredEvents = getSimilarEvents(allEvents, similarities);
+
+    return res.status(200).send(filteredEvents);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createCommunity,
   addEvent,
