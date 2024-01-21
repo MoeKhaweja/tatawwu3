@@ -310,6 +310,31 @@ export const getAllEvents = createAsyncThunk(
   }
 );
 
+export const getQueryEvents = createAsyncThunk(
+  "user/getQueryEvents",
+  async (query, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getQueryEvents.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.5:8000/community/search",
+        query,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getQueryEvents.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getQueryEvents.rejected(error.message));
+      return rejectWithValue("error getting events");
+    }
+  }
+);
+
 export const apply = createAsyncThunk(
   "user/apply",
   async (eventId, { dispatch, getState, rejectWithValue }) => {
