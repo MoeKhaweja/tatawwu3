@@ -575,6 +575,7 @@ module.exports = {
   getCommunityEvents,
   getAllEvents,
   sortBySkills,
+  sortByQuery,
   cancelApplication,
   acceptApplication,
   rejectApplication,
