@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import ProfilePage from "../profile";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
+import theme from "../../theme";
 
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
@@ -83,6 +84,9 @@ const HomeScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <BottomNavigation
+        barStyle={{ backgroundColor: theme.colors.primary }}
+        inactiveColor='white'
+        activeColor='white'
         renderIcon={({ route, focused, color }) => (
           <Icon
             name={focused ? route.focusedIcon : route.unfocusedIcon}
