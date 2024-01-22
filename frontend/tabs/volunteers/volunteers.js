@@ -89,7 +89,7 @@ const Volunteers = () => {
     ));
   };
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: 20 }}>
+    <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
       <Searchbar
         style={{ marginBottom: 10 }}
         placeholder='Search'
