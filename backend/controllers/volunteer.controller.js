@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const Community = require("../models/community.model");
 const Event = require("../models/event.model");
 const fs = require("fs");
+const { semanticEvents } = require("../helpers/semanticEvents.helper");
 
 async function followCommunity(req, res) {
   const { userId, communityId } = req.body;
@@ -177,6 +178,33 @@ async function getAllVolunteers(req, res) {
     return res.status(200).json(allUsers);
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+}
+
+async function sortByQuery(req, res) {
+  const user = req.user;
+  const { query } = req.body;
+
+  try {
+    // Retrieve all events from the Event model
+    const allUsers = await User.find({ role: "volunteer" }).select(
+      "firstName lastName skills academicBackground bio"
+    );
+
+    // Use semanticEvents or any other logic to calculate similarities
+    const similarities = await semanticEvents(query, allUsers, 0.7);
+
+    function getSimilarEvents(allEvents, similarities) {
+      const similarEventIds = similarities.map((similarity) => similarity.id);
+      return allEvents.filter((event) => similarEventIds.includes(event.id));
+    }
+
+    // Get the filtered events
+    const filteredUsers = getSimilarEvents(allUsers, similarities);
+
+    return res.status(200).send(filteredUsers);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 }
 

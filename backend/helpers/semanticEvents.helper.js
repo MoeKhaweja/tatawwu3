@@ -18,7 +18,7 @@ const semanticEvents = async (userSkills, events, threshold = 0.6) => {
     events.map(async (event) => {
       const eventSkillsEmbedding = await embedSkills(
         model,
-        event.targetedSkills
+        event?.targetedSkills ? event?.targetedSkills : event.skills
       );
       return { id: event.id, embedding: eventSkillsEmbedding };
     })
