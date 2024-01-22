@@ -165,6 +165,20 @@ const findEventsByApplicant = async (req, res) => {
   }
 };
 
+async function getAllVolunteers(req, res) {
+  const page = parseInt(req.body.page) || 1;
+  const pageSize = 2;
+  try {
+    const allUsers = await User.find({ role: "volunteer" })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   followCommunity,
   updateProfile,
