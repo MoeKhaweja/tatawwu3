@@ -358,6 +358,31 @@ export const getQueryEvents = createAsyncThunk(
   }
 );
 
+export const getQueryVolunteers = createAsyncThunk(
+  "user/getQueryVolunteers",
+  async (query, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getQueryVolunteers.pending());
+      const currentState = getState();
+
+      const response = await axios.post(
+        "http://192.168.1.5:8000/volunteer/",
+        query,
+        {
+          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+        }
+      );
+
+      dispatch(getQueryVolunteers.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getQueryEvents.rejected(error.message));
+      return rejectWithValue("error getting volunteers");
+    }
+  }
+);
+
 export const apply = createAsyncThunk(
   "user/apply",
   async (eventId, { dispatch, getState, rejectWithValue }) => {
