@@ -186,4 +186,5 @@ module.exports = {
   updateUserImage,
   applicationStatus,
   findEventsByApplicant,
+  getAllVolunteers,
 };
