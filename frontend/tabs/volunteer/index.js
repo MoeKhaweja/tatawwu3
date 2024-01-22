@@ -21,6 +21,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../components/loadingOrError";
 import theme from "../../theme";
+import { BASE_IMG_URL } from "../../helpers/image";
 
 const Feed = () => {
   const navigation = useNavigation();
@@ -130,7 +131,7 @@ const Feed = () => {
             <Avatar.Image
               {...props}
               source={{
-                uri: `http://192.168.1.5:8000/images/${post.community.img}`,
+                uri: `${BASE_IMG_URL}${post.community.img}`,
               }}
             />
           )}
@@ -149,7 +150,7 @@ const Feed = () => {
         />
         <Card.Content></Card.Content>
         <Card.Cover
-          src={`http://192.168.1.5:8000/images/${post.img}`}
+          src={`${BASE_IMG_URL}${post.img}`}
           source={{ uri: post.image }}
           style={{ borderRadius: 0 }}
         />
