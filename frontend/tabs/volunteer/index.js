@@ -77,6 +77,7 @@ const Feed = () => {
 
   useEffect(() => {
     // This function will be called after a 2-second delay
+
     if (searchQuery) {
       const delayedSearch = () => {
         console.log("Perform search with query:", searchQuery);

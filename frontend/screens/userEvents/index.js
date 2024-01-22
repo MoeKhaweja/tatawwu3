@@ -22,8 +22,10 @@ const EventList = ({ navigation }) => {
     <Card style={styles.card}>
       <Card.Content>
         <Text style={styles.eventName}>{item.title}</Text>
-        <Text style={styles.schedule}>{item.schedule}</Text>
-        <Text style={styles.schedule}>{item.status}</Text>
+        <Text style={styles.schedule}>{item.schedule.date}</Text>
+        <Text style={styles.schedule}>
+          {item.status.startTime} {item.status.startTime}
+        </Text>
       </Card.Content>
       <Card.Actions>
         <Button

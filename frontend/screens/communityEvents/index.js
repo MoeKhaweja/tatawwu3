@@ -53,7 +53,7 @@ const ViewCommunityEvents = () => {
       if (
         year1 < year2 ||
         (year1 == year2 && month1 < month2) ||
-        (year1 == year2 && month1 == month2 && day1 < day2)
+        (year1 == year2 && month1 == month2 && day1 <= day2)
       ) {
         return event;
       } else {
