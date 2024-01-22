@@ -38,6 +38,7 @@ const initialState = {
   communityEvents: [],
   volunteerEvents: [],
   searchEvents: [],
+  searchVolunteers: [],
   volunteerMatchingEvents: [],
   eventsApplicationStatus: [],
   eventApplicants: [],
