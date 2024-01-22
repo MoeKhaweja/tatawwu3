@@ -68,7 +68,7 @@ const Communities = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Avatar.Image size={40} source={{ uri: item.img }} />
+                  <Avatar.Image size={70} source={{ uri: item.img }} />
                 </View>
 
                 <View
