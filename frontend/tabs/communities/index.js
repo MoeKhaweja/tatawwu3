@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunities } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
+import { BASE_IMG_URL } from "../../helpers/image";
 
 const Communities = () => {
   const navigation = useNavigation();
@@ -68,7 +69,10 @@ const Communities = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Avatar.Image size={70} source={{ uri: item.img }} />
+                  <Avatar.Image
+                    size={70}
+                    source={{ uri: `${BASE_IMG_URL}${item.img}` }}
+                  />
                 </View>
 
                 <View
