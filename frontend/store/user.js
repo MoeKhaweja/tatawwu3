@@ -842,6 +842,9 @@ const userSlice = createSlice({
     removeError(state) {
       state.error = null;
     },
+    clearVolunteers: (state, action) => {
+      state.searchVolunteers = [];
+    },
   },
   extraReducers: (builder) => {
     builder
