@@ -27,7 +27,7 @@ export default function ChatScreen() {
   ]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.primary }}>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -47,8 +47,8 @@ export default function ChatScreen() {
                 {route.title.toLowerCase()}
               </Text>
             )}
-            style={{ backgroundColor: theme.colors.tertiary }}
-            indicatorStyle={{ backgroundColor: theme.colors.secondary }} // Set tab bar background color
+            style={{ backgroundColor: theme.colors.primary }}
+            indicatorStyle={{ backgroundColor: theme.colors.tertiary }} // Set tab bar background color
           />
         )}
       />
