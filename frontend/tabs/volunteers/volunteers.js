@@ -12,7 +12,6 @@ const Volunteers = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const volunteers = useSelector((state) => state.user.volunteers);
-  const events = useSelector((state) => state.user.volunteerEvents);
 
   useFocusEffect(
     useCallback(() => {
@@ -30,7 +29,9 @@ const Volunteers = () => {
   const renderCards = (items) => {
     // Filter communities based on the search query
     const filteredCommunities = items.filter((item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      (item.firstName + " " + item.lastName)
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
     );
 
     return filteredCommunities.map((item) => (
@@ -76,7 +77,9 @@ const Volunteers = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Text variant='titleMedium'>{item.name}</Text>
+                  <Text variant='titleMedium'>
+                    {item.firstName + " " + item.lastName}
+                  </Text>
                 </View>
               </View>
             </Card.Content>

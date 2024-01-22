@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../../theme";
 import ViewCommunityEvents from "../communityEvents";
+import Volunteers from "../../tabs/volunteers/volunteers";
 
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
@@ -67,8 +68,8 @@ const HomeScreen = () => {
       unfocusedIcon: "hands-helping",
     },
     {
-      key: "communities",
-      title: "Communities",
+      key: "volunteers",
+      title: "Volunteers",
       focusedIcon: "users",
       unfocusedIcon: "users",
     },
@@ -91,6 +92,7 @@ const HomeScreen = () => {
     chats: ChatsRoute,
     profile: ProfileRoute,
     events: ViewCommunityEvents,
+    volunteers: Volunteers,
   });
 
   const [searchQuery, setSearchQuery] = useState("");
