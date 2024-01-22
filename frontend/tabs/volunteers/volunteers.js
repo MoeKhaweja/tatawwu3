@@ -38,8 +38,8 @@ const Volunteers = () => {
         key={item._id}
         style={{ marginVertical: 5, marginHorizontal: 2, overflow: "hidden" }}
         onPress={() => {
-          navigation.navigate("CommunityProfilePage", {
-            community: item,
+          navigation.navigate("ProfilePage", {
+            user: item,
           });
         }}
       >
@@ -97,7 +97,7 @@ const Volunteers = () => {
       <ScrollView>
         <Text variant='titleSmall'>Communities</Text>
         <LoadingOrError></LoadingOrError>
-        {renderCards(communities)}
+        {renderCards(volunteers)}
       </ScrollView>
     </SafeAreaView>
   );
