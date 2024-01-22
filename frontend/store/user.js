@@ -236,6 +236,27 @@ export const getCommunities = createAsyncThunk(
   }
 );
 
+export const getVolunteers = createAsyncThunk(
+  "user/getVolunteers",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(getVolunteers.pending());
+      const currentState = getState();
+
+      const response = await axios.get("http://192.168.1.5:8000/volunteer/", {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
+
+      dispatch(getVolunteers.fulfilled(response.data));
+
+      return response.data;
+    } catch (error) {
+      dispatch(getVolunteers.rejected(error.message));
+      return rejectWithValue("error getting volunteers");
+    }
+  }
+);
+
 export const getCommunity = createAsyncThunk(
   "user/getCommunity",
   async (community, { dispatch, getState, rejectWithValue }) => {
