@@ -1219,5 +1219,5 @@ const userSlice = createSlice({
   },
 });
 
-export const AuthActions = userSlice.actions; // No regular actions
+export const { clearVolunteers } = userSlice.actions; // No regular actions
 export default userSlice.reducer;
