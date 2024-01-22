@@ -170,6 +170,7 @@ async function getAllVolunteers(req, res) {
   const pageSize = 2;
   try {
     const allUsers = await User.find({ role: "volunteer" })
+      .select("firstName lastName skills academicBackground bio")
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
