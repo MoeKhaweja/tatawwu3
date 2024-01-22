@@ -160,10 +160,9 @@ const Feed = () => {
     );
   };
 
-  const renderCards = (items, title) => {
+  const renderCards = (items) => {
     return (
       <View>
-        <Text variant='titleSmall'>{title} </Text>
         <LoadingOrError></LoadingOrError>
         {items.map((item, index) => InstagramPost(item, index))}
         <Button onPress={loadMoreEvents} mode='text'>
@@ -268,12 +267,10 @@ const Feed = () => {
           searchQuery &&
           renderCards(queryEvents, "Search Results")}
 
-        {selectedChip === "All Events" &&
-          !searchQuery &&
-          renderCards(data, "All Events")}
+        {selectedChip === "All Events" && !searchQuery && renderCards(data)}
         {selectedChip === "Preferenced Events" &&
           !searchQuery &&
-          renderCards(data2, "Events based on your preference ")}
+          renderCards(data2)}
       </ScrollView>
     </SafeAreaView>
   );
