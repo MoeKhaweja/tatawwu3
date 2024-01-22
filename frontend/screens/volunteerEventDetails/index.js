@@ -11,6 +11,7 @@ import {
 } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 import theme from "../../theme";
+import { BASE_IMG_URL } from "../../helpers/image";
 
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
@@ -56,7 +57,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
       <ScrollView>
         <Card style={styles.card}>
           <Card.Cover
-            source={{ uri: `http://192.168.1.5:8000/images/${event.img}` }}
+            source={{ uri: `${BASE_IMG_URL}${event.img}` }}
             style={styles.eventImage}
           />
           <Card.Content>
