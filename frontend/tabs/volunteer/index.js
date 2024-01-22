@@ -163,73 +163,7 @@ const Feed = () => {
       <View>
         <Text variant='titleSmall'>{title} </Text>
         <LoadingOrError></LoadingOrError>
-        {items.map(
-          (item, index) => InstagramPost(item, index)
-          // <Card
-          //   key={index}
-          //   style={{
-          //     marginVertical: 5,
-          //     marginHorizontal: 2,
-          //     overflow: "hidden",
-          //   }}
-          // onPress={() => {
-          //   navigation.navigate("VolunteerEventDetails", { event: item });
-          //   console.log(eventsApplicationStatus);
-          // }}
-          // >
-          //   <View style={{ flexDirection: "row" }} key={item.id}>
-          //     <View>
-          //       <Card.Content
-          //         style={{
-          //           padding: 10,
-          //         }}
-          //       >
-          //         <View
-          //           style={{
-          //             flexDirection: "row",
-          //             gap: 15,
-          //             justifyContent: "flex-start",
-          //           }}
-          //         >
-          //           <View
-          //             style={{
-          //               flexDirection: "column",
-          //               justifyContent: "center",
-          //             }}
-          //           >
-          //             <Avatar.Image size={40} source={{ uri: item.avatar }} />
-          //           </View>
-
-          //           <View
-          //             tyle={{
-          //               flexDirection: "column",
-          //               justifyContent: "center",
-          //             }}
-          //           >
-          //             <Text
-          //               numberOfLines={2}
-          //               ellipsizeMode='middle'
-          //               variant='titleMedium'
-          //             >
-          //               {item.title}{" "}
-          //             </Text>
-          //             <Text numberOfLines={3} variant='bodySmall'>
-          //               {item.description}
-          //             </Text>
-          //           </View>
-          //         </View>
-          //       </Card.Content>
-          //     </View>
-          //     <View style={{ minWidth: 80, flexDirection: "column" }}>
-          //       <Image
-          //         style={{ flex: 1 }}
-          //         source={{ uri: item.image }}
-          //         resizeMode='cover'
-          //       />
-          //     </View>
-          //   </View>
-          // </Card>
-        )}
+        {items.map((item, index) => InstagramPost(item, index))}
         <Button onPress={loadMoreEvents} mode='text'>
           Load More
         </Button>
