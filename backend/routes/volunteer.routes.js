@@ -6,6 +6,7 @@ const {
   updateUserImage,
   applicationStatus,
   findEventsByApplicant,
+  getAllVolunteers,
 } = require("../controllers/volunteer.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 
@@ -16,6 +17,7 @@ router.post("/update", updateProfile);
 router.post("/apply", authMiddleware, applyForEvent);
 router.post("/status", authMiddleware, applicationStatus);
 router.get("/find", authMiddleware, findEventsByApplicant);
+router.get("/", authMiddleware, getAllVolunteers);
 router.post("/image", updateUserImage);
 
 module.exports = router;
