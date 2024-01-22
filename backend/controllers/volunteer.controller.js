@@ -216,4 +216,5 @@ module.exports = {
   applicationStatus,
   findEventsByApplicant,
   getAllVolunteers,
+  sortByQuery,
 };
