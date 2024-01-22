@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEventsUser } from "../../store/user";
+import { BASE_IMG_URL } from "../../helpers/image";
 
 const CommunityProfilePage = ({ route }) => {
   const navigation = useNavigation();
@@ -22,6 +23,7 @@ const CommunityProfilePage = ({ route }) => {
   useEffect(() => {
     try {
       dispatch(getCommunityEventsUser({ communityId: community._id }));
+      console.log(community);
     } catch {}
   }, []);
 
@@ -31,7 +33,7 @@ const CommunityProfilePage = ({ route }) => {
       <View style={styles.topSection}>
         <Avatar.Image
           size={100}
-          source={{ uri: community.img }} // Use community image if available
+          source={{ uri: `${BASE_IMG_URL}${community.img} ` }} // Use community image if available
           style={styles.avatar}
         />
         <View style={styles.nameContainer}>
