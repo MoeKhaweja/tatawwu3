@@ -1199,6 +1199,18 @@ const userSlice = createSlice({
       .addCase(getVolunteers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getQueryVolunteers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getQueryVolunteers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.searchVolunteers = action.payload;
+      })
+      .addCase(getQueryVolunteers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
