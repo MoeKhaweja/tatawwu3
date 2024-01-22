@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ViewCommunityEvents = () => {
   const navigation = useNavigation();
@@ -67,7 +68,7 @@ const ViewCommunityEvents = () => {
   // Function to render filter chips
   const renderFilterChips = () => {
     return (
-      <View style={styles.filterChipsContainer}>
+      <SafeAreaView style={styles.filterChipsContainer}>
         <Chip
           mode='outlined'
           onPress={() => setFilter("all")}
@@ -125,7 +126,7 @@ const ViewCommunityEvents = () => {
         >
           Upcoming
         </Chip>
-      </View>
+      </SafeAreaView>
     );
   };
 
