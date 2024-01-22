@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
   List,
   Avatar,
@@ -43,40 +43,36 @@ const ChatRoomList = () => {
     console.log(rooms?.[0]?._id);
   }, [rooms]);
 
-  const renderChatRoom = ({ item, index }) => (
-    <>
-      <List.Item
-        id={item._id}
-        title={item.title}
-        description={item.lastMessage.message}
-        onPress={() => {
-          try {
-            dispatch(getRoom({ room: item._id }));
-          } catch {
-            return;
-          }
-          navigation.navigate("ChatsScreen", {
-            room: item._id,
-            title: item.title,
-          });
-        }}
-        left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
-      />
-      {index < rooms.length - 1 && <Divider />}
-    </>
-  );
-
   return (
     <View style={styles.container}>
-      {rooms && (
-        <FlatList
-          data={rooms}
-          renderItem={renderChatRoom}
-          keyExtractor={(item) => item._id}
-          contentContainerStyle={styles.listContent}
-          ItemSeparatorComponent={() => <Divider />}
-        />
-      )}
+      <ScrollView>
+        {rooms &&
+          rooms.map((item, index) => (
+            <>
+              <List.Item
+                key={item._id}
+                id={item._id}
+                title={item.title}
+                description={item.lastMessage.message}
+                onPress={() => {
+                  try {
+                    dispatch(getRoom({ room: item._id }));
+                  } catch {
+                    return;
+                  }
+                  navigation.navigate("ChatsScreen", {
+                    room: item._id,
+                    title: item.title,
+                  });
+                }}
+                left={() => (
+                  <Avatar.Image source={{ uri: item.avatar }} size={50} />
+                )}
+              />
+              {index < rooms.length - 1 && <Divider />}
+            </>
+          ))}
+      </ScrollView>
       <FAB style={styles.fab} icon='plus' onPress={showModal} />
       <Portal>
         <Modal
@@ -114,9 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
     paddingHorizontal: 20,
-  },
-  listContent: {
-    paddingVertical: 8,
   },
   fab: {
     position: "absolute",
