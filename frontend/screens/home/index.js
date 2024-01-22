@@ -31,7 +31,7 @@ const FeedItem = ({ content }) => {
 
 const HomeScreen = () => {
   const [index, setIndex] = useState(0);
-
+  const user = useSelector((state) => state.user.user.user);
   const [routes] = useState([
     {
       key: "volunteer",
@@ -58,7 +58,32 @@ const HomeScreen = () => {
       unfocusedIcon: "person",
     },
   ]);
-
+  const [communityRoutes] = useState([
+    {
+      key: "volunteer",
+      title: "Volunteer",
+      focusedIcon: "hands-helping",
+      unfocusedIcon: "hands-helping",
+    },
+    {
+      key: "communities",
+      title: "Communities",
+      focusedIcon: "users",
+      unfocusedIcon: "users",
+    },
+    {
+      key: "chats",
+      title: "Chats",
+      focusedIcon: "chat",
+      unfocusedIcon: "chat",
+    },
+    {
+      key: "profile",
+      title: "Profile",
+      focusedIcon: "person",
+      unfocusedIcon: "person",
+    },
+  ]);
   const renderScene = BottomNavigation.SceneMap({
     volunteer: VolunteerRoute,
     communities: CommunitiesRoute,
@@ -85,41 +110,80 @@ const HomeScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <BottomNavigation
-        barStyle={{ backgroundColor: theme.colors.primary }}
-        inactiveColor='white'
-        activeColor='white'
-        renderIcon={({ route, focused, color }) => {
-          if (route.key == "chats") {
+      {user?.role == "volunteer" && (
+        <BottomNavigation
+          barStyle={{ backgroundColor: theme.colors.primary }}
+          inactiveColor='white'
+          activeColor='white'
+          renderIcon={({ route, focused, color }) => {
+            if (route.key == "chats") {
+              return (
+                <Icon2
+                  name={focused ? route.focusedIcon : route.unfocusedIcon}
+                  size={20}
+                  color={color}
+                />
+              );
+            }
+            if (route.key == "profile") {
+              return (
+                <Icon3
+                  name={focused ? route.focusedIcon : route.unfocusedIcon}
+                  size={20}
+                  color={color}
+                />
+              );
+            }
             return (
-              <Icon2
+              <Icon
                 name={focused ? route.focusedIcon : route.unfocusedIcon}
                 size={20}
                 color={color}
               />
             );
-          }
-          if (route.key == "profile") {
+          }}
+          navigationState={{ index, routes }}
+          onIndexChange={setIndex}
+          renderScene={renderScene}
+        />
+      )}
+      {user?.role == "community" && (
+        <BottomNavigation
+          barStyle={{ backgroundColor: theme.colors.primary }}
+          inactiveColor='white'
+          activeColor='white'
+          renderIcon={({ route, focused, color }) => {
+            if (route.key == "chats") {
+              return (
+                <Icon2
+                  name={focused ? route.focusedIcon : route.unfocusedIcon}
+                  size={20}
+                  color={color}
+                />
+              );
+            }
+            if (route.key == "profile") {
+              return (
+                <Icon3
+                  name={focused ? route.focusedIcon : route.unfocusedIcon}
+                  size={20}
+                  color={color}
+                />
+              );
+            }
             return (
-              <Icon3
+              <Icon
                 name={focused ? route.focusedIcon : route.unfocusedIcon}
                 size={20}
                 color={color}
               />
             );
-          }
-          return (
-            <Icon
-              name={focused ? route.focusedIcon : route.unfocusedIcon}
-              size={20}
-              color={color}
-            />
-          );
-        }}
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-      />
+          }}
+          navigationState={{ index, routes: communityRoutes }}
+          onIndexChange={setIndex}
+          renderScene={renderScene}
+        />
+      )}
     </View>
   );
 };
