@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearVolunteers,
   getCommunities,
   getQueryVolunteers,
   getVolunteers,
@@ -40,6 +41,9 @@ const Volunteers = () => {
 
   useEffect(() => {
     // This function will be called after a 2-second delay
+    if (!searchQuery) {
+      dispatch(clearVolunteers());
+    }
 
     if (searchQuery && isSwitchOn) {
       const delayedSearch = () => {
