@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { ScrollView, Image, View } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { ScrollView, Image, View, Animated } from "react-native";
 import {
   Card,
   Avatar,
@@ -9,6 +9,7 @@ import {
   Paragraph,
   Chip,
   Button,
+  IconButton,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,7 +43,8 @@ const Feed = () => {
   const volunteerMatchingEvents = useSelector(
     (state) => state.user.volunteerMatchingEvents
   );
-
+  const animatedController = useRef(new Animated.Value(0)).current;
+  const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -183,56 +185,83 @@ const Feed = () => {
     }
   };
 
+  const handlePress = () => {
+    setIsExpanded(!isExpanded);
+    Animated.timing(animatedController, {
+      toValue: isExpanded ? 0 : 1,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const searchBarWidth = animatedController.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["10%", "100%"], // change outputRange values as per your needs
+  });
+
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
-      <Searchbar
-        style={{ marginBottom: 10 }}
-        placeholder='Search'
-        onChangeText={(query) => {
-          setTimeout(() => {});
-          setSearchQuery(query);
-        }}
-        value={searchQuery}
-      />
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
           marginBottom: 10,
+          alignItems: "center",
         }}
       >
-        <Chip
-          mode='outlined'
-          selected={selectedChip === "All Events"}
-          onPress={() => setSelectedChip("All Events")}
-          style={{
-            backgroundColor:
-              selectedChip === "All Events"
-                ? theme.colors.secondary
-                : theme.colors.tertiary, // Change background color for the active chip
-            // Change text color for the active chip
-          }}
-          selectedColor='white'
-          textStyle={{ color: "white" }}
-        >
-          All Events
-        </Chip>
-        <Chip
-          mode='outlined'
-          selected={selectedChip === "Preferenced Events"}
-          onPress={() => setSelectedChip("Preferenced Events")}
-          style={{
-            backgroundColor:
-              selectedChip === "Preferenced Events"
-                ? theme.colors.secondary
-                : theme.colors.tertiary, // Change background color for the active chip
-            // Change text color for the active chip
-          }}
-          selectedColor='white'
-          textStyle={{ color: "white" }}
-        >
-          Preferenced Events
-        </Chip>
+        <Animated.View style={{ width: searchBarWidth }}>
+          {isExpanded ? (
+            <Searchbar
+              placeholder='Search'
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+              icon='arrow-left'
+              onIconPress={handlePress}
+            />
+          ) : (
+            <IconButton
+              icon='magnify'
+              onPress={handlePress}
+              style={{ paddingRight: 20 }}
+            />
+          )}
+        </Animated.View>
+        {!isExpanded && (
+          <Chip
+            mode='outlined'
+            selected={selectedChip === "All Events"}
+            onPress={() => setSelectedChip("All Events")}
+            style={{
+              backgroundColor:
+                selectedChip === "All Events"
+                  ? theme.colors.secondary
+                  : theme.colors.tertiary, // Change background color for the active chip
+              // Change text color for the active chip
+            }}
+            selectedColor='white'
+            textStyle={{ color: "white" }}
+          >
+            All Events
+          </Chip>
+        )}
+        {!isExpanded && (
+          <Chip
+            mode='outlined'
+            selected={selectedChip === "Preferenced Events"}
+            onPress={() => setSelectedChip("Preferenced Events")}
+            style={{
+              backgroundColor:
+                selectedChip === "Preferenced Events"
+                  ? theme.colors.secondary
+                  : theme.colors.tertiary, // Change background color for the active chip
+              // Change text color for the active chip
+            }}
+            selectedColor='white'
+            textStyle={{ color: "white" }}
+          >
+            Preferenced Events
+          </Chip>
+        )}
       </View>
       <ScrollView>
         {queryEvents &&
