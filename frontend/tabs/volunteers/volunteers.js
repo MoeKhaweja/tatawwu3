@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ScrollView, Image, View } from "react-native";
 import {
   Card,
@@ -11,7 +11,11 @@ import {
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { getCommunities, getVolunteers } from "../../store/user";
+import {
+  getCommunities,
+  getQueryVolunteers,
+  getVolunteers,
+} from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 import { BASE_IMG_URL } from "../../helpers/image";
 
@@ -19,6 +23,7 @@ const Volunteers = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const volunteers = useSelector((state) => state.user.volunteers);
+  const queryResponse = useSelector((state) => state.user.searchVolunteers);
 
   useFocusEffect(
     useCallback(() => {
@@ -33,13 +38,36 @@ const Volunteers = () => {
     setSearchQuery(query);
   };
 
+  useEffect(() => {
+    // This function will be called after a 2-second delay
+
+    if (searchQuery && isSwitchOn) {
+      const delayedSearch = () => {
+        console.log("Perform search with query:", searchQuery);
+        try {
+          dispatch(getQueryVolunteers({ query: searchQuery }));
+        } catch {}
+        // Perform your search or any other action here
+      };
+
+      // Set a timer for 2 seconds
+      const timerId = setTimeout(delayedSearch, 1000);
+
+      // Clear the timer if a new letter is entered before the 2 seconds elapse
+      return () => clearTimeout(timerId);
+    }
+  }, [searchQuery, isSwitchOn]); // Execute the effect w
+
   const renderCards = (items) => {
     // Filter communities based on the search query
-    const filteredCommunities = items.filter((item) =>
-      (item.firstName + " " + item.lastName)
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-    );
+    let filteredCommunities = items;
+    if (!isSwitchOn) {
+      filteredCommunities = items.filter((item) =>
+        (item.firstName + " " + item.lastName)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+    }
 
     return filteredCommunities.map((item) => (
       <Card
@@ -108,13 +136,18 @@ const Volunteers = () => {
         onChangeText={onChangeSearch}
         value={searchQuery}
         right={() => (
-          <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+          <>
+            <Text variant='labelSmall'>skills</Text>
+            <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+          </>
         )}
       />
 
       <ScrollView>
         <LoadingOrError></LoadingOrError>
-        {renderCards(volunteers)}
+        {(!isSwitchOn || !searchQuery) && renderCards(volunteers)}
+
+        {queryResponse && searchQuery && renderCards(queryResponse)}
       </ScrollView>
     </SafeAreaView>
   );
