@@ -1,7 +1,14 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { ScrollView, Image, View } from "react-native";
-import { Card, Avatar, Text, Searchbar } from "react-native-paper";
+import {
+  Card,
+  Avatar,
+  Text,
+  Searchbar,
+  SegmentedButtons,
+  Switch,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunities, getVolunteers } from "../../store/user";
@@ -88,17 +95,24 @@ const Volunteers = () => {
       </Card>
     ));
   };
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
       <Searchbar
+        mode='bar'
         style={{ marginBottom: 10 }}
         placeholder='Search'
         onChangeText={onChangeSearch}
         value={searchQuery}
+        right={() => (
+          <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+        )}
       />
 
       <ScrollView>
-        <Text variant='titleSmall'>Communities</Text>
         <LoadingOrError></LoadingOrError>
         {renderCards(volunteers)}
       </ScrollView>
