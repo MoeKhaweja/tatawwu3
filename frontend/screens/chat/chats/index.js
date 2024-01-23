@@ -146,7 +146,7 @@ const ChatsScreen = ({ route }) => {
         style={{
           flex: 1,
           padding: 10,
-          backgroundColor: theme.colors.primaryContainer,
+          // backgroundColor: theme.colors.primaryContainer,
         }}
       >
         {renderMessages(messages)}
