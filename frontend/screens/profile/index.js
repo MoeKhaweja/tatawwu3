@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import theme from "../../theme";
 import { BASE_IMG_URL } from "../../helpers/image";
+import LoadingOrError from "../../components/loadingOrError";
 
 const ProfilePage = ({ route, userInfo }) => {
   const current = useSelector((state) => state.user.user.user);
@@ -27,6 +28,7 @@ const ProfilePage = ({ route, userInfo }) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
+          <LoadingOrError></LoadingOrError>
           <View style={styles.header}>
             <Avatar.Image
               size={120}
