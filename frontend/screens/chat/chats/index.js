@@ -90,10 +90,12 @@ const ChatsScreen = ({ route }) => {
             style={{
               padding: 10,
               maxWidth: "80%",
-              backgroundColor: alignRight ? "#DCF8C6" : "#EAEAEA",
+              backgroundColor: alignRight
+                ? theme.colors.tertiary
+                : theme.colors.secondary,
             }}
           >
-            <Text>{message.message}</Text>
+            <Text style={{ color: "white" }}>{message.message}</Text>
           </Card>
         </View>
       );
