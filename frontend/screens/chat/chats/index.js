@@ -161,7 +161,7 @@ const ChatsScreen = ({ route }) => {
             <TextInput.Icon
               icon='send'
               color={theme.colors.secondary}
-              onPress={() => console.log("Camera button pressed")}
+              onPress={sendMessage}
             />
           }
         />
