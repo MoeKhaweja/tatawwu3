@@ -19,6 +19,7 @@ import {
   join,
 } from "../../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import LoadingOrError from "../../../components/loadingOrError";
 
 const chatRoomsData = [
   { id: "1", title: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
@@ -95,6 +96,7 @@ const AllRooms = () => {
 
   return (
     <View style={styles.container}>
+      <LoadingOrError></LoadingOrError>
       {rooms && (
         <FlatList
           data={rooms}
