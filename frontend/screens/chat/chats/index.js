@@ -101,7 +101,15 @@ const ChatsScreen = ({ route }) => {
           >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ color: "white" }}>{message.message}</Text>
-              <Text variant='bodySmall'>
+              <Text
+                variant='bodySmall'
+                style={{
+                  marginLeft: 10,
+                  marginTop: 15,
+                  fontSize: 10,
+                  color: "white",
+                }}
+              >
                 {formatHoursAndMinutes(message.createdAt)}
               </Text>
             </View>
