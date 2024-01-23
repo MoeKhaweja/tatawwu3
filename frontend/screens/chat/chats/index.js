@@ -20,6 +20,7 @@ import {
   formatHoursAndMinutes,
   formatTimestamp,
 } from "../../../helpers/timeStamp";
+import LoadingOrError from "../../../components/loadingOrError";
 
 const ChatsScreen = ({ route }) => {
   const { room, title } = route.params; // Accessing passed props
@@ -166,6 +167,7 @@ const ChatsScreen = ({ route }) => {
           // backgroundColor: theme.colors.primaryContainer,
         }}
       >
+        <LoadingOrError></LoadingOrError>
         {renderMessages(messages)}
       </ScrollView>
       <View
