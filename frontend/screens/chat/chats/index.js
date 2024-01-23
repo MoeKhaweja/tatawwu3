@@ -131,13 +131,16 @@ const ChatsScreen = ({ route }) => {
           alignItems: "center",
           padding: 10,
           borderBottomWidth: 0.5,
+          backgroundColor: theme.colors.primary,
         }}
       >
         <Avatar.Image
           size={40}
           source={() => <Icon name='camera' size={20} color='white' />}
         />
-        <Title style={{ marginLeft: 10 }}>{title}</Title>
+        <Text variant='titleLarge' style={{ marginLeft: 10, color: "white" }}>
+          {title}
+        </Text>
       </View>
       <ScrollView
         style={{
