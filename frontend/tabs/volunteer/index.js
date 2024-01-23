@@ -168,9 +168,12 @@ const Feed = () => {
     return (
       <View>
         {items.map((item, index) => InstagramPost(item, index))}
-        <Button onPress={loadMoreEvents} mode='text'>
-          Load More
-        </Button>
+        {!searchQuery && (
+          <Button onPress={loadMoreEvents} mode='text'>
+            Load More
+          </Button>
+        )}
+
         <LoadingOrError></LoadingOrError>
       </View>
     );
