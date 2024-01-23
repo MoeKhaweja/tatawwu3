@@ -9,6 +9,7 @@ import {
   Modal,
   TextInput,
   Button,
+  Text,
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
@@ -53,7 +54,17 @@ const ChatRoomList = () => {
                 key={item._id}
                 id={item._id}
                 title={item.title}
-                description={item.lastMessage.message}
+                description={() => {
+                  if (item.lastMessage?.sender) {
+                    return (
+                      <Text>
+                        {item.lastMessage?.sender?.split(" ")[0] +
+                          ": " +
+                          item.lastMessage?.message}
+                      </Text>
+                    );
+                  }
+                }}
                 onPress={() => {
                   try {
                     dispatch(getRoom({ room: item._id }));
