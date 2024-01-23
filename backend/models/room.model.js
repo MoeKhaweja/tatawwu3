@@ -38,7 +38,7 @@ const room = new mongoose.Schema({
     sender: {
       type: String,
     },
-    createdAt: { type: Date, default: Date.now },
+    createdAt: { type: Date },
   },
 
   avatar: {

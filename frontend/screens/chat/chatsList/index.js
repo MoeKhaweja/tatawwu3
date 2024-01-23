@@ -14,6 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import formatTimestamp from "../../../helpers/timeStamp";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();
@@ -43,40 +44,6 @@ const ChatRoomList = () => {
   useEffect(() => {
     console.log(rooms?.[0]?._id);
   }, [rooms]);
-  function formatTimestamp(timestamp) {
-    const currentDate = new Date();
-    const providedDate = new Date(timestamp);
-
-    // Check if the provided date is today
-    if (
-      providedDate.getDate() === currentDate.getDate() &&
-      providedDate.getMonth() === currentDate.getMonth() &&
-      providedDate.getFullYear() === currentDate.getFullYear()
-    ) {
-      const hours = providedDate.getHours();
-      const minutes = providedDate.getMinutes();
-      return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
-    }
-
-    // Check if the provided date is yesterday
-    const yesterday = new Date(currentDate);
-    yesterday.setDate(currentDate.getDate() - 1);
-
-    if (
-      providedDate.getDate() === yesterday.getDate() &&
-      providedDate.getMonth() === yesterday.getMonth() &&
-      providedDate.getFullYear() === yesterday.getFullYear()
-    ) {
-      return "Yesterday";
-    }
-
-    // Display the date in "dd/mm/yyyy" format
-    const dd = String(providedDate.getDate()).padStart(2, "0");
-    const mm = String(providedDate.getMonth() + 1).padStart(2, "0");
-    const yyyy = providedDate.getFullYear();
-
-    return `${dd}/${mm}/${yyyy}`;
-  }
 
   return (
     <View style={styles.container}>
@@ -93,11 +60,14 @@ const ChatRoomList = () => {
                     {item.title}
                   </Text>
                 )}
-                right={() => (
-                  <Text variant='bodySmall'>
-                    {formatTimestamp(item.lastMessage?.createdAt)}
-                  </Text>
-                )}
+                right={() => {
+                  if (item.lastMessage?.createdAt)
+                    return (
+                      <Text variant='bodySmall'>
+                        {formatTimestamp(item.lastMessage?.createdAt)}
+                      </Text>
+                    );
+                }}
                 description={() => {
                   if (item.lastMessage?.sender) {
                     return (
