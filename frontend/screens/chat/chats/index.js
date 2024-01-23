@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { socket } from "../../../socket/socket.config";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoom } from "../../../store/user";
+import theme from "../../../theme";
 
 const ChatsScreen = ({ route }) => {
   const { room, title } = route.params; // Accessing passed props
@@ -142,30 +143,28 @@ const ChatsScreen = ({ route }) => {
           alignItems: "center",
           padding: 10,
           gap: 5,
+          backgroundColor: theme.colors.primary,
         }}
       >
         <TextInput
           mode='outlined'
           placeholder='Type your message...'
-          outlineStyle={{ borderRadius: 40 }}
+          outlineStyle={{ borderRadius: 50, borderWidth: 0 }}
           style={{
             flex: 1,
-            backgroundColor: "",
+            backgroundColor: theme.colors.primaryContainer,
           }}
           value={inputValue}
           onChangeText={(text) => handleInputChange(text)}
           dense
           right={
             <TextInput.Icon
-              icon='camera'
+              icon='send'
+              color={theme.colors.secondary}
               onPress={() => console.log("Camera button pressed")}
             />
           }
         />
-
-        <Button mode='elevated' icon='send' onPress={sendMessage}>
-          Send
-        </Button>
       </View>
     </SafeAreaView>
   );
