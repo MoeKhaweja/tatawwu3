@@ -52,7 +52,7 @@ const ChatRoomList = () => {
           rooms.map((item, index) => (
             <>
               <List.Item
-                key={item._id}
+                key={index}
                 id={item._id}
                 titleStyle={{ color: "red" }}
                 title={() => (
