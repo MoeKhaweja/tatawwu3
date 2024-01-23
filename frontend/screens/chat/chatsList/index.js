@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { formatTimestamp } from "../../../helpers/timeStamp";
+import LoadingOrError from "../../../components/loadingOrError";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const ChatRoomList = () => {
       <ScrollView>
         {rooms &&
           rooms.map((item, index) => (
-            <>
+            <View key={index}>
               <List.Item
                 key={index}
                 id={item._id}
@@ -95,8 +96,9 @@ const ChatRoomList = () => {
                 )}
               />
               {index < rooms.length - 1 && <Divider />}
-            </>
+            </View>
           ))}
+        <LoadingOrError></LoadingOrError>
       </ScrollView>
       <FAB style={styles.fab} icon='plus' onPress={showModal} />
       <Portal>
