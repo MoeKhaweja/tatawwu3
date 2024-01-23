@@ -54,6 +54,7 @@ io.on("connection", (socket) => {
           lastMessage: {
             message: message,
             sender: sender,
+            createdAt: Date.now(),
           },
         };
         await target.updateOne(fieldsToUpdate, {
