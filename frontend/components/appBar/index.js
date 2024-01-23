@@ -15,7 +15,6 @@ const TopAppBar = () => {
         style={{
           justifyContent: "space-between",
           alignContent: "center",
-
           backgroundColor: theme.colors.primary,
           paddingTop: 5,
           paddingBottom: 15,

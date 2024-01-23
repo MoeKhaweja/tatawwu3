@@ -202,7 +202,7 @@ const Feed = () => {
   return (
     <>
       <TopAppBar></TopAppBar>
-      <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
+      <View style={{ flex: 1, marginHorizontal: 20 }}>
         <ScrollView>
           <View
             style={{
@@ -215,6 +215,7 @@ const Feed = () => {
             <Animated.View style={{ width: searchBarWidth }}>
               {isExpanded ? (
                 <Searchbar
+                  style={{ marginTop: 10 }}
                   placeholder='Search'
                   onChangeText={setSearchQuery}
                   value={searchQuery}
@@ -273,7 +274,7 @@ const Feed = () => {
           {selectedChip === "All Events" && !searchQuery && renderCards(data)}
           {selectedChip === "Recommended" && !searchQuery && renderCards(data2)}
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </>
   );
 };
