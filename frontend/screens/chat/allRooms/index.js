@@ -62,7 +62,14 @@ const AllRooms = () => {
         description={item.description}
         left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
         right={() => (
-          <View style={{ alignContent: "center", justifyContent: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Button
               onPress={async () => {
                 try {
