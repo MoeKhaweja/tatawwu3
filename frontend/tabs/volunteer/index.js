@@ -23,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../components/loadingOrError";
 import theme from "../../theme";
 import { BASE_IMG_URL } from "../../helpers/image";
+import TopAppBar from "../../components/appBar";
 
 const Feed = () => {
   const navigation = useNavigation();
@@ -199,80 +200,83 @@ const Feed = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
-      <ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            marginBottom: 10,
-            alignItems: "center",
-          }}
-        >
-          <Animated.View style={{ width: searchBarWidth }}>
-            {isExpanded ? (
-              <Searchbar
-                placeholder='Search'
-                onChangeText={setSearchQuery}
-                value={searchQuery}
-                icon='arrow-left'
-                onIconPress={handlePress}
-              />
-            ) : (
-              <IconButton
-                icon='magnify'
-                onPress={handlePress}
-                style={{ paddingRight: 20 }}
-              />
+    <>
+      <TopAppBar></TopAppBar>
+      <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
+        <ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginBottom: 10,
+              alignItems: "center",
+            }}
+          >
+            <Animated.View style={{ width: searchBarWidth }}>
+              {isExpanded ? (
+                <Searchbar
+                  placeholder='Search'
+                  onChangeText={setSearchQuery}
+                  value={searchQuery}
+                  icon='arrow-left'
+                  onIconPress={handlePress}
+                />
+              ) : (
+                <IconButton
+                  icon='magnify'
+                  onPress={handlePress}
+                  style={{ paddingRight: 20 }}
+                />
+              )}
+            </Animated.View>
+            {!isExpanded && (
+              <Chip
+                mode='outlined'
+                selected={selectedChip === "All Events"}
+                onPress={() => setSelectedChip("All Events")}
+                style={{
+                  backgroundColor:
+                    selectedChip === "All Events"
+                      ? theme.colors.secondary
+                      : theme.colors.tertiary, // Change background color for the active chip
+                  // Change text color for the active chip
+                }}
+                selectedColor='white'
+                textStyle={{ color: "white" }}
+              >
+                All Events
+              </Chip>
             )}
-          </Animated.View>
-          {!isExpanded && (
-            <Chip
-              mode='outlined'
-              selected={selectedChip === "All Events"}
-              onPress={() => setSelectedChip("All Events")}
-              style={{
-                backgroundColor:
-                  selectedChip === "All Events"
-                    ? theme.colors.secondary
-                    : theme.colors.tertiary, // Change background color for the active chip
-                // Change text color for the active chip
-              }}
-              selectedColor='white'
-              textStyle={{ color: "white" }}
-            >
-              All Events
-            </Chip>
-          )}
-          {!isExpanded && (
-            <Chip
-              mode='outlined'
-              selected={selectedChip === "Preferenced Events"}
-              onPress={() => setSelectedChip("Preferenced Events")}
-              style={{
-                backgroundColor:
-                  selectedChip === "Preferenced Events"
-                    ? theme.colors.secondary
-                    : theme.colors.tertiary, // Change background color for the active chip
-                // Change text color for the active chip
-              }}
-              selectedColor='white'
-              textStyle={{ color: "white" }}
-            >
-              Preferenced Events
-            </Chip>
-          )}
-        </View>
-        {queryEvents &&
-          searchQuery &&
-          renderCards(queryEvents, "Search Results")}
+            {!isExpanded && (
+              <Chip
+                mode='outlined'
+                selected={selectedChip === "Preferenced Events"}
+                onPress={() => setSelectedChip("Preferenced Events")}
+                style={{
+                  backgroundColor:
+                    selectedChip === "Preferenced Events"
+                      ? theme.colors.secondary
+                      : theme.colors.tertiary, // Change background color for the active chip
+                  // Change text color for the active chip
+                }}
+                selectedColor='white'
+                textStyle={{ color: "white" }}
+              >
+                Preferenced Events
+              </Chip>
+            )}
+          </View>
+          {queryEvents &&
+            searchQuery &&
+            renderCards(queryEvents, "Search Results")}
 
-        {selectedChip === "All Events" && !searchQuery && renderCards(data)}
-        {selectedChip === "Preferenced Events" &&
-          !searchQuery &&
-          renderCards(data2)}
-      </ScrollView>
-    </SafeAreaView>
+          {selectedChip === "All Events" && !searchQuery && renderCards(data)}
+          {selectedChip === "Preferenced Events" &&
+            !searchQuery &&
+            renderCards(data2)}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
