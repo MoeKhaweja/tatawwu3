@@ -136,7 +136,13 @@ const ChatsScreen = ({ route }) => {
         />
         <Title style={{ marginLeft: 10 }}>{title}</Title>
       </View>
-      <ScrollView style={{ flex: 1, padding: 10 }}>
+      <ScrollView
+        style={{
+          flex: 1,
+          padding: 10,
+          backgroundColor: theme.colors.primaryContainer,
+        }}
+      >
         {renderMessages(messages)}
       </ScrollView>
       <View
