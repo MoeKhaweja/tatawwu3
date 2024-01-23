@@ -33,7 +33,6 @@ const room = new mongoose.Schema({
   ],
   lastMessage: {
     message: {
-      default: "",
       type: String,
     },
     sender: {
