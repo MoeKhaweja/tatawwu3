@@ -43,6 +43,40 @@ const ChatRoomList = () => {
   useEffect(() => {
     console.log(rooms?.[0]?._id);
   }, [rooms]);
+  function formatTimestamp(timestamp) {
+    const currentDate = new Date();
+    const providedDate = new Date(timestamp);
+
+    // Check if the provided date is today
+    if (
+      providedDate.getDate() === currentDate.getDate() &&
+      providedDate.getMonth() === currentDate.getMonth() &&
+      providedDate.getFullYear() === currentDate.getFullYear()
+    ) {
+      const hours = providedDate.getHours();
+      const minutes = providedDate.getMinutes();
+      return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+    }
+
+    // Check if the provided date is yesterday
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(currentDate.getDate() - 1);
+
+    if (
+      providedDate.getDate() === yesterday.getDate() &&
+      providedDate.getMonth() === yesterday.getMonth() &&
+      providedDate.getFullYear() === yesterday.getFullYear()
+    ) {
+      return "Yesterday";
+    }
+
+    // Display the date in "dd/mm/yyyy" format
+    const dd = String(providedDate.getDate()).padStart(2, "0");
+    const mm = String(providedDate.getMonth() + 1).padStart(2, "0");
+    const yyyy = providedDate.getFullYear();
+
+    return `${dd}/${mm}/${yyyy}`;
+  }
 
   return (
     <View style={styles.container}>
@@ -53,11 +87,21 @@ const ChatRoomList = () => {
               <List.Item
                 key={item._id}
                 id={item._id}
-                title={item.title}
+                titleStyle={{ color: "red" }}
+                title={() => (
+                  <Text style={{ paddingBottom: 5 }} variant='titleMedium'>
+                    {item.title}
+                  </Text>
+                )}
+                right={() => (
+                  <Text variant='bodySmall'>
+                    {formatTimestamp(item.lastMessage?.createdAt)}
+                  </Text>
+                )}
                 description={() => {
                   if (item.lastMessage?.sender) {
                     return (
-                      <Text>
+                      <Text variant='bodySmall'>
                         {item.lastMessage?.sender?.split(" ")[0] +
                           ": " +
                           item.lastMessage?.message}
@@ -77,7 +121,7 @@ const ChatRoomList = () => {
                   });
                 }}
                 left={() => (
-                  <Avatar.Image source={{ uri: item.avatar }} size={50} />
+                  <Avatar.Image source={{ uri: item.avatar }} size={55} />
                 )}
               />
               {index < rooms.length - 1 && <Divider />}
@@ -120,7 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   fab: {
     position: "absolute",
