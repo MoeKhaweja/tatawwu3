@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createRoom, getRoom, getUserRooms } from "../../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import formatTimestamp from "../../../helpers/timeStamp";
+import { formatTimestamp } from "../../../helpers/timeStamp";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();

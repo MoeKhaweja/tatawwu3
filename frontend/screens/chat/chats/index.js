@@ -16,6 +16,10 @@ import { socket } from "../../../socket/socket.config";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoom } from "../../../store/user";
 import theme from "../../../theme";
+import {
+  formatHoursAndMinutes,
+  formatTimestamp,
+} from "../../../helpers/timeStamp";
 
 const ChatsScreen = ({ route }) => {
   const { room, title } = route.params; // Accessing passed props
@@ -95,8 +99,12 @@ const ChatsScreen = ({ route }) => {
                 : theme.colors.secondary,
             }}
           >
-            <Text style={{ color: "white" }}>{message.message}</Text>
-            <Text>{message.createdAt}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ color: "white" }}>{message.message}</Text>
+              <Text variant='bodySmall'>
+                {formatHoursAndMinutes(message.createdAt)}
+              </Text>
+            </View>
           </Card>
         </View>
       );

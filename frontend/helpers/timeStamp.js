@@ -1,4 +1,4 @@
-function formatTimestamp(timestamp) {
+export const formatTimestamp = (timestamp) => {
   const currentDate = new Date();
   const providedDate = new Date(timestamp);
 
@@ -31,6 +31,12 @@ function formatTimestamp(timestamp) {
   const yyyy = providedDate.getFullYear();
 
   return `${dd}/${mm}/${yyyy}`;
-}
+};
 
-export default formatTimestamp;
+export const formatHoursAndMinutes = (timestamp) => {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+};
