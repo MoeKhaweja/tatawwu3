@@ -96,6 +96,7 @@ const ChatsScreen = ({ route }) => {
             }}
           >
             <Text style={{ color: "white" }}>{message.message}</Text>
+            <Text>{message.createdAt}</Text>
           </Card>
         </View>
       );
