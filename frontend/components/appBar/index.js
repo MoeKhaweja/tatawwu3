@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, View } from "react-native";
+import { Image, StatusBar, View } from "react-native";
 import { Appbar, Avatar } from "react-native-paper";
 import theme from "../../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +11,10 @@ const TopAppBar = () => {
 
   return (
     <>
+      <StatusBar
+        backgroundColor={theme.colors.primary}
+        barStyle='light-content'
+      />
       <SafeAreaView
         style={{
           justifyContent: "space-between",
