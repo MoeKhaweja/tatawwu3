@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCommunities } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 import { BASE_IMG_URL } from "../../helpers/image";
+import TopAppBar from "../../components/appBar";
 
 const Communities = () => {
   const navigation = useNavigation();
@@ -91,20 +92,23 @@ const Communities = () => {
     ));
   };
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: 20 }}>
-      <Searchbar
-        style={{ marginBottom: 10 }}
-        placeholder='Search'
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-      />
+    <>
+      <TopAppBar></TopAppBar>
+      <SafeAreaView style={{ flex: 1, marginHorizontal: 20 }}>
+        <Searchbar
+          style={{ marginBottom: 10 }}
+          placeholder='Search'
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+        />
 
-      <ScrollView>
-        <Text variant='titleSmall'>Communities</Text>
-        <LoadingOrError></LoadingOrError>
-        {renderCards(communities)}
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView>
+          <Text variant='titleSmall'>Communities</Text>
+          <LoadingOrError></LoadingOrError>
+          {renderCards(communities)}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
