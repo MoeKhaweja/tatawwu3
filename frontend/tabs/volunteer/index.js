@@ -250,11 +250,11 @@ const Feed = () => {
             {!isExpanded && (
               <Chip
                 mode='outlined'
-                selected={selectedChip === "Preferenced Events"}
-                onPress={() => setSelectedChip("Preferenced Events")}
+                selected={selectedChip === "Recommended"}
+                onPress={() => setSelectedChip("Recommended")}
                 style={{
                   backgroundColor:
-                    selectedChip === "Preferenced Events"
+                    selectedChip === "Recommended"
                       ? theme.colors.secondary
                       : theme.colors.tertiary, // Change background color for the active chip
                   // Change text color for the active chip
@@ -262,7 +262,7 @@ const Feed = () => {
                 selectedColor='white'
                 textStyle={{ color: "white" }}
               >
-                Preferenced Events
+                Recommended
               </Chip>
             )}
           </View>
@@ -271,9 +271,7 @@ const Feed = () => {
             renderCards(queryEvents, "Search Results")}
 
           {selectedChip === "All Events" && !searchQuery && renderCards(data)}
-          {selectedChip === "Preferenced Events" &&
-            !searchQuery &&
-            renderCards(data2)}
+          {selectedChip === "Recommended" && !searchQuery && renderCards(data2)}
         </ScrollView>
       </SafeAreaView>
     </>
