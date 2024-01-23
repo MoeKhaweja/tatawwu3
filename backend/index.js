@@ -51,6 +51,10 @@ io.on("connection", (socket) => {
               sender: sender,
             },
           ],
+          lastMessage: {
+            message: message,
+            sender: sender,
+          },
         };
         await target.updateOne(fieldsToUpdate, {
           new: true,
