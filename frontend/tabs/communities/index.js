@@ -96,7 +96,7 @@ const Communities = () => {
       <TopAppBar></TopAppBar>
       <SafeAreaView style={{ flex: 1, marginHorizontal: 20 }}>
         <Searchbar
-          style={{ marginBottom: 10 }}
+          style={{ marginBottom: 10, marginTop: 10 }}
           placeholder='Search'
           onChangeText={onChangeSearch}
           value={searchQuery}
