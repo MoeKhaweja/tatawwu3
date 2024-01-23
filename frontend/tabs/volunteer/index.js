@@ -64,12 +64,15 @@ const Feed = () => {
   }, []); // Fetch data when the component mounts
 
   useEffect(() => {
-    if (events) {
+    if (
+      events &&
+      data[data.length - 1]?._id != events[events.length - 1]?._id
+    ) {
       setData((prevData) => [...prevData, ...events]);
     } else {
       console.log("Events or paginatedEvents is undefined");
     }
-  }, [JSON.stringify(events)]);
+  }, [events.length]);
 
   useEffect(() => {
     if (volunteerMatchingEvents) {
@@ -77,7 +80,7 @@ const Feed = () => {
     } else {
       console.log("Events or volunteerMatchingEvents is undefined");
     }
-  }, [JSON.stringify(volunteerMatchingEvents)]);
+  }, [volunteerMatchingEvents.length]);
 
   useEffect(() => {
     // This function will be called after a 2-second delay
@@ -164,11 +167,11 @@ const Feed = () => {
   const renderCards = (items) => {
     return (
       <View>
-        <LoadingOrError></LoadingOrError>
         {items.map((item, index) => InstagramPost(item, index))}
         <Button onPress={loadMoreEvents} mode='text'>
           Load More
         </Button>
+        <LoadingOrError></LoadingOrError>
       </View>
     );
   };
