@@ -103,6 +103,9 @@ const ChatsScreen = ({ route }) => {
   };
 
   const sendMessage = () => {
+    if (inputValue == "") {
+      return;
+    }
     // Logic to send message
     // For demo purposes, let's just add a new message with the user as sender
     const newMessage = {
