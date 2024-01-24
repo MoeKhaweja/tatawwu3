@@ -101,7 +101,6 @@ const changePassword = async (req, res) => {
     const user = await User.findOne({ email: email }); // Finding user by email
     if (user) {
       // User found
-      console.log(user.passwordResetToken == token);
       if (
         user.passwordResetToken === token &&
         user.passwordResetTokenExpiry > Date.now()
@@ -141,7 +140,6 @@ async function updateUser(req, res) {
     birthdate,
     gender,
   } = req.body;
-  console.log([...academicBackground]);
   try {
     const imagePath = userImage ? await handleBase64Image(userImage) : null;
     const updatedUserData = {
@@ -163,10 +161,9 @@ async function updateUser(req, res) {
       "images",
       user.userImage
     );
-    console.log(oldImage);
     fs.unlink(oldImage, (err) => {
       if (err) {
-        console.error("Error deleting the previous image:", err);
+        console.log("Error deleting the previous image:", err);
       } else {
         console.log("Previous image deleted successfully!");
       }
@@ -177,7 +174,6 @@ async function updateUser(req, res) {
 
     return res.status(200).json({ user });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ error: "error.message" });
   }
 }
@@ -191,9 +187,7 @@ async function updateUser(req, res) {
 async function updateVerificationImage(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const img = req.body.image; // Access the uploaded file information
-
   const imagePath = img ? await handleBase64Image(img) : null;
-  console.log(imagePath);
 
   try {
     if (!img) {
@@ -211,10 +205,9 @@ async function updateVerificationImage(req, res) {
       "images",
       user.identificationImage
     );
-    console.log(oldImage);
     fs.unlink(oldImage, (err) => {
       if (err) {
-        console.error("Error deleting the previous image:", err);
+        console.log("Error deleting the previous image:", err);
       } else {
         console.log("Previous image deleted successfully!");
       }
@@ -239,8 +232,6 @@ async function updateVerificationImage(req, res) {
 async function getResume(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const resume = req.files.resume[0]; // Access the uploaded file information
-  console.log(resume);
-
   try {
     if (!resume) {
       return res.status(400).send("Please upload a valid cv file.");
@@ -254,7 +245,7 @@ async function getResume(req, res) {
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
     fs.unlink(user.resume, (err) => {
       if (err) {
-        console.error("Error deleting the previous cv:", err);
+        console.log("Error deleting the previous cv:", err);
       } else {
         console.log("Previous cv deleted successfully!");
       }
