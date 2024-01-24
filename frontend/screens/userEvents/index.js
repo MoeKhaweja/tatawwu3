@@ -8,8 +8,13 @@ import LoadingOrError from "../../components/loadingOrError";
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userEvents = useSelector((state) => state.user.eventsApplicationStatus);
+  let userEvents = useSelector((state) => state.user.eventsApplicationStatus);
   const event = useSelector((state) => state.user.event);
+
+  // Sort the events by date
+  userEvents.sort(
+    (a, b) => new Date(a.schedule.date) - new Date(b.schedule.date)
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -71,6 +76,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 16,
+    margin: 3,
   },
   eventName: {
     fontSize: 18,
