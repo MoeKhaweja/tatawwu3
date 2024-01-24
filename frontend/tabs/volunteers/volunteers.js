@@ -19,6 +19,7 @@ import {
 } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 import { BASE_IMG_URL } from "../../helpers/image";
+import TopAppBar from "../../components/appBar";
 
 const Volunteers = () => {
   const navigation = useNavigation();
@@ -132,28 +133,31 @@ const Volunteers = () => {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
-      <Searchbar
-        mode='bar'
-        style={{ marginBottom: 10 }}
-        placeholder='Search'
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        right={() => (
-          <>
-            <Text variant='labelSmall'>skills</Text>
-            <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-          </>
-        )}
-      />
+    <>
+      <TopAppBar></TopAppBar>
+      <SafeAreaView style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
+        <Searchbar
+          mode='bar'
+          style={{ marginBottom: 10 }}
+          placeholder='Search'
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          right={() => (
+            <>
+              <Text variant='labelSmall'>skills</Text>
+              <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+            </>
+          )}
+        />
 
-      <ScrollView>
-        <LoadingOrError></LoadingOrError>
-        {(!isSwitchOn || !searchQuery) && renderCards(volunteers)}
+        <ScrollView>
+          <LoadingOrError></LoadingOrError>
+          {(!isSwitchOn || !searchQuery) && renderCards(volunteers)}
 
-        {queryResponse && searchQuery && renderCards(queryResponse)}
-      </ScrollView>
-    </SafeAreaView>
+          {queryResponse && searchQuery && renderCards(queryResponse)}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
