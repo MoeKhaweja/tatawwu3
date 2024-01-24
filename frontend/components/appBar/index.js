@@ -5,10 +5,13 @@ import theme from "../../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { BASE_IMG_URL } from "../../helpers/image";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/core";
 
 const TopAppBar = () => {
   const image = useSelector((state) => state.user.user.user.userImage);
-
+  const role = useSelector((state) => state.user.user.user.role);
+  const navigation = useNavigation();
   return (
     <>
       <StatusBar
@@ -31,12 +34,29 @@ const TopAppBar = () => {
           resizeMode='contain'
           style={{ height: 40, width: 40 }}
         />
-        <Avatar.Image
-          source={{
-            uri: `${BASE_IMG_URL}${image}`,
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 15,
           }}
-          size={40}
-        />
+        >
+          <Icon
+            name='calendar'
+            color='white'
+            size={30}
+            onPress={() => navigation.navigate("EventList")}
+          />
+          {role == "volunteer" && (
+            <Avatar.Image
+              source={{
+                uri: `${BASE_IMG_URL}${image}`,
+              }}
+              size={40}
+            />
+          )}
+        </View>
       </SafeAreaView>
     </>
   );
