@@ -1,42 +1,48 @@
-// socketHandler.js
-const socketHandler = (io) => {
+const socketIO = require("socket.io");
+
+const socket = async (server) => {
+  const io = socketIO(server); // Attach Socket.IO to the HTTP server
+
   io.on("connection", (socket) => {
-    socket.on("authenticate", (token) => {
-      if (isValidToken(token)) {
-        // If the token is valid, allow the connection
-        console.log(`A user connected with token: ${token}`);
-        handleValidConnection(socket);
+    console.log(socket.id);
+
+    socket.on("send-message", (message, room, sender) => {
+      if (room) {
+        console.log(room, sender);
+        // Handle message for all clients
+        socket.to(room).emit("receive-message", message, sender);
+        const find = async () => {
+          const target = await Room.findById(room);
+          const fieldsToUpdate = {
+            chat: [
+              ...target.chat,
+              {
+                message: message,
+                sender: sender,
+              },
+            ],
+            lastMessage: {
+              message: message,
+              sender: sender,
+              createdAt: Date.now(),
+            },
+          };
+          await target.updateOne(fieldsToUpdate, {
+            new: true,
+            runValidators: true,
+          });
+          console.log("done");
+        };
+        find();
       } else {
-        // If the token is invalid, disconnect the socket
-        console.log(`Unauthorized connection attempt with token: ${token}`);
-        socket.disconnect(true);
       }
     });
-  });
 
-  function isValidToken(token) {
-    // Implement your token validation logic here
-    // Example: check token against a database or secret key
-    // Return true if the token is valid, false otherwise
-    // For demonstration purposes, consider all tokens as valid
-    return true; // Replace this with your validation logic
-  }
-
-  function handleValidConnection(socket) {
-    // Handle various events and operations after successful connection
-    socket.on("join", (room) => {
+    socket.on("join-room", (room) => {
       socket.join(room);
-      console.log(`User joined room: ${room}`);
+      console.log(`Joined ${room}`);
     });
-
-    socket.on("message", (data) => {
-      io.to(data.room).emit("message", data);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("A user disconnected");
-    });
-  }
+  });
 };
 
-module.exports = { socketHandler };
+module.exports = { socket };
