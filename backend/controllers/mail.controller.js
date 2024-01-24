@@ -21,6 +21,12 @@ const handlebarOptions = {
   viewPath: path.resolve("./views/"),
 };
 
+/**
+ * Sends an email to a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 const sendEmail = async (req, res) => {
   const { email, name } = req.body;
 
@@ -46,6 +52,12 @@ const sendEmail = async (req, res) => {
   }
 };
 
+/**
+ * Sends a password reset email to a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 const ResetPassword = async (req, res) => {
   const { email } = req.body;
 
