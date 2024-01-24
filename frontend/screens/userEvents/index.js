@@ -4,6 +4,7 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { findEventsByApplicant, getEvent } from "../../store/user";
+import LoadingOrError from "../../components/loadingOrError";
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const EventList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <LoadingOrError></LoadingOrError>
       <FlatList
         data={userEvents}
         keyExtractor={(item) => item._id}
