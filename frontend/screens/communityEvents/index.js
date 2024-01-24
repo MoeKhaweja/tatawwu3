@@ -7,6 +7,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TopAppBar from "../../components/appBar";
+import LoadingOrError from "../../components/loadingOrError";
 
 const ViewCommunityEvents = () => {
   const navigation = useNavigation();
@@ -139,6 +140,7 @@ const ViewCommunityEvents = () => {
 
       <View style={styles.container}>
         {renderFilterChips()}
+        <LoadingOrError></LoadingOrError>
         <ScrollView>
           {communityEvents.events?.map((event, index) => {
             const { title, description, schedule } = event;
