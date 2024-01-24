@@ -6,6 +6,7 @@ import { getCommunityEvents } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TopAppBar from "../../components/appBar";
 
 const ViewCommunityEvents = () => {
   const navigation = useNavigation();
@@ -68,108 +69,114 @@ const ViewCommunityEvents = () => {
   // Function to render filter chips
   const renderFilterChips = () => {
     return (
-      <SafeAreaView style={styles.filterChipsContainer}>
-        <Chip
-          mode='outlined'
-          onPress={() => setFilter("all")}
-          selected={filter === "all"}
-          selectedColor='white'
-          style={[
-            styles.filterChip,
-            {
-              backgroundColor:
-                filter === "all"
-                  ? theme.colors.secondary
-                  : theme.colors.tertiary, // Change background color for the active chip
-              // Change text color for the active chip
-            },
-          ]}
-          textStyle={{ color: "white" }}
-        >
-          All
-        </Chip>
-        <Chip
-          mode='outlined'
-          selectedColor='white'
-          onPress={() => setFilter("past")}
-          selected={filter === "past"}
-          style={[
-            styles.filterChip,
-            {
-              backgroundColor:
-                filter === "past"
-                  ? theme.colors.secondary
-                  : theme.colors.tertiary, // Change background color for the active chip
-              // Change text color for the active chip
-            },
-          ]}
-          textStyle={{ color: "white" }}
-        >
-          Completed
-        </Chip>
-        <Chip
-          mode='outlined'
-          onPress={() => setFilter("upcoming")}
-          selected={filter === "upcoming"}
-          style={[
-            styles.filterChip,
-            {
-              backgroundColor:
-                filter === "upcoming"
-                  ? theme.colors.secondary
-                  : theme.colors.tertiary, // Change background color for the active chip
-              // Change text color for the active chip
-            },
-          ]}
-          selectedColor='white'
-          textStyle={{ color: "white" }}
-        >
-          Upcoming
-        </Chip>
-      </SafeAreaView>
+      <>
+        <SafeAreaView style={styles.filterChipsContainer}>
+          <Chip
+            mode='outlined'
+            onPress={() => setFilter("all")}
+            selected={filter === "all"}
+            selectedColor='white'
+            style={[
+              styles.filterChip,
+              {
+                backgroundColor:
+                  filter === "all"
+                    ? theme.colors.secondary
+                    : theme.colors.tertiary, // Change background color for the active chip
+                // Change text color for the active chip
+              },
+            ]}
+            textStyle={{ color: "white" }}
+          >
+            All
+          </Chip>
+          <Chip
+            mode='outlined'
+            selectedColor='white'
+            onPress={() => setFilter("past")}
+            selected={filter === "past"}
+            style={[
+              styles.filterChip,
+              {
+                backgroundColor:
+                  filter === "past"
+                    ? theme.colors.secondary
+                    : theme.colors.tertiary, // Change background color for the active chip
+                // Change text color for the active chip
+              },
+            ]}
+            textStyle={{ color: "white" }}
+          >
+            Completed
+          </Chip>
+          <Chip
+            mode='outlined'
+            onPress={() => setFilter("upcoming")}
+            selected={filter === "upcoming"}
+            style={[
+              styles.filterChip,
+              {
+                backgroundColor:
+                  filter === "upcoming"
+                    ? theme.colors.secondary
+                    : theme.colors.tertiary, // Change background color for the active chip
+                // Change text color for the active chip
+              },
+            ]}
+            selectedColor='white'
+            textStyle={{ color: "white" }}
+          >
+            Upcoming
+          </Chip>
+        </SafeAreaView>
+      </>
     );
   };
 
   return (
-    <View style={styles.container}>
-      {renderFilterChips()}
-      <ScrollView>
-        {communityEvents.events?.map((event, index) => {
-          const { title, description, schedule } = event;
-          const { date, startTime, endTime } = schedule;
-          const filterResult = filterEvents(event);
+    <>
+      <TopAppBar></TopAppBar>
 
-          // Skip events based on the selected filter
-          if (filter !== "all" && filterResult == null) {
-            return null;
-          }
+      <View style={styles.container}>
+        {renderFilterChips()}
+        <ScrollView>
+          {communityEvents.events?.map((event, index) => {
+            const { title, description, schedule } = event;
+            const { date, startTime, endTime } = schedule;
+            const filterResult = filterEvents(event);
 
-          return (
-            <Card
-              key={index}
-              style={styles.card}
-              onPress={() =>
-                navigation.navigate("CommunityEventDetails", { event: event })
-              }
-            >
-              <Card.Content>
-                <Title>{title}</Title>
-                <Paragraph>{description}</Paragraph>
-                <Paragraph>
-                  Date: {date}, Time: {startTime} - {endTime}
-                </Paragraph>
-              </Card.Content>
-            </Card>
-          );
-        })}
-      </ScrollView>
-      <FAB
-        style={styles.fab}
-        color='white'
-        icon='plus'
-        onPress={() => navigation.navigate("CommunityAddEvents")}
-      />
-    </View>
+            // Skip events based on the selected filter
+            if (filter !== "all" && filterResult == null) {
+              return null;
+            }
+
+            return (
+              <Card
+                key={index}
+                style={styles.card}
+                onPress={() =>
+                  navigation.navigate("CommunityEventDetails", { event: event })
+                }
+              >
+                <Card.Content>
+                  <Title>{title}</Title>
+                  <Paragraph>{description}</Paragraph>
+                  <Paragraph>
+                    Date: {date}, Time: {startTime} - {endTime}
+                  </Paragraph>
+                </Card.Content>
+              </Card>
+            );
+          })}
+        </ScrollView>
+        <FAB
+          style={styles.fab}
+          color='white'
+          icon='plus'
+          onPress={() => navigation.navigate("CommunityAddEvents")}
+        />
+      </View>
+    </>
   );
 };
 
