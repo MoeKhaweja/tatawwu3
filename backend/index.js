@@ -4,10 +4,8 @@ const path = require("path");
 const http = require("http");
 const cors = require("cors");
 require("dotenv").config();
-const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
-const Room = require("./models/room.model");
 const { socket } = require("./configs/socket.config");
 
 const app = express();
