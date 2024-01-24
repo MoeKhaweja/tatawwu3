@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEventsUser } from "../../store/user";
 import { BASE_IMG_URL } from "../../helpers/image";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CommunityProfilePage = ({ route }) => {
   const navigation = useNavigation();
@@ -83,6 +84,7 @@ const CommunityProfilePage = ({ route }) => {
                   // You may want to fetch and display more details for each event
                 ))}
             </List.Section>
+            <LoadingOrError></LoadingOrError>
           </Card.Content>
         </Card>
       </ScrollView>
