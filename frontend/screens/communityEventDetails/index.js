@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { accept, reject } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CommunityEventDetails = ({ route }) => {
   const { event } = route.params;
@@ -102,6 +103,7 @@ const CommunityEventDetails = ({ route }) => {
                   </Chip>
                 ))}
               </View>
+              <LoadingOrError></LoadingOrError>
 
               {eventDetails.img && (
                 <Image
