@@ -34,6 +34,16 @@ const server = http.createServer(app);
 // Attach Socket.IO to the HTTP server
 socket(server);
 
+app.get("/", (req, res) => {
+  // Your connected JSON object
+  const connectedObject = {
+    status: "connected",
+    message: "Hello, world!",
+  };
+
+  // Sending the JSON object as a response
+  res.json(connectedObject);
+});
 // multer middleware
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).fields(fields)
