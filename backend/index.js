@@ -60,7 +60,7 @@ app.use("/mail", sendEmail);
 
 // rooms route
 const roomRoutes = require("./routes/room.routes");
-app.use("/rooms", roomRoutes);
+app.use("/rooms", authMiddleware, roomRoutes);
 
 const adminRoutes = require("./routes/admin.route");
 app.use("/admin", adminRoutes);
