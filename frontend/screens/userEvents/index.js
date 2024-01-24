@@ -26,33 +26,37 @@ const EventList = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
-      <Card.Content>
+      <Card.Title
+        title={<Text style={styles.eventName}>{item.title}</Text>}
+        subtitle={
+          <>
+            <Text style={styles.schedule}>
+              {item.schedule.date + "   " + item.status}
+            </Text>
+          </>
+        }
+        right={() => (
+          <Button
+            onPress={async () => {
+              try {
+                x = await dispatch(getEvent({ eventId: item._id }));
+                console.log(x.payload);
+                navigation.navigate("VolunteerEventDetails", {
+                  event: x.payload,
+                });
+              } catch {}
+            }}
+          >
+            Details
+          </Button>
+        )}
+      >
         <Text style={styles.eventName}>{item.title}</Text>
-        <Text style={styles.schedule}>{item.schedule.date}</Text>
+
         <Text style={styles.schedule}>
           {item.status.startTime} {item.status.startTime}
         </Text>
-      </Card.Content>
-      <Card.Actions>
-        <Button
-          onPress={async () => {
-            try {
-              x = await dispatch(getEvent({ eventId: item._id }));
-              console.log(x.payload);
-              navigation.navigate("VolunteerEventDetails", {
-                event: x.payload,
-              });
-            } catch {}
-          }}
-        >
-          Details
-        </Button>
-        {(item.status == "pending" || item.status == "approved") && (
-          <Button onPress={() => console.log(`Cancel event ${item._id}`)}>
-            Cancel
-          </Button>
-        )}
-      </Card.Actions>
+      </Card.Title>
     </Card>
   );
 
