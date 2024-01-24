@@ -42,20 +42,20 @@ const TopAppBar = () => {
             gap: 15,
           }}
         >
-          <Icon
-            name='calendar'
-            color='white'
-            size={30}
-            onPress={() => navigation.navigate("EventList")}
-          />
           {role == "volunteer" && (
-            <Avatar.Image
-              source={{
-                uri: `${BASE_IMG_URL}${image}`,
-              }}
-              size={40}
+            <Icon
+              name='calendar'
+              color='white'
+              size={30}
+              onPress={() => navigation.navigate("EventList")}
             />
           )}
+          <Avatar.Image
+            source={{
+              uri: `${BASE_IMG_URL}${image}`,
+            }}
+            size={40}
+          />
         </View>
       </SafeAreaView>
     </>
