@@ -1,6 +1,13 @@
 const Room = require("../models/room.model");
 const User = require("../models/user.model");
 
+/**
+ * Creates a new room.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the room data.
+ */
 const createRoom = async (req, res) => {
   const { title, description } = req.body;
   let room;
@@ -29,6 +36,13 @@ const createRoom = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a room by ID.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the room data.
+ */
 const getRoom = async (req, res) => {
   try {
     const room = await Room.findById(req.body.room);
@@ -52,6 +66,13 @@ const getRoom = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all rooms of a user.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the rooms data.
+ */
 const getUserRooms = async (req, res) => {
   try {
     console.log(req.user.rooms);
@@ -66,6 +87,13 @@ const getUserRooms = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all rooms not joined by the user.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the rooms data.
+ */
 const getNotUserRooms = async (req, res) => {
   try {
     console.log(req.user.rooms);
@@ -80,6 +108,13 @@ const getNotUserRooms = async (req, res) => {
   }
 };
 
+/**
+ * Adds a user to a room.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the room data.
+ */
 const joinRoom = async (req, res) => {
   try {
     let room = await Room.findById(req.body.room);
@@ -124,6 +159,13 @@ const joinRoom = async (req, res) => {
   }
 };
 
+/**
+ * Updates the information of a room.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status.
+ */
 const updateInfo = async (req, res) => {
   try {
     const room = await Room.findById(req.room);
