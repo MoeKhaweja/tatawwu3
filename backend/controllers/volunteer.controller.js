@@ -4,6 +4,13 @@ const Event = require("../models/event.model");
 const fs = require("fs");
 const { semanticEvents } = require("../helpers/semanticEvents.helper");
 
+/**
+ * Follows or unfollows a community.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the following data.
+ */
 async function followCommunity(req, res) {
   const { userId, communityId } = req.body;
   try {
@@ -36,6 +43,13 @@ async function followCommunity(req, res) {
   }
 }
 
+/**
+ * Updates a user's profile.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the user data.
+ */
 async function updateProfile(req, res) {
   const { userId, updates } = req.body;
   try {
@@ -49,6 +63,13 @@ async function updateProfile(req, res) {
   }
 }
 
+/**
+ * Applies for an event.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the success message.
+ */
 const applyForEvent = async (req, res) => {
   const userId = req.user.id;
   const { eventId } = req.body;
@@ -87,6 +108,13 @@ const applyForEvent = async (req, res) => {
   }
 };
 
+/**
+ * Checks the application status of a user for an event.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the application status.
+ */
 const applicationStatus = async (req, res) => {
   const userId = req.user.id;
   const { eventId } = req.body;
@@ -108,6 +136,13 @@ const applicationStatus = async (req, res) => {
   }
 };
 
+/**
+ * Updates a user's image.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the user data.
+ */
 async function updateUserImage(req, res) {
   const userId = req.body.userId;
   const image = req.files.image[0]; // Access the uploaded file information
@@ -139,6 +174,14 @@ async function updateUserImage(req, res) {
     return res.status(500).json({ error: error.message });
   }
 }
+
+/**
+ * Finds events by applicant.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the transformed events data.
+ */
 const findEventsByApplicant = async (req, res) => {
   const userId = req.user.id;
 
@@ -166,6 +209,13 @@ const findEventsByApplicant = async (req, res) => {
   }
 };
 
+/**
+ * Gets all volunteers.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the all users data.
+ */
 async function getAllVolunteers(req, res) {
   const page = parseInt(req.body.page) || 1;
   const pageSize = 2;
@@ -181,6 +231,13 @@ async function getAllVolunteers(req, res) {
   }
 }
 
+/**
+ * Sorts Events by query.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with the status and the filtered users data.
+ */
 async function sortByQuery(req, res) {
   const user = req.user;
   const { query } = req.body;
