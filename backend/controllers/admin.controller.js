@@ -1,6 +1,13 @@
 const User = require("../models/user.model"); // Import your User model
 
-// Get all users
+/**
+ * Get all users.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The array of users in JSON format.
+ * @throws {Object} - JSON object with an error message in case of failure.
+ */
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select(
@@ -13,7 +20,14 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Update a user by ID
+/**
+ * Update a user by ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The updated user in JSON format.
+ * @throws {Object} - JSON object with an error message in case of failure.
+ */
 const updateUserById = async (req, res) => {
   try {
     const userId = req.body.userId;
@@ -32,6 +46,14 @@ const updateUserById = async (req, res) => {
   }
 };
 
+/**
+ * Delete a user by ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - JSON object with a success message.
+ * @throws {Object} - JSON object with an error message in case of failure.
+ */
 const deleteUserById = async (req, res) => {
   try {
     const userId = req.body.id;
