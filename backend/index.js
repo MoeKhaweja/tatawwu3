@@ -8,6 +8,7 @@ const socketIO = require("socket.io");
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
 const Room = require("./models/room.model");
+const { socket } = require("./configs/socket.config");
 
 const app = express();
 
@@ -30,49 +31,49 @@ app.use(
 
 const server = http.createServer(app); // Create HTTP server
 
-const io = socketIO(server); // Attach Socket.IO to the HTTP server
+socket(server); // Attach Socket.IO to the HTTP server
 
-io.on("connection", (socket) => {
-  console.log(socket.id);
+// io.on("connection", (socket) => {
+//   console.log(socket.id);
 
-  socket.on("send-message", (message, room, sender) => {
-    if (room) {
-      console.log(room, sender);
-      // Handle message for all clients
-      // socket.emit("receive-message", "hooooyehhh");
-      socket.to(room).emit("receive-message", message, sender);
-      const find = async () => {
-        const target = await Room.findById(room);
-        const fieldsToUpdate = {
-          chat: [
-            ...target.chat,
-            {
-              message: message,
-              sender: sender,
-            },
-          ],
-          lastMessage: {
-            message: message,
-            sender: sender,
-            createdAt: Date.now(),
-          },
-        };
-        await target.updateOne(fieldsToUpdate, {
-          new: true,
-          runValidators: true,
-        });
-        console.log("done");
-      };
-      find();
-    } else {
-    }
-  });
+//   socket.on("send-message", (message, room, sender) => {
+//     if (room) {
+//       console.log(room, sender);
+//       // Handle message for all clients
+//       // socket.emit("receive-message", "hooooyehhh");
+//       socket.to(room).emit("receive-message", message, sender);
+//       const find = async () => {
+//         const target = await Room.findById(room);
+//         const fieldsToUpdate = {
+//           chat: [
+//             ...target.chat,
+//             {
+//               message: message,
+//               sender: sender,
+//             },
+//           ],
+//           lastMessage: {
+//             message: message,
+//             sender: sender,
+//             createdAt: Date.now(),
+//           },
+//         };
+//         await target.updateOne(fieldsToUpdate, {
+//           new: true,
+//           runValidators: true,
+//         });
+//         console.log("done");
+//       };
+//       find();
+//     } else {
+//     }
+//   });
 
-  socket.on("join-room", (room) => {
-    socket.join(room);
-    console.log(`Joined ${room}`);
-  });
-});
+//   socket.on("join-room", (room) => {
+//     socket.join(room);
+//     console.log(`Joined ${room}`);
+//   });
+// });
 
 // multer middleware
 app.use(

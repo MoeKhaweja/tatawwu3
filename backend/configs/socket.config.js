@@ -1,8 +1,9 @@
 const socketIO = require("socket.io");
+const Room = require("../models/room.model");
 
 const socket = async (server) => {
   const io = socketIO(server); // Attach Socket.IO to the HTTP server
-
+  console.log("attached");
   io.on("connection", (socket) => {
     console.log(socket.id);
 
