@@ -6,6 +6,12 @@ const User = require("../models/user.model");
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * Retrieves all communities and their owners' details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all communities and their details.
+ */
 const getAllCommunities = async (req, res) => {
   try {
     const communities = await Community.find().populate({
@@ -20,6 +26,12 @@ const getAllCommunities = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a specific community and its owner's details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The details of the requested community.
+ */
 const getCommunity = async (req, res) => {
   const { community } = req.body;
   try {
@@ -35,6 +47,12 @@ const getCommunity = async (req, res) => {
   }
 };
 
+/**
+ * Creates a new community and assigns the current user as its owner.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The newly created community's details.
+ */
 async function createCommunity(req, res) {
   const user = req.user;
   const { name, description, img } = req.body;
@@ -61,6 +79,12 @@ async function createCommunity(req, res) {
   }
 }
 
+/**
+ * Retrieves a specific event's details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The details of the requested event.
+ */
 async function getEvent(req, res) {
   const { eventId } = req.body;
 
@@ -73,6 +97,12 @@ async function getEvent(req, res) {
   }
 }
 
+/**
+ * Retrieves all events with pagination.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all events and their details.
+ */
 async function getAllEvents(req, res) {
   const page = parseInt(req.body.page) || 1; // Extract the page from query parameters or default to page 1
   const pageSize = 2; // Set the number of events per page as needed
@@ -89,6 +119,12 @@ async function getAllEvents(req, res) {
   }
 }
 
+/**
+ * Retrieves all events of a specific community and their applicants' details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all events of the community and their details.
+ */
 async function getCommunityEventsUser(req, res) {
   const { communityId } = req.body;
 
@@ -113,7 +149,12 @@ async function getCommunityEventsUser(req, res) {
   }
 }
 
-// as a community
+/**
+ * Retrieves all events of the community owned by the current user and their applicants' details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all events of the community and their details.
+ */
 async function getCommunityEvents(req, res) {
   const user = req.user;
 
@@ -140,6 +181,12 @@ async function getCommunityEvents(req, res) {
   }
 }
 
+/**
+ * Retrieves all applicants of a specific event and their details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all applicants of the event and their details.
+ */
 async function getCommunityEventApplicants(req, res) {
   const { eventId } = req.body;
 
@@ -160,6 +207,12 @@ async function getCommunityEventApplicants(req, res) {
   }
 }
 
+/**
+ * Adds a new event to the community owned by the current user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The details of the newly added event.
+ */
 async function addEvent(req, res) {
   const user = req.user;
   const {
@@ -206,6 +259,12 @@ async function addEvent(req, res) {
   }
 }
 
+/**
+ * Edits an existing event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The updated event's details.
+ */
 async function editEvent(req, res) {
   const user = req.user;
   const {
@@ -275,6 +334,12 @@ async function editEvent(req, res) {
   }
 }
 
+/**
+ * Deletes an existing event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The deleted event's details.
+ */
 async function deleteEvent(req, res) {
   const { eventId } = req.body;
   const user = req.user;
@@ -304,6 +369,12 @@ async function deleteEvent(req, res) {
   }
 }
 
+/**
+ * Invites a user to an event or cancels an existing invitation.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The event's details after the invitation is sent or cancelled.
+ */
 async function inviteOrCancelInvite(req, res) {
   const { communityId, eventId, userId, cancel } = req.body;
   try {
@@ -346,7 +417,12 @@ async function inviteOrCancelInvite(req, res) {
   }
 }
 
-// Function to apply for an event
+/**
+ * Applies a user to an event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 async function applyForEvent(req, res) {
   const { eventId } = req.body;
   const userId = req.user.id;
@@ -393,6 +469,12 @@ async function applyForEvent(req, res) {
   }
 }
 
+/**
+ * Cancels a user's application to an event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 async function cancelApplication(req, res) {
   const { eventId } = req.body;
   const userId = req.user.id;
@@ -433,6 +515,12 @@ async function cancelApplication(req, res) {
   }
 }
 
+/**
+ * Accepts a user's application to an event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 async function acceptApplication(req, res) {
   const { eventId, applicantId } = req.body;
   console.log(applicantId, eventId);
@@ -471,6 +559,13 @@ async function acceptApplication(req, res) {
       .json({ success: false, message: "Internal server error" });
   }
 }
+
+/**
+ * Rejects an applicant's application to an event.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A success message or an error message.
+ */
 async function rejectApplication(req, res) {
   const { eventId, applicantId } = req.body;
   console.log(applicantId, eventId);
@@ -510,6 +605,12 @@ async function rejectApplication(req, res) {
   }
 }
 
+/**
+ * Retrieves all events sorted by their relevance to the user's skills.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all events sorted by their relevance to the user's skills.
+ */
 async function sortBySkills(req, res) {
   const user = req.user;
 
@@ -537,6 +638,12 @@ async function sortBySkills(req, res) {
   }
 }
 
+/**
+ * Retrieves all events sorted by their relevance to a query.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The list of all events sorted by their relevance to the query.
+ */
 async function sortByQuery(req, res) {
   const user = req.user;
   const { query } = req.body;
