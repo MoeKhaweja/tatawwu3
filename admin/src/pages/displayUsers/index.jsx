@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   IconButton,
   TextField,
@@ -9,13 +11,20 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  CircularProgress, // Import CircularProgress from MUI
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import "./index.css";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingVerification, setLoadingVerification] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -26,7 +35,9 @@ const UserTable = () => {
         });
 
         setUsers(response.data);
+        setLoadingUsers(false);
       } catch (error) {
+        setLoadingUsers(false);
         if (axios.isAxiosError(error)) {
           console.error("Axios Error:", error.message);
         } else {
@@ -34,19 +45,13 @@ const UserTable = () => {
         }
       }
     }
+
     fetchUsers();
   }, []);
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleVerifyUser = async (userId) => {
-    // Add your logic to handle user verification using the userId
-
     try {
+      setLoadingVerification(true);
       const token = await localStorage.getItem("jwt");
       const response = await axios.post(
         "http://127.0.0.1:8000/admin/update",
@@ -55,16 +60,13 @@ const UserTable = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       if (response.data?.verified === true) {
-        // Update the local state to mark the user as verified
-        setUsers((prevUsers) => {
-          return prevUsers.map((user) => {
-            if (user._id === userId) {
-              return { ...user, verified: true };
-            }
-            return user;
-          });
-        });
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId ? { ...user, verified: true } : user
+          )
+        );
       }
 
       console.log(response.data);
@@ -74,10 +76,13 @@ const UserTable = () => {
       } else {
         console.error("Error:", error.message);
       }
+    } finally {
+      setLoadingVerification(false);
     }
 
     console.log(`Verifying user with ID: ${userId}`);
   };
+
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
@@ -92,6 +97,8 @@ const UserTable = () => {
 
   return (
     <div>
+      {loadingUsers && <CircularProgress />}{" "}
+      {/* Show loading indicator while fetching users */}
       <table className='user-table'>
         <thead>
           <tr>
@@ -131,7 +138,11 @@ const UserTable = () => {
                   "Verified"
                 ) : (
                   <button onClick={() => handleVerifyUser(user._id)}>
-                    Verify
+                    {loadingVerification ? (
+                      <CircularProgress size={20} color='inherit' />
+                    ) : (
+                      "Verify"
+                    )}
                   </button>
                 )}
               </td>
@@ -139,7 +150,6 @@ const UserTable = () => {
           ))}
         </tbody>
       </table>
-
       <div className='pagination'>
         <ul>
           {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map(
