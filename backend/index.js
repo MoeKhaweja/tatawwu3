@@ -52,7 +52,7 @@ app.use("/community", authMiddleware, communityRoutes);
 
 // volunteer route
 const volunteerRoutes = require("./routes/volunteer.routes");
-app.use("/volunteer", volunteerRoutes);
+app.use("/volunteer", authMiddleware, volunteerRoutes);
 
 // mail route
 const sendEmail = require("./routes/mail.route");
