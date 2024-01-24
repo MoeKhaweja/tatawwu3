@@ -7,6 +7,7 @@ require("dotenv").config();
 const { fileStorage, fileFilter, fields } = require("./configs/multer.configs");
 const { connectToMongoDB } = require("./configs/mongoDb.configs");
 const { socket } = require("./configs/socket.config");
+const { authMiddleware } = require("./middlewares/auth.middleware");
 
 const app = express();
 
@@ -47,7 +48,7 @@ app.use("/auth", authRoutes);
 
 // community route
 const communityRoutes = require("./routes/community.routes");
-app.use("/community", communityRoutes);
+app.use("/community", authMiddleware, communityRoutes);
 
 // volunteer route
 const volunteerRoutes = require("./routes/volunteer.routes");
