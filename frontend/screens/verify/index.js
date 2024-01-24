@@ -51,6 +51,10 @@ export default function Verify() {
     }
     if (isResumeUploaded == true && isIdImageUploaded == true) {
       navigation.navigate("Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
       setStep(3);
     }
 
@@ -64,6 +68,10 @@ export default function Verify() {
     if (data) {
       navigation.navigate("CompleteProfilePage", {
         extracted: data,
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "CompleteProfilePage" }],
       });
     }
   }, [data]);
