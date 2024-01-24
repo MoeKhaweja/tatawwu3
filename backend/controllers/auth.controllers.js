@@ -1,12 +1,17 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
 const fs = require("fs");
 const { extract } = require("../helpers/resumeExtractor.helper");
 const { handleBase64Image } = require("../helpers/base64.helper");
 const path = require("path");
 
+/**
+ * Verifies the user's token and returns the user's details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The user's details and token.
+ */
 const verify = async (req, res) => {
   if (!req.user) {
     return res.status(404).send({ error: "no token" });
@@ -14,6 +19,13 @@ const verify = async (req, res) => {
   const { _id, ...userDetails } = req.user.toJSON();
   return res.status(200).send({ user: userDetails, token: req.token });
 };
+
+/**
+ * Logs in the user by checking their credentials and generating a JWT token.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The user's details and JWT token.
+ */
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -44,6 +56,12 @@ const login = async (req, res) => {
   });
 };
 
+/**
+ * Registers a new user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The newly registered user's details.
+ */
 const register = async (req, res) => {
   const { email, password, firstName, lastName, role = null } = req.body;
   if (!email || !password || !firstName || !lastName) {
@@ -67,6 +85,12 @@ const register = async (req, res) => {
   }
 };
 
+/**
+ * Changes the user's password.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} A message indicating the status of the password change.
+ */
 const changePassword = async (req, res) => {
   const { email, password, token } = req.body;
 
@@ -99,6 +123,12 @@ const changePassword = async (req, res) => {
   }
 };
 
+/**
+ * Updates the user's details.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The updated user's details.
+ */
 async function updateUser(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const {
@@ -152,6 +182,12 @@ async function updateUser(req, res) {
   }
 }
 
+/**
+ * Updates the user's verification image.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The updated user's details or an error message.
+ */
 async function updateVerificationImage(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const img = req.body.image; // Access the uploaded file information
@@ -194,6 +230,12 @@ async function updateVerificationImage(req, res) {
   }
 }
 
+/**
+ * Retrieves and processes the user's resume.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The extracted features from the resume or an error message.
+ */
 async function getResume(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const resume = req.files.resume[0]; // Access the uploaded file information
