@@ -28,7 +28,9 @@ const CommunityEventDetails = ({ route }) => {
   const handleAcceptApplicant = (applicantId) => {
     console.log("Accepting applicant:", applicantId);
     try {
-      dispatch(accept({ applicantId: applicantId, eventId: event._id }));
+      dispatch(accept({ applicantId: applicantId, eventId: event._id })).then(
+        (res) => dispatch(getCommunityEvents()).catch((err) => console.log(err))
+      );
     } catch (error) {
       console.error(error);
     }
