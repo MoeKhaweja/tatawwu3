@@ -19,27 +19,26 @@ const {
   getCommunityEventsUser,
   sortByQuery,
 } = require("../controllers/community.controller");
-const { authMiddleware } = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getAllCommunities);
-router.post("/create", authMiddleware, createCommunity);
-router.post("/addEvent", authMiddleware, addEvent);
-router.post("/editEvent", authMiddleware, editEvent);
-router.post("/deleteEvent", authMiddleware, deleteEvent);
+router.get("/", getAllCommunities);
+router.post("/create", createCommunity);
+router.post("/addEvent", addEvent);
+router.post("/editEvent", editEvent);
+router.post("/deleteEvent", deleteEvent);
 router.post("/invite", inviteOrCancelInvite);
-router.post("/apply", authMiddleware, applyForEvent);
-router.post("/cancel", authMiddleware, cancelApplication);
-router.post("/accept", authMiddleware, acceptApplication);
-router.post("/reject", authMiddleware, rejectApplication);
-router.get("/events", authMiddleware, getCommunityEvents);
-router.post("/events", authMiddleware, getAllEvents);
-router.post("/community_events", authMiddleware, getCommunityEventsUser);
-router.post("/event", authMiddleware, getEvent);
-router.post("/details", authMiddleware, getCommunity);
-router.post("/applicants", authMiddleware, getCommunityEventApplicants);
-router.get("/sort", authMiddleware, sortBySkills);
-router.post("/search", authMiddleware, sortByQuery);
+router.post("/apply", applyForEvent);
+router.post("/cancel", cancelApplication);
+router.post("/accept", acceptApplication);
+router.post("/reject", rejectApplication);
+router.get("/events", getCommunityEvents);
+router.post("/events", getAllEvents);
+router.post("/community_events", getCommunityEventsUser);
+router.post("/event", getEvent);
+router.post("/details", getCommunity);
+router.post("/applicants", getCommunityEventApplicants);
+router.get("/sort", sortBySkills);
+router.post("/search", sortByQuery);
 
 module.exports = router;
