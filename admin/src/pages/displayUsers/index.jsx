@@ -13,188 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./index.css";
-const dummyUsers = [
-  {
-    _id: "1",
-    firstName: "User1",
-    lastName: "LastName1",
-    email: "user1@example.com",
-    role: "User",
-    verified: false,
-    identificationImage: "image1.jpg",
-  },
-  {
-    _id: "2",
-    firstName: "User2",
-    lastName: "LastName2",
-    email: "user2@example.com",
-    role: "Admin",
-    verified: false,
-    identificationImage: "image2.jpg",
-  },
-  {
-    _id: "3",
-    firstName: "User3",
-    lastName: "LastName3",
-    email: "user3@example.com",
-    role: "User",
-    verified: true,
-    identificationImage: "image3.jpg",
-  },
-  {
-    _id: "4",
-    firstName: "User4",
-    lastName: "LastName4",
-    email: "user4@example.com",
-    role: "Admin",
-    verified: false,
-    identificationImage: "image4.jpg",
-  },
-  {
-    _id: "5",
-    firstName: "User5",
-    lastName: "LastName5",
-    email: "user5@example.com",
-    role: "User",
-    verified: true,
-    identificationImage: "image5.jpg",
-  },
-  {
-    _id: "6",
-    firstName: "User6",
-    lastName: "LastName6",
-    email: "user6@example.com",
-    role: "Admin",
-    verified: true,
-    identificationImage: "image6.jpg",
-  },
-  {
-    _id: "7",
-    firstName: "User7",
-    lastName: "LastName7",
-    email: "user7@example.com",
-    role: "User",
-    verified: false,
-    identificationImage: "image7.jpg",
-  },
-  {
-    _id: "8",
-    firstName: "User8",
-    lastName: "LastName8",
-    email: "user8@example.com",
-    role: "Admin",
-    verified: true,
-    identificationImage: "image8.jpg",
-  },
-  {
-    _id: "9",
-    firstName: "User9",
-    lastName: "LastName9",
-    email: "user9@example.com",
-    role: "User",
-    verified: false,
-    identificationImage: "image9.jpg",
-  },
-  {
-    _id: "10",
-    firstName: "User10",
-    lastName: "LastName10",
-    email: "user10@example.com",
-    role: "Admin",
-    verified: true,
-    identificationImage: "image10.jpg",
-  },
-  {
-    _id: "11",
-    firstName: "User11",
-    lastName: "LastName11",
-    email: "user11@example.com",
-    role: "User",
-    verified: true,
-    identificationImage: "image11.jpg",
-  },
-  {
-    _id: "12",
-    firstName: "User12",
-    lastName: "LastName12",
-    email: "user12@example.com",
-    role: "Admin",
-    verified: false,
-    identificationImage: "image12.jpg",
-  },
-  {
-    _id: "13",
-    firstName: "User13",
-    lastName: "LastName13",
-    email: "user13@example.com",
-    role: "User",
-    verified: false,
-    identificationImage: "image13.jpg",
-  },
-  {
-    _id: "14",
-    firstName: "User14",
-    lastName: "LastName14",
-    email: "user14@example.com",
-    role: "Admin",
-    verified: true,
-    identificationImage: "image14.jpg",
-  },
-  {
-    _id: "15",
-    firstName: "User15",
-    lastName: "LastName15",
-    email: "user15@example.com",
-    role: "User",
-    verified: false,
-    identificationImage: "image15.jpg",
-  },
-  {
-    _id: "16",
-    firstName: "User16",
-    lastName: "LastName16",
-    email: "user16@example.com",
-    role: "Admin",
-    verified: true,
-    identificationImage: "image16.jpg",
-  },
-  {
-    _id: "17",
-    firstName: "User17",
-    lastName: "LastName17",
-    email: "user17@example.com",
-    role: "User",
-    verified: true,
-    identificationImage: "image17.jpg",
-  },
-  {
-    _id: "18",
-    firstName: "User18",
-    lastName: "LastName18",
-    email: "user18@example.com",
-    role: "Admin",
-    verified: false,
-    identificationImage: "image18.jpg",
-  },
-  {
-    _id: "19",
-    firstName: "User19",
-    lastName: "LastName19",
-    email: "user19@example.com",
-    role: "User",
-    verified: true,
-    identificationImage: "image19.jpg",
-  },
-  {
-    _id: "20",
-    firstName: "User20",
-    lastName: "LastName20",
-    email: "user20@example.com",
-    role: "Admin",
-    verified: false,
-    identificationImage: "image20.jpg",
-  },
-];
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -225,8 +43,39 @@ const UserTable = () => {
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleVerifyUser = (userId) => {
+  const handleVerifyUser = async (userId) => {
     // Add your logic to handle user verification using the userId
+
+    try {
+      const token = await localStorage.getItem("jwt");
+      const response = await axios.post(
+        "http://127.0.0.1:8000/admin/update",
+        { userId: userId, verified: true },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response.data?.verified === true) {
+        // Update the local state to mark the user as verified
+        setUsers((prevUsers) => {
+          return prevUsers.map((user) => {
+            if (user._id === userId) {
+              return { ...user, verified: true };
+            }
+            return user;
+          });
+        });
+      }
+
+      console.log(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios Error:", error.message);
+      } else {
+        console.error("Error:", error.message);
+      }
+    }
+
     console.log(`Verifying user with ID: ${userId}`);
   };
   const handleImageClick = (imageUrl) => {
@@ -278,9 +127,13 @@ const UserTable = () => {
                 />
               </td>
               <td>
-                <button onClick={() => handleVerifyUser(user._id)}>
-                  Verify
-                </button>
+                {user.verified ? (
+                  "Verified"
+                ) : (
+                  <button onClick={() => handleVerifyUser(user._id)}>
+                    Verify
+                  </button>
+                )}
               </td>
             </tr>
           ))}
