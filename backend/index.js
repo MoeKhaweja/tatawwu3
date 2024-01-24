@@ -75,7 +75,7 @@ app.use("/rooms", authMiddleware, roomRoutes);
 const adminRoutes = require("./routes/admin.route");
 app.use("/admin", adminRoutes);
 
-server.listen(80, () => {
-  console.log("Server listining on PORT: ", 80);
+server.listen(8000, () => {
+  console.log("Server listining on PORT: ", 8000);
   connectToMongoDB();
 });
