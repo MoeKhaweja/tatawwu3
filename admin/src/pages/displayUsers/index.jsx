@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import {
   IconButton,
   TextField,
@@ -10,15 +10,194 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SaveIcon from "@mui/icons-material/Save";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import "./index.css";
+const dummyUsers = [
+  {
+    _id: "1",
+    firstName: "User1",
+    lastName: "LastName1",
+    email: "user1@example.com",
+    role: "User",
+    verified: false,
+    identificationImage: "image1.jpg",
+  },
+  {
+    _id: "2",
+    firstName: "User2",
+    lastName: "LastName2",
+    email: "user2@example.com",
+    role: "Admin",
+    verified: false,
+    identificationImage: "image2.jpg",
+  },
+  {
+    _id: "3",
+    firstName: "User3",
+    lastName: "LastName3",
+    email: "user3@example.com",
+    role: "User",
+    verified: true,
+    identificationImage: "image3.jpg",
+  },
+  {
+    _id: "4",
+    firstName: "User4",
+    lastName: "LastName4",
+    email: "user4@example.com",
+    role: "Admin",
+    verified: false,
+    identificationImage: "image4.jpg",
+  },
+  {
+    _id: "5",
+    firstName: "User5",
+    lastName: "LastName5",
+    email: "user5@example.com",
+    role: "User",
+    verified: true,
+    identificationImage: "image5.jpg",
+  },
+  {
+    _id: "6",
+    firstName: "User6",
+    lastName: "LastName6",
+    email: "user6@example.com",
+    role: "Admin",
+    verified: true,
+    identificationImage: "image6.jpg",
+  },
+  {
+    _id: "7",
+    firstName: "User7",
+    lastName: "LastName7",
+    email: "user7@example.com",
+    role: "User",
+    verified: false,
+    identificationImage: "image7.jpg",
+  },
+  {
+    _id: "8",
+    firstName: "User8",
+    lastName: "LastName8",
+    email: "user8@example.com",
+    role: "Admin",
+    verified: true,
+    identificationImage: "image8.jpg",
+  },
+  {
+    _id: "9",
+    firstName: "User9",
+    lastName: "LastName9",
+    email: "user9@example.com",
+    role: "User",
+    verified: false,
+    identificationImage: "image9.jpg",
+  },
+  {
+    _id: "10",
+    firstName: "User10",
+    lastName: "LastName10",
+    email: "user10@example.com",
+    role: "Admin",
+    verified: true,
+    identificationImage: "image10.jpg",
+  },
+  {
+    _id: "11",
+    firstName: "User11",
+    lastName: "LastName11",
+    email: "user11@example.com",
+    role: "User",
+    verified: true,
+    identificationImage: "image11.jpg",
+  },
+  {
+    _id: "12",
+    firstName: "User12",
+    lastName: "LastName12",
+    email: "user12@example.com",
+    role: "Admin",
+    verified: false,
+    identificationImage: "image12.jpg",
+  },
+  {
+    _id: "13",
+    firstName: "User13",
+    lastName: "LastName13",
+    email: "user13@example.com",
+    role: "User",
+    verified: false,
+    identificationImage: "image13.jpg",
+  },
+  {
+    _id: "14",
+    firstName: "User14",
+    lastName: "LastName14",
+    email: "user14@example.com",
+    role: "Admin",
+    verified: true,
+    identificationImage: "image14.jpg",
+  },
+  {
+    _id: "15",
+    firstName: "User15",
+    lastName: "LastName15",
+    email: "user15@example.com",
+    role: "User",
+    verified: false,
+    identificationImage: "image15.jpg",
+  },
+  {
+    _id: "16",
+    firstName: "User16",
+    lastName: "LastName16",
+    email: "user16@example.com",
+    role: "Admin",
+    verified: true,
+    identificationImage: "image16.jpg",
+  },
+  {
+    _id: "17",
+    firstName: "User17",
+    lastName: "LastName17",
+    email: "user17@example.com",
+    role: "User",
+    verified: true,
+    identificationImage: "image17.jpg",
+  },
+  {
+    _id: "18",
+    firstName: "User18",
+    lastName: "LastName18",
+    email: "user18@example.com",
+    role: "Admin",
+    verified: false,
+    identificationImage: "image18.jpg",
+  },
+  {
+    _id: "19",
+    firstName: "User19",
+    lastName: "LastName19",
+    email: "user19@example.com",
+    role: "User",
+    verified: true,
+    identificationImage: "image19.jpg",
+  },
+  {
+    _id: "20",
+    firstName: "User20",
+    lastName: "LastName20",
+    email: "user20@example.com",
+    role: "Admin",
+    verified: false,
+    identificationImage: "image20.jpg",
+  },
+];
 
-export default function Users() {
-  const [editRows, setEditRows] = useState([]);
+const UserTable = () => {
   const [users, setUsers] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -28,17 +207,7 @@ export default function Users() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const formattedUsers = response.data.map((user) => ({
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role,
-          verified: user.verified,
-          identificationImage: user.identificationImage,
-        }));
-
-        setUsers(formattedUsers);
+        setUsers(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("Axios Error:", error.message);
@@ -49,84 +218,17 @@ export default function Users() {
     }
     fetchUsers();
   }, []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const columns = [
-    { field: "id", headerName: "ID", minWidth: 220, flex: 1 },
-    { field: "firstName", headerName: "First name", minWidth: 130, flex: 1 },
-    { field: "lastName", headerName: "Last name", minWidth: 130, flex: 1 },
-    { field: "email", headerName: "Email", minWidth: 250, flex: 1 },
-    { field: "role", headerName: "Role", minWidth: 60, flex: 1 },
-    {
-      field: "verified",
-      headerName: "Verified",
-      minWidth: 60,
-      renderCell: (params) => (params.value ? "true" : "false"),
-      flex: 1,
-    },
-    {
-      field: "identificationImage",
-      headerName: "ID Image",
-      minWidth: 60,
-      renderCell: (params) => (
-        <img
-          src={`http://127.0.0.1:8000/images/${params.value}`}
-          alt='ID'
-          style={{ width: "50px", height: "30px", cursor: "pointer" }}
-          onClick={() =>
-            handleImageClick(`http://127.0.0.1:8000/images/${params.value}`)
-          }
-        />
-      ),
-      flex: 1,
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      minWidth: 100,
-      flex: 1,
-      renderCell: (params) => (
-        <>
-          {editRows.includes(params.row.id) ? (
-            <IconButton
-              color='primary'
-              onClick={() => handleSave(params.row.id)}
-            >
-              <SaveIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              color='primary'
-              onClick={() => handleEdit(params.row.id)}
-            >
-              <EditIcon />
-            </IconButton>
-          )}
-          <IconButton
-            color='secondary'
-            onClick={() => handleDelete(params.row.id)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </>
-      ),
-    },
-  ];
-
-  const handleEdit = (id) => {
-    setEditRows((prev) => [...prev, id]);
+  const handleVerifyUser = (userId) => {
+    // Add your logic to handle user verification using the userId
+    console.log(`Verifying user with ID: ${userId}`);
   };
-
-  const handleSave = (id) => {
-    // Handle save operation here
-    console.log("Save user:", id, editRows);
-    setEditRows((prev) => prev.filter((rowId) => rowId !== id));
-  };
-
-  const handleDelete = (id) => {
-    // Handle delete operation here
-    console.log("Delete user:", id);
-  };
-
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
@@ -135,44 +237,67 @@ export default function Users() {
     setSelectedImage(null);
   };
 
-  const handleFieldChange = (id, field, value) => {
-    setUsers((prev) =>
-      prev.map((user) => (user.id === id ? { ...user, [field]: value } : user))
-    );
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        sx={{
-          ".MuiDataGrid-columnHeader": {
-            backgroundColor: "#F77C47",
-            color: "white",
-          },
-        }}
-        autoHeight
-        rows={users}
-        columns={columns.map((column) => ({
-          ...column,
-          renderCell: (params) =>
-            column.field !== "actions" &&
-            column.field !== "identificationImage" &&
-            column.field !== "id" &&
-            editRows.includes(params.row.id) ? (
-              <TextField
-                value={params.value}
-                onChange={(e) =>
-                  handleFieldChange(params.row.id, column.field, e.target.value)
-                }
-              />
-            ) : column.renderCell ? (
-              column.renderCell(params)
-            ) : (
-              params.value
-            ),
-        }))}
-      />
+    <div>
+      <table className='user-table'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Verified</th>
+            <th>Identification Image</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentUsers.map((user) => (
+            <tr key={user._id}>
+              <td>{user._id}</td>
+              <td>{user.firstName}</td>
+              <td>{user.lastName}</td>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+              <td>{user.verified ? "Yes" : "No"}</td>
+              <td>
+                <img
+                  src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
+                  alt='ID'
+                  style={{ width: "50px", height: "30px", cursor: "pointer" }}
+                  onClick={() =>
+                    handleImageClick(
+                      `http://127.0.0.1:8000/images/${user.identificationImage}`
+                    )
+                  }
+                />
+              </td>
+              <td>
+                <button onClick={() => handleVerifyUser(user._id)}>
+                  Verify
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
+      <div className='pagination'>
+        <ul>
+          {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map(
+            (item, index) => (
+              <li key={index}>
+                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
       <Dialog open={Boolean(selectedImage)} onClose={handleClose}>
         <DialogTitle>ID Image</DialogTitle>
         <DialogContent>
@@ -188,4 +313,6 @@ export default function Users() {
       </Dialog>
     </div>
   );
-}
+};
+
+export default UserTable;

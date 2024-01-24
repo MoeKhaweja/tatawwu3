@@ -1,0 +1,49 @@
+/* Add this CSS to your stylesheet or style block */
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #3b7e81;
+}
+
+.user-table th {
+  background-color: #0f2837;
+  color: white; /* Add text color for better visibility */
+}
+
+.user-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.pagination button {
+  padding: 8px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #f55916;
+  color: white;
+  border: none;
+  border-radius: 4px; /* Add border-radius to the buttons */
+}
+
+.pagination button:hover {
+  background-color: #f99f78;
+}
