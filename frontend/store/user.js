@@ -700,10 +700,11 @@ export const submitDocument = createAsyncThunk(
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
         }
       );
+      console.log("response.body", response.body);
 
       const dataFromBody = JSON.parse(response.body);
 
-      console.log(dataFromBody);
+      console.log("dataFromBody", dataFromBody);
 
       dispatch(submitDocument.fulfilled(dataFromBody));
       return dataFromBody;

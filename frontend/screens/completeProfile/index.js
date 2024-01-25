@@ -25,7 +25,7 @@ import theme from "../../theme";
 import * as ImagePicker from "expo-image-picker";
 
 const CompleteProfilePage = ({ route }) => {
-  const extracted = route.params?.extracted ? route.params : null; // Accessing passed props
+  const extracted = useSelector((state) => state.user.extracted);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -88,14 +88,15 @@ const CompleteProfilePage = ({ route }) => {
   };
 
   useEffect(() => {
-    if (extracted?.extracted.skills) {
-      setSkills(extracted.extracted.skills);
+    console.log("extracted", extracted);
+    if (extracted?.skills) {
+      setSkills(extracted.skills);
     }
-    if (extracted?.extracted.academicHistory) {
-      setAcademicBackgrounds(extracted.extracted.academicHistory);
+    if (extracted?.academicHistory) {
+      setAcademicBackgrounds(extracted.academicHistory);
     }
-    if (extracted?.extracted.bio) {
-      setBio(extracted.extracted.bio);
+    if (extracted?.bio) {
+      setBio(extracted.bio);
     }
     if (user) {
       setFirstName(user.firstName);
