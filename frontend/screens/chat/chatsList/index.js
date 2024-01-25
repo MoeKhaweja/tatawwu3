@@ -104,34 +104,6 @@ const ChatRoomList = () => {
           ))}
         <LoadingOrError></LoadingOrError>
       </ScrollView>
-      <FAB style={styles.fab} icon='plus' onPress={showModal} />
-      <Portal>
-        <Modal
-          visible={modalVisible}
-          onDismiss={hideModal}
-          contentContainerStyle={styles.modalContainer}
-        >
-          <TextInput
-            label='Room Name'
-            value={roomName}
-            onChangeText={(text) => setRoomName(text)}
-            style={styles.input}
-          />
-          <TextInput
-            label='Room Description'
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            style={styles.input}
-          />
-          <Button
-            mode='contained'
-            onPress={addNewRoom}
-            style={styles.addButton}
-          >
-            Add Room
-          </Button>
-        </Modal>
-      </Portal>
     </View>
   );
 };
