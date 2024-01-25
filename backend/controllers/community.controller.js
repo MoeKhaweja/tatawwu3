@@ -108,7 +108,12 @@ async function getAllEvents(req, res) {
   const pageSize = 2; // Set the number of events per page as needed
 
   try {
-    const allEvents = await Event.find()
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+
+    const allEvents = await Event.find({
+      "schedule.date": { $gte: today.toISOString().split("T")[0] }, // Filter events where date is greater than or equal to today
+    })
       .populate({ path: "community", select: "img" })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
