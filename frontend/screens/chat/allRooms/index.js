@@ -20,11 +20,7 @@ import {
 } from "../../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../../components/loadingOrError";
-
-const chatRoomsData = [
-  { id: "1", title: "Room 1", lastMessage: "Hey there!", avatar: "R1" },
-  { id: "2", title: "Room 2", lastMessage: "What's up?", avatar: "R2" },
-];
+import theme from "../../../theme";
 
 const AllRooms = () => {
   const navigation = useNavigation();
@@ -33,6 +29,7 @@ const AllRooms = () => {
   const [description, setDescription] = useState("");
   const dispatch = useDispatch();
   const rooms = useSelector((state) => state.user.notRooms);
+  const user = useSelector((state) => state.user.user.user);
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
@@ -106,34 +103,43 @@ const AllRooms = () => {
           ItemSeparatorComponent={() => <Divider />}
         />
       )}
-      <FAB style={styles.fab} icon='plus' onPress={showModal} />
-      <Portal>
-        <Modal
-          visible={modalVisible}
-          onDismiss={hideModal}
-          contentContainerStyle={styles.modalContainer}
-        >
-          <TextInput
-            label='Room Name'
-            value={roomName}
-            onChangeText={(text) => setRoomName(text)}
-            style={styles.input}
+      {
+        <>
+          <FAB
+            style={styles.fab}
+            color='white'
+            icon='plus'
+            onPress={showModal}
           />
-          <TextInput
-            label='Room Description'
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-            style={styles.input}
-          />
-          <Button
-            mode='contained'
-            onPress={addNewRoom}
-            style={styles.addButton}
-          >
-            Add Room
-          </Button>
-        </Modal>
-      </Portal>
+          <Portal>
+            <Modal
+              visible={modalVisible}
+              onDismiss={hideModal}
+              contentContainerStyle={styles.modalContainer}
+            >
+              <TextInput
+                label='Room Name'
+                value={roomName}
+                onChangeText={(text) => setRoomName(text)}
+                style={styles.input}
+              />
+              <TextInput
+                label='Room Description'
+                value={description}
+                onChangeText={(text) => setDescription(text)}
+                style={styles.input}
+              />
+              <Button
+                mode='contained'
+                onPress={addNewRoom}
+                style={styles.addButton}
+              >
+                Add Room
+              </Button>
+            </Modal>
+          </Portal>
+        </>
+      }
     </View>
   );
 };
@@ -152,6 +158,7 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+    backgroundColor: theme.colors.secondary,
   },
   modalContainer: {
     backgroundColor: "white",
