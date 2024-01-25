@@ -14,6 +14,7 @@ import {
   CircularProgress, // Import CircularProgress from MUI
 } from "@mui/material";
 import "./index.css";
+import Navbar from "../../components/navBar";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -97,6 +98,7 @@ const UserTable = () => {
 
   return (
     <div>
+      <Navbar></Navbar>
       {loadingUsers && <CircularProgress />}{" "}
       {/* Show loading indicator while fetching users */}
       <table className='user-table'>
