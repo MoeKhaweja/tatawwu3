@@ -145,7 +145,11 @@ const Volunteers = () => {
           right={() => (
             <>
               <Text variant='labelSmall'>skills</Text>
-              <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+              <Switch
+                value={isSwitchOn}
+                onValueChange={onToggleSwitch}
+                style={{ marginRight: 10 }}
+              />
             </>
           )}
         />
