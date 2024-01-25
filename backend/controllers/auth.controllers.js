@@ -5,6 +5,7 @@ const fs = require("fs");
 const { extract } = require("../helpers/resumeExtractor.helper");
 const { handleBase64Image } = require("../helpers/base64.helper");
 const path = require("path");
+const { sendEmail } = require("./mail.controller");
 
 /**
  * Verifies the user's token and returns the user's details.
@@ -78,6 +79,9 @@ const register = async (req, res) => {
     });
 
     await user.save();
+    const userName = firstName + " " + lastName;
+    req.body.name = userName;
+    sendEmail(req, res);
 
     res.status(200).send({ user });
   } catch (e) {

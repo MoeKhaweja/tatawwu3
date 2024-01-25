@@ -44,11 +44,10 @@ const sendEmail = async (req, res) => {
   };
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).send("Email sent successfully"); // Sending a success response
+
     return;
   } catch (error) {
     console.log(`Nodemailer error sending email to `, error);
-    res.status(500).send("Error sending email");
   }
 };
 
