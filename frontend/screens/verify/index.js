@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Image,
   View,
-  Text,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
@@ -18,6 +17,7 @@ import {
   useTheme,
   Paragraph,
   Title,
+  Text,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
@@ -152,15 +152,13 @@ export default function Verify() {
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
-        backgroundColor: theme.colors.tertiary,
+        backgroundColor: theme.colors.primary,
       }}
     >
       {step == 1 && (
         <Card style={{ padding: 20 }}>
-          <Text style={{ fontSize: 18, marginBottom: 10 }}>
-            For Identity Verification
-          </Text>
-          <Text style={{ fontSize: 14, marginBottom: 20 }}>
+          <Text variant='titleMedium'>For Identity Verification</Text>
+          <Text style={{ fontSize: 14, marginVertical: 20 }}>
             You are required to upload an image of your Identity card, you will
             not have full app access if you're not verified
           </Text>
@@ -236,8 +234,8 @@ export default function Verify() {
       {step == 2 && (
         <View style={{ flexDirection: "row" }}>
           <Card style={{ padding: 20 }}>
-            <Text>For Profile Completion</Text>
-            <Text style={{ fontSize: 14, marginBottom: 20 }}>
+            <Text variant='titleMedium'>For Profile Completion</Text>
+            <Text style={{ fontSize: 14, marginVertical: 20 }}>
               You are required to upload your resume, to make the process of
               completing your profile easier
             </Text>
@@ -305,33 +303,6 @@ export default function Verify() {
           </Card>
         </View>
       )}
-      {/* {step == 3 && data && (
-        <SafeAreaView style={{ marginTop: 10 }}>
-          <ScrollView>
-            <Card>
-              <Card.Content>
-                <Title>Bio:</Title>
-                <Paragraph>{data.bio}</Paragraph>
-
-                <Title>Academic History:</Title>
-                {data.academicHistory &&
-                  data.academicHistory.map((history, index) => (
-                    <View key={index}>
-                      <Text>Degree: {history.degreeTitle}</Text>
-                      <Text>Institution: {history.institution}</Text>
-                    </View>
-                  ))}
-
-                <Title>Skills:</Title>
-                {data.skills &&
-                  data.skills.map((skill, index) => (
-                    <Text key={index}>{skill}</Text>
-                  ))}
-              </Card.Content>
-            </Card>
-          </ScrollView>
-        </SafeAreaView>
-      )} */}
     </View>
   );
 }
