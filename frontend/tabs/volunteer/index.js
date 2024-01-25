@@ -33,7 +33,7 @@ const Feed = () => {
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   const [selectedChip, setSelectedChip] = useState("All Events");
-  const pageSize = 10;
+  const [displayLoad, setDisplayLoad] = useState(true);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.user.volunteerEvents);
   const queryEvents = useSelector((state) => state.user.searchEvents);
@@ -102,17 +102,6 @@ const Feed = () => {
     }
   }, [searchQuery]); // Execute the effect w
 
-  // const handleScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
-  //   const paddingToBottom = 20;
-  //   if (
-  //     layoutMeasurement.height + contentOffset.y >=
-  //       contentSize.height - paddingToBottom &&
-  //     !isLoading
-  //   ) {
-  //     // fetchData();
-  //   }
-  // };
-
   const InstagramPost = (post, index) => {
     return (
       <Card
@@ -148,11 +137,6 @@ const Feed = () => {
             </Paragraph>
           }
           rightStyle={{ paddingRight: 15 }}
-          // right={() => (
-          //   <Paragraph style={{ color: "#000" }}>
-          //     {post.schedule.date}
-          //   </Paragraph>
-          // )}
         />
         <Card.Content></Card.Content>
         <Card.Cover
@@ -164,11 +148,11 @@ const Feed = () => {
     );
   };
 
-  const renderCards = (items) => {
+  const renderCards = (items, Recommended = false) => {
     return (
       <View>
         {items.map((item, index) => InstagramPost(item, index))}
-        {!searchQuery && (
+        {!searchQuery && displayLoad && !Recommended && (
           <Button onPress={loadMoreEvents} mode='text'>
             Load More
           </Button>
@@ -183,7 +167,11 @@ const Feed = () => {
 
     try {
       const page = Math.ceil(data.length / 2) + 1;
-      await dispatch(getAllEvents({ page: page }));
+      const x = await dispatch(getAllEvents({ page: page }));
+      console.log(x.payload.length === 0);
+      if (x.payload.length === 0) {
+        setDisplayLoad(false);
+      }
     } catch (error) {
       console.error("Error loading more events:", error);
     } finally {
@@ -278,7 +266,9 @@ const Feed = () => {
             renderCards(queryEvents, "Search Results")}
 
           {selectedChip === "All Events" && !searchQuery && renderCards(data)}
-          {selectedChip === "Recommended" && !searchQuery && renderCards(data2)}
+          {selectedChip === "Recommended" &&
+            !searchQuery &&
+            renderCards(data2, true)}
         </ScrollView>
       </View>
     </>

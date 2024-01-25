@@ -845,6 +845,9 @@ const userSlice = createSlice({
     clearVolunteers: (state, action) => {
       state.searchVolunteers = [];
     },
+    logout: (state) => {
+      state.isAuth = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -1219,5 +1222,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearVolunteers } = userSlice.actions; // No regular actions
+export const { clearVolunteers, logout } = userSlice.actions; // No regular actions
 export default userSlice.reducer;

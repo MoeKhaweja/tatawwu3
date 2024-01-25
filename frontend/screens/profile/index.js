@@ -15,15 +15,17 @@ import {
   Text,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import theme from "../../theme";
 import { BASE_IMG_URL } from "../../helpers/image";
 import LoadingOrError from "../../components/loadingOrError";
+import { logout } from "../../store/user";
 
 const ProfilePage = ({ route, userInfo }) => {
   const current = useSelector((state) => state.user.user.user);
   const user = route?.params ? route?.params.user : current;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   return (
     <SafeAreaView>
       <ScrollView>
@@ -78,13 +80,17 @@ const ProfilePage = ({ route, userInfo }) => {
               mode='contained'
               onPress={() => {
                 try {
-                  AsyncStorage.removeItem("token").then(() => {
-                    navigation.navigate("Signin");
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Signin" }],
+                  AsyncStorage.removeItem("token")
+                    .then(() => {
+                      dispatch(logout());
+                    })
+                    .then(() => {
+                      navigation.navigate("Signin");
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "Signin" }],
+                      });
                     });
-                  });
                 } catch (e) {
                   // remove error
                 }
