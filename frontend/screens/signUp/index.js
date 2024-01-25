@@ -119,7 +119,8 @@ const SignupScreen = ({ navigation }) => {
         theme={{
           colors: {
             secondaryContainer: theme.colors.primary,
-            primary: "#FF000000",
+            outline: theme.colors.primary,
+            onSecondaryContainer: "white",
           },
         }}
         style={styles.input}
