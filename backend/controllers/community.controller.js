@@ -621,7 +621,12 @@ async function sortBySkills(req, res) {
 
   try {
     // Retrieve all events from the Event model
-    const allEvents = await Event.find().populate({
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+
+    const allEvents = await Event.find({
+      "schedule.date": { $gte: today.toISOString().split("T")[0] }, // Filter events where date is greater than or equal to today
+    }).populate({
       path: "community",
       select: "img",
     });
