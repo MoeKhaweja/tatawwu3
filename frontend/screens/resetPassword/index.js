@@ -73,25 +73,15 @@ const ResetPassword = ({ navigation }) => {
       return;
     }
     console.log(email);
-    setSend(true);
-
-    // setTimeLeft(5 * 60); // 5 minutes in seconds
-    // const timer = setInterval(() => {
-    //   setTimeLeft((prevTime) => prevTime - 1);
-    // }, 1000);
-
-    // setTimeout(() => {
-    //   setSend(false);
-    //   clearInterval(timer);
-    //   setTimeLeft(0);
-    // }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
     try {
       dispatch(
         sendPin({
           email: email,
         })
-      );
+      ).then((res) => {
+        setSend(true);
+      });
       // Handle successful login
     } catch (error) {
       console.log(error);
