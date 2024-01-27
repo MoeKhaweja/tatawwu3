@@ -56,9 +56,8 @@ const CreateCommunityScreen = () => {
       index: 0,
       routes: [{ name: "Home" }],
     });
-    // Here, you can handle the logic to create a community
+
     console.log("Creating community:", { name, description });
-    // Add your logic to create the community using the provided name and description
   };
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

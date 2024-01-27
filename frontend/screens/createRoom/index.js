@@ -14,9 +14,6 @@ const CreateRoom = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const createChatRoom = () => {
-    // Implement your logic to create a chat room with title, description, and avatar
-    // This function could post data to an API or perform any necessary actions
-    // For example:
     if (!title || !description) {
       setError(true);
       setErrorMessage("Please fill in all fields");
@@ -31,7 +28,6 @@ const CreateRoom = () => {
     console.log("Title:", title);
     console.log("Description:", description);
     console.log("Avatar:", avatar);
-    // Add logic here to create the chat room
   };
 
   return (

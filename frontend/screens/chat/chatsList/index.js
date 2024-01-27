@@ -23,20 +23,8 @@ import LoadingOrError from "../../../components/loadingOrError";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [roomName, setRoomName] = useState("");
-  const [description, setDescription] = useState("");
   const dispatch = useDispatch();
   const rooms = useSelector((state) => state.user.rooms);
-
-  const showModal = () => setModalVisible(true);
-  const hideModal = () => setModalVisible(false);
-  const addNewRoom = async () => {
-    try {
-      await dispatch(createRoom({ title: roomName, description: description }));
-      dispatch(getUserRooms());
-    } catch {}
-  };
 
   useFocusEffect(
     useCallback(() => {

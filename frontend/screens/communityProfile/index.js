@@ -46,7 +46,6 @@ const CommunityProfilePage = ({ route }) => {
       </View>
 
       <ScrollView>
-        {/* Community details */}
         <Card style={{ margin: 3 }}>
           <Card.Content>
             <List.Section
@@ -96,7 +95,6 @@ const CommunityProfilePage = ({ route }) => {
                     />
                     <Divider></Divider>
                   </View>
-                  // You may want to fetch and display more details for each event
                 ))}
             </List.Section>
             <LoadingOrError></LoadingOrError>
