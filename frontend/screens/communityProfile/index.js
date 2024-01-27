@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEventsUser } from "../../store/user";
 import { BASE_IMG_URL } from "../../helpers/image";
 import LoadingOrError from "../../components/loadingOrError";
+import Icon from "react-native-vector-icons/FontAwesome";
+import theme from "../../theme";
 
 const CommunityProfilePage = ({ route }) => {
   const navigation = useNavigation();
@@ -53,24 +55,28 @@ const CommunityProfilePage = ({ route }) => {
                 alignItems: "center",
               }}
             >
-              <List.Subheader>Owner</List.Subheader>
+              <Text variant='labelLarge'>Owner:</Text>
+
               <Text
+                style={{ color: theme.colors.primary }}
                 onPress={() =>
                   navigation.navigate("ProfilePage", { user: community.owner })
                 }
               >
-                {community.owner.firstName + " " + community.owner.lastName}
+                {" " +
+                  community.owner.firstName +
+                  " " +
+                  community.owner.lastName}
               </Text>
             </List.Section>
 
             <Divider style={styles.divider} />
 
+            <Text variant='labelLarge'>Events:</Text>
             <List.Section>
-              <List.Subheader>Events:</List.Subheader>
               {events &&
                 events?.map((event, index) => (
                   <View key={index}>
-                    <Divider></Divider>
                     <List.Item
                       key={index}
                       title={event.title}
@@ -79,7 +85,16 @@ const CommunityProfilePage = ({ route }) => {
                           event: event,
                         })
                       }
+                      titleStyle={{ fontWeight: "400", fontSize: 16 }}
+                      right={() => (
+                        <Icon
+                          name='arrow-right'
+                          size={20}
+                          color={theme.colors.tertiary}
+                        />
+                      )}
                     />
+                    <Divider></Divider>
                   </View>
                   // You may want to fetch and display more details for each event
                 ))}
