@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { TextInput, Button, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user";
@@ -59,6 +59,11 @@ const SigninScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../../assets/logo.png")}
+        style={{ height: 100, width: 100, alignSelf: "center" }}
+        resizeMode='contain'
+      />
       <HelperText type='error' visible={error}>
         {errorMessage}
       </HelperText>

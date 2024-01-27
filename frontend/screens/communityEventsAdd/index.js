@@ -153,8 +153,8 @@ const CommunityAddEvents = () => {
   };
 
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         {error && (
           <HelperText type='error' visible={error}>
             {errorMessage}
@@ -359,16 +359,17 @@ const CommunityAddEvents = () => {
         >
           Create Event
         </Button>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 40,
     paddingHorizontal: 20,
-    alignContent: "flex-start",
-    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
   },
   card: {
     margin: 10,

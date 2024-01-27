@@ -5,17 +5,18 @@ const crypto = require("crypto");
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     //this is storing the file in the images folder
-    if (file.fieldname == "private") {
-      callback(
-        null,
-        path.join(path.resolve(path.join(__dirname, "..")), "private")
-      );
-    } else if (file.fieldname == "image") {
-      callback(
-        null,
-        path.join(path.resolve(path.join(__dirname, "..")), "images")
-      );
-    } else if (file.fieldname == "resume") {
+    // if (file.fieldname == "private") {
+    //   callback(
+    //     null,
+    //     path.join(path.resolve(path.join(__dirname, "..")), "private")
+    //   );
+    // } else if (file.fieldname == "image") {
+    //   callback(
+    //     null,
+    //     path.join(path.resolve(path.join(__dirname, "..")), "images")
+    //   );
+    // } else
+    if (file.fieldname == "resume") {
       callback(
         null,
         path.join(path.resolve(path.join(__dirname, "..")), "resume")

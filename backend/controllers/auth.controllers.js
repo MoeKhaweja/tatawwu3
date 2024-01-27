@@ -157,27 +157,31 @@ async function updateUser(req, res) {
       userImage: imagePath,
     };
 
-    const user = await User.findByIdAndUpdate(userId, updatedUserData, {
-      new: true,
-    });
-    const oldImage = await path.join(
-      path.resolve(path.join(__dirname, "..")),
-      "images",
-      user.userImage
-    );
-    fs.unlink(oldImage, (err) => {
-      if (err) {
-        console.log("Error deleting the previous image:", err);
-      } else {
-        console.log("Previous image deleted successfully!");
-      }
-    });
+    const user = await User.findByIdAndUpdate(userId, updatedUserData);
+
+    if (user.userImage) {
+      const oldImage = await path.join(
+        path.resolve(path.join(__dirname, "..")),
+        "images",
+        user.userImage
+      );
+      fs.unlink(oldImage, (err) => {
+        if (err) {
+          console.log("Error deleting the previous image:", err);
+        } else {
+          console.log("Previous image deleted successfully!");
+        }
+      });
+    }
+    const returnedUser = await User.findById(userId);
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json({ returnedUser });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error: "error.message" });
   }
 }
@@ -204,18 +208,24 @@ async function updateVerificationImage(req, res) {
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
-    const oldImage = await path.join(
-      path.resolve(path.join(__dirname, "..")),
-      "images",
-      user.identificationImage
-    );
-    fs.unlink(oldImage, (err) => {
-      if (err) {
+    if (user.identificationImage) {
+      const oldImage = path.resolve(
+        __dirname,
+        "..",
+        "images",
+        user.identificationImage
+      );
+
+      try {
+        fs.unlink(oldImage, (err) => {
+          if (err) {
+            console.log("Previous image deleted successfully!");
+          }
+        });
+      } catch (err) {
         console.log("Error deleting the previous image:", err);
-      } else {
-        console.log("Previous image deleted successfully!");
       }
-    });
+    }
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -223,7 +233,8 @@ async function updateVerificationImage(req, res) {
 
     return res.status(200).json({ user });
   } catch (error) {
-    return res.status(500).json({ error: "error.message" });
+    console.log(error);
+    return res.status(500).json({ error: error.message });
   }
 }
 
@@ -247,13 +258,15 @@ async function getResume(req, res) {
     };
 
     const user = await User.findByIdAndUpdate(userId, updatedUserData);
-    fs.unlink(user.resume, (err) => {
-      if (err) {
-        console.log("Error deleting the previous cv:", err);
-      } else {
-        console.log("Previous cv deleted successfully!");
-      }
-    });
+    if (user.resume) {
+      fs.unlink(user.resume, (err) => {
+        if (err) {
+          console.log("Error deleting the previous cv:", err);
+        } else {
+          console.log("Previous cv deleted successfully!");
+        }
+      });
+    }
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });

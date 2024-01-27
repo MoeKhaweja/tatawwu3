@@ -107,7 +107,7 @@ const Volunteers = () => {
                 >
                   <Avatar.Image
                     size={70}
-                    source={{ uri: `${BASE_IMG_URL}${item.img}` }}
+                    source={{ uri: `${BASE_IMG_URL}${item.userImage}` }}
                   />
                 </View>
 

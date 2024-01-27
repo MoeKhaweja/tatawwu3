@@ -51,10 +51,10 @@ const CreateCommunityScreen = () => {
     } catch {
       return;
     }
-    navigation.navigate("ViewCommunityEvents");
+    navigation.navigate("Home");
     navigation.reset({
       index: 0,
-      routes: [{ name: "ViewCommunityEvents" }],
+      routes: [{ name: "Home" }],
     });
     // Here, you can handle the logic to create a community
     console.log("Creating community:", { name, description });

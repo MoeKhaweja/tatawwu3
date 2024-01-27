@@ -23,7 +23,7 @@ export default function ChatScreen() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: "first", title: "My Rooms" },
-    { key: "second", title: "Second" },
+    { key: "second", title: "Discover" },
   ]);
 
   return (

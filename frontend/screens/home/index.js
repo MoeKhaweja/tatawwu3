@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Appbar, BottomNavigation, Button, Text } from "react-native-paper";
 import { View, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -12,28 +12,29 @@ import ChatScreen from "../chat";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import ProfilePage from "../profile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../../theme";
 import ViewCommunityEvents from "../communityEvents";
 import Volunteers from "../../tabs/volunteers/volunteers";
+import { verifyToken } from "../../store/user";
 
 const VolunteerRoute = () => <Feed></Feed>;
 const CommunitiesRoute = () => <Communities></Communities>;
 const ChatsRoute = () => <ChatScreen></ChatScreen>;
 const ProfileRoute = () => <ProfilePage></ProfilePage>;
 
-const FeedItem = ({ content }) => {
-  return (
-    <View style={{ margin: 10 }}>
-      <Text>{content}</Text>
-    </View>
-  );
-};
-
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      dispatch(verifyToken());
+    } catch (e) {}
+  }, []);
+
   const [index, setIndex] = useState(0);
-  const user = useSelector((state) => state.user.user.user);
+  const role = useSelector((state) => state.user.user.user.role);
   const [routes] = useState([
     {
       key: "volunteer",
@@ -95,26 +96,47 @@ const HomeScreen = () => {
     volunteers: Volunteers,
   });
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [feedData] = useState([
-    "Demo Content 1",
-    "Demo Content 2",
-    "Demo Content 3",
-  ]);
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
-
-  const renderFeedItems = () => {
-    return feedData.map((item, index) => (
-      <FeedItem key={index} content={item} />
-    ));
-  };
-
   return (
-    <View style={{ flex: 1 }}>
-      {user?.role == "volunteer" && (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        {/* {role == "volunteer" && (
+          <BottomNavigation
+            barStyle={{ backgroundColor: theme.colors.primary }}
+            inactiveColor='white'
+            activeColor='white'
+            renderIcon={({ route, focused, color }) => {
+              if (route.key == "chats") {
+                return (
+                  <Icon2
+                    name={focused ? route.focusedIcon : route.unfocusedIcon}
+                    size={20}
+                    color={color}
+                  />
+                );
+              }
+              if (route.key == "profile") {
+                return (
+                  <Icon3
+                    name={focused ? route.focusedIcon : route.unfocusedIcon}
+                    size={20}
+                    color={color}
+                  />
+                );
+              }
+              return (
+                <Icon
+                  name={focused ? route.focusedIcon : route.unfocusedIcon}
+                  size={20}
+                  color={color}
+                />
+              );
+            }}
+            navigationState={{ index, routes }}
+            onIndexChange={setIndex}
+            renderScene={renderScene}
+          />
+        )} */}
+
         <BottomNavigation
           barStyle={{ backgroundColor: theme.colors.primary }}
           inactiveColor='white'
@@ -146,49 +168,15 @@ const HomeScreen = () => {
               />
             );
           }}
-          navigationState={{ index, routes }}
-          onIndexChange={setIndex}
-          renderScene={renderScene}
-        />
-      )}
-      {user?.role == "community" && (
-        <BottomNavigation
-          barStyle={{ backgroundColor: theme.colors.primary }}
-          inactiveColor='white'
-          activeColor='white'
-          renderIcon={({ route, focused, color }) => {
-            if (route.key == "chats") {
-              return (
-                <Icon2
-                  name={focused ? route.focusedIcon : route.unfocusedIcon}
-                  size={20}
-                  color={color}
-                />
-              );
-            }
-            if (route.key == "profile") {
-              return (
-                <Icon3
-                  name={focused ? route.focusedIcon : route.unfocusedIcon}
-                  size={20}
-                  color={color}
-                />
-              );
-            }
-            return (
-              <Icon
-                name={focused ? route.focusedIcon : route.unfocusedIcon}
-                size={20}
-                color={color}
-              />
-            );
+          navigationState={{
+            index,
+            routes: role == "volunteer" ? routes : communityRoutes,
           }}
-          navigationState={{ index, routes: communityRoutes }}
           onIndexChange={setIndex}
           renderScene={renderScene}
         />
-      )}
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

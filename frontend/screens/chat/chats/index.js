@@ -111,7 +111,9 @@ const ChatsScreen = ({ route }) => {
                   color: "white",
                 }}
               >
-                {formatHoursAndMinutes(message.createdAt)}
+                {formatHoursAndMinutes(
+                  message.createdAt ? message.createdAt : Date.now()
+                )}
               </Text>
             </View>
           </Card>

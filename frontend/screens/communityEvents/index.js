@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Card, Title, Paragraph, FAB, Chip } from "react-native-paper";
+import { Card, Title, Paragraph, FAB, Chip, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityEvents } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -142,6 +142,9 @@ const ViewCommunityEvents = () => {
         {renderFilterChips()}
         <LoadingOrError></LoadingOrError>
         <ScrollView>
+          {communityEvents.events?.length == 0 && (
+            <Text style={{ alignSelf: "center" }}>No Events</Text>
+          )}
           {communityEvents.events?.map((event, index) => {
             const { title, description, schedule } = event;
             const { date, startTime, endTime } = schedule;
@@ -162,7 +165,7 @@ const ViewCommunityEvents = () => {
               >
                 <Card.Content>
                   <Title>{title}</Title>
-                  <Paragraph>{description}</Paragraph>
+                  <Text numberOfLines={2}>{description}</Text>
                   <Paragraph>
                     Date: {date}, Time: {startTime} - {endTime}
                   </Paragraph>

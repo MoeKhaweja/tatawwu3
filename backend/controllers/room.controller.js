@@ -18,6 +18,7 @@ const createRoom = async (req, res) => {
         admin: req.user.id,
         description,
         members: [req.user.id],
+        room: req.user.userImage,
       });
     }
     let rooms = [...req.user.rooms, room.id];

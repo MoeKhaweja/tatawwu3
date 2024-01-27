@@ -23,6 +23,7 @@ import { updateUser } from "../../store/user";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
 import * as ImagePicker from "expo-image-picker";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CompleteProfilePage = ({ route }) => {
   const extracted = useSelector((state) => state.user.extracted);
@@ -139,21 +140,26 @@ const CompleteProfilePage = ({ route }) => {
     setAcademicBackgrounds(updatedAcademicBackgrounds);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      dispatch(
+        updateUser({
+          firstName,
+          lastName,
+          skills,
+          academicBackground,
+          bio,
+          birthdate: date,
+          gender,
+          userImage: base64,
+        })
+      );
+    } catch {}
     navigation.navigate("Home");
-
-    dispatch(
-      updateUser({
-        firstName,
-        lastName,
-        skills,
-        academicBackground,
-        bio,
-        birthdate: date,
-        gender,
-        userImage: base64,
-      })
-    );
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
   };
 
   return (
@@ -314,6 +320,7 @@ const CompleteProfilePage = ({ route }) => {
           />
         ))}
       </Card>
+      <LoadingOrError></LoadingOrError>
       <Button style={{ marginTop: 15 }} mode='contained' onPress={handleSubmit}>
         Submit
       </Button>

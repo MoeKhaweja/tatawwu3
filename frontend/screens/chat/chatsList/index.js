@@ -53,6 +53,9 @@ const ChatRoomList = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
+        {rooms.length == 0 && (
+          <Text style={{ alignSelf: "center" }}>No Rooms</Text>
+        )}
         {rooms &&
           rooms.map((item, index) => (
             <View key={index}>

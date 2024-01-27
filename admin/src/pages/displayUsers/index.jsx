@@ -99,7 +99,7 @@ const UserTable = () => {
   return (
     <div>
       <Navbar></Navbar>
-      {loadingUsers && <CircularProgress />}{" "}
+      {loadingUsers && <CircularProgress />}
       {/* Show loading indicator while fetching users */}
       <table className='user-table'>
         <thead>
@@ -115,41 +115,50 @@ const UserTable = () => {
           </tr>
         </thead>
         <tbody>
-          {currentUsers.map((user) => (
-            <tr key={user._id}>
-              <td>{user._id}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>{user.verified ? "Yes" : "No"}</td>
-              <td>
-                <img
-                  src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
-                  alt='ID'
-                  style={{ width: "50px", height: "30px", cursor: "pointer" }}
-                  onClick={() =>
-                    handleImageClick(
-                      `http://127.0.0.1:8000/images/${user.identificationImage}`
-                    )
-                  }
-                />
-              </td>
-              <td>
-                {user.verified ? (
-                  "Verified"
-                ) : (
-                  <button onClick={() => handleVerifyUser(user._id)}>
-                    {loadingVerification ? (
-                      <CircularProgress size={20} color='inherit' />
+          {currentUsers.map((user) => {
+            if (user.role == "admin") return;
+            else {
+              return (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td>{user.verified ? "Yes" : "No"}</td>
+                  <td>
+                    <img
+                      src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
+                      alt='ID'
+                      style={{
+                        width: "50px",
+                        height: "30px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() =>
+                        handleImageClick(
+                          `http://127.0.0.1:8000/images/${user.identificationImage}`
+                        )
+                      }
+                    />
+                  </td>
+                  <td>
+                    {user.verified ? (
+                      "Verified"
                     ) : (
-                      "Verify"
+                      <button onClick={() => handleVerifyUser(user._id)}>
+                        {loadingVerification ? (
+                          <CircularProgress size={20} color='inherit' />
+                        ) : (
+                          "Verify"
+                        )}
+                      </button>
                     )}
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
+                  </td>
+                </tr>
+              );
+            }
+          })}
         </tbody>
       </table>
       <div className='pagination'>

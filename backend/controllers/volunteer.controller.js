@@ -217,13 +217,10 @@ const findEventsByApplicant = async (req, res) => {
  * @returns {Object} The response object with the status and the all users data.
  */
 async function getAllVolunteers(req, res) {
-  const page = parseInt(req.body.page) || 1;
-  const pageSize = 2;
   try {
-    const allUsers = await User.find({ role: "volunteer" })
-      .select("firstName lastName skills academicBackground bio")
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
+    const allUsers = await User.find({ role: "volunteer" }).select(
+      "firstName lastName skills academicBackground bio userImage"
+    );
 
     return res.status(200).json(allUsers);
   } catch (error) {

@@ -39,6 +39,7 @@ export default function Verify() {
     (state) => state.user.user.user.isResumeUploaded
   );
   const extracted = useSelector((state) => state.user.extracted);
+  const user = useSelector((state) => state.user.user.user);
   const dispatch = useDispatch();
   const [pickedDocument, setPickedDocument] = useState(null);
   const navigation = useNavigation();
@@ -50,12 +51,21 @@ export default function Verify() {
       setStep(2);
     }
     if (isResumeUploaded == true && isIdImageUploaded == true) {
-      navigation.navigate("Home");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Home" }],
-      });
-      setStep(3);
+      if (user.role == "volunteer" || user.isCommunityOwner == true) {
+        navigation.navigate("Home");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
+        setStep(3);
+      } else {
+        navigation.navigate("CreateCommunityScreen");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "CreateCommunityScreen" }],
+        });
+        setStep(3);
+      }
     }
 
     console.log("extracted", extracted);

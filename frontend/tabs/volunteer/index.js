@@ -72,7 +72,7 @@ const Feed = () => {
     } else {
       console.log("Events or paginatedEvents is undefined");
     }
-  }, [events.length]);
+  }, [events[0]?._id]);
 
   useEffect(() => {
     if (volunteerMatchingEvents) {
@@ -167,6 +167,7 @@ const Feed = () => {
 
     try {
       const page = Math.ceil(data.length / 2) + 1;
+      console.log(page);
       const x = await dispatch(getAllEvents({ page: page }));
       console.log(x.payload.length === 0);
       if (x.payload.length === 0) {

@@ -21,6 +21,8 @@ const getData = async () => {
   }
 };
 
+const BASE_URL = "http://192.168.1.5:8000";
+
 const initialState = {
   user: null,
   loading: false,
@@ -53,13 +55,9 @@ export const createRoom = createAsyncThunk(
       dispatch(createRoom.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/rooms/create",
-        details,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/rooms/create`, details, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(createRoom.fulfilled(response.data));
 
@@ -82,7 +80,7 @@ export const createCommunity = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/create",
+        `${BASE_URL}/community/create`,
         details,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -106,7 +104,7 @@ export const createEvent = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/addEvent",
+        `${BASE_URL}/community/addEvent`,
         details,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -129,7 +127,7 @@ export const getUserRooms = createAsyncThunk(
       dispatch(getUserRooms.pending());
       const currentState = getState();
 
-      const response = await axios.get("http://192.168.1.5:8000/rooms/get", {
+      const response = await axios.get(`${BASE_URL}/rooms/get`, {
         headers: { Authorization: `Bearer ${currentState.user.user.token}` },
       });
 
@@ -150,12 +148,9 @@ export const getCommunityEvents = createAsyncThunk(
       dispatch(getCommunityEvents.pending());
       const currentState = getState();
 
-      const response = await axios.get(
-        "http://192.168.1.5:8000/community/events",
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.get(`${BASE_URL}/community/events`, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getCommunityEvents.fulfilled(response.data));
 
@@ -175,7 +170,7 @@ export const getCommunityEventsUser = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/community_events",
+        `${BASE_URL}/community/community_events`,
         community,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -199,13 +194,9 @@ export const getEventApplicants = createAsyncThunk(
       dispatch(getEventApplicants.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/community/events",
-        event,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/community/events`, event, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getEventApplicants.fulfilled(response.data));
 
@@ -224,7 +215,7 @@ export const getCommunities = createAsyncThunk(
       dispatch(getCommunities.pending());
       const currentState = getState();
 
-      const response = await axios.get("http://192.168.1.5:8000/community/", {
+      const response = await axios.get(`${BASE_URL}/community/`, {
         headers: { Authorization: `Bearer ${currentState.user.user.token}` },
       });
 
@@ -245,7 +236,7 @@ export const getVolunteers = createAsyncThunk(
       dispatch(getVolunteers.pending());
       const currentState = getState();
 
-      const response = await axios.get("http://192.168.1.5:8000/volunteer/", {
+      const response = await axios.get(`${BASE_URL}/volunteer/`, {
         headers: { Authorization: `Bearer ${currentState.user.user.token}` },
       });
 
@@ -267,7 +258,7 @@ export const getCommunity = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/details",
+        `${BASE_URL}/community/details`,
         community,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -291,13 +282,9 @@ export const getEvent = createAsyncThunk(
       dispatch(getEvent.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/community/event",
-        event,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/community/event`, event, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getEvent.fulfilled(response.data));
 
@@ -316,13 +303,9 @@ export const getAllEvents = createAsyncThunk(
       dispatch(getAllEvents.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/community/events",
-        page,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/community/events`, page, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getAllEvents.fulfilled(response.data));
 
@@ -341,13 +324,9 @@ export const getQueryEvents = createAsyncThunk(
       dispatch(getQueryEvents.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/community/search",
-        query,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/community/search`, query, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getQueryEvents.fulfilled(response.data));
 
@@ -366,13 +345,9 @@ export const getQueryVolunteers = createAsyncThunk(
       dispatch(getQueryVolunteers.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/volunteer/",
-        query,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/volunteer/`, query, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getQueryVolunteers.fulfilled(response.data));
 
@@ -392,7 +367,7 @@ export const apply = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/apply",
+        `${BASE_URL}/community/apply`,
         eventId,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -417,7 +392,7 @@ export const accept = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/accept",
+        `${BASE_URL}/community/accept`,
         details,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -442,7 +417,7 @@ export const reject = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/reject",
+        `${BASE_URL}/community/reject`,
         details,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -467,7 +442,7 @@ export const cancel = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/cancel",
+        `${BASE_URL}/community/cancel`,
         eventId,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -492,7 +467,7 @@ export const getMatchingEvents = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.get(
-        "http://192.168.1.5:8000/community/sort",
+        `${BASE_URL}/community/sort`,
 
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -517,7 +492,7 @@ export const findEventsByApplicant = createAsyncThunk(
       const currentState = getState();
 
       const response = await axios.get(
-        "http://192.168.1.5:8000/volunteer/find",
+        `${BASE_URL}/volunteer/find`,
 
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -541,7 +516,7 @@ export const getNotUserRooms = createAsyncThunk(
       dispatch(getNotUserRooms.pending());
       const currentState = getState();
 
-      const response = await axios.get("http://192.168.1.5:8000/rooms/join", {
+      const response = await axios.get(`${BASE_URL}/rooms/join`, {
         headers: { Authorization: `Bearer ${currentState.user.user.token}` },
       });
 
@@ -562,13 +537,9 @@ export const join = createAsyncThunk(
       dispatch(join.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/rooms/join",
-        room,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/rooms/join`, room, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(join.fulfilled(response.data));
 
@@ -587,13 +558,9 @@ export const getRoom = createAsyncThunk(
       dispatch(getRoom.pending());
       const currentState = getState();
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/rooms/get",
-        room,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/rooms/get`, room, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(getRoom.fulfilled(response.data));
 
@@ -616,7 +583,7 @@ export const verifyToken = createAsyncThunk(
         return rejectWithValue("no token");
       }
 
-      const response = await axios.get("http://192.168.1.5:8000/auth/verify", {
+      const response = await axios.get(`${BASE_URL}/auth/verify`, {
         headers: { Authorization: `Bearer ${await token}` },
       });
 
@@ -637,10 +604,7 @@ export const loginUser = createAsyncThunk(
     try {
       dispatch(loginUser.pending());
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/auth/login",
-        credentials
-      );
+      const response = await axios.post(`${BASE_URL}/auth/login`, credentials);
 
       await storeData(response.data.token);
       dispatch(loginUser.fulfilled(response.data));
@@ -662,13 +626,9 @@ export const verifyImage = createAsyncThunk(
       const currentState = getState();
       console.log("Current State:", currentState);
       dispatch(verifyImage.pending());
-      const response = await axios.post(
-        "http://192.168.1.5:8000/auth/verify",
-        data,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/auth/verify`, data, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
 
       dispatch(verifyImage.fulfilled());
       console.log(response);
@@ -691,7 +651,7 @@ export const submitDocument = createAsyncThunk(
 
       dispatch(submitDocument.pending());
       const response = await FileSystem.uploadAsync(
-        "http://192.168.1.5:8000/auth/resume",
+        `${BASE_URL}/auth/resume`,
         doc,
         {
           httpMethod: "POST",
@@ -721,10 +681,7 @@ export const registerUser = createAsyncThunk(
     try {
       dispatch(registerUser.pending());
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/auth/register",
-        userData
-      );
+      const response = await axios.post(`${BASE_URL}/auth/register`, userData);
       console.log(response.data);
       if (response.status == 200) {
         dispatch(registerUser.fulfilled());
@@ -744,16 +701,12 @@ export const updateUser = createAsyncThunk(
     try {
       dispatch(updateUser.pending());
       const currentState = getState();
-      const response = await axios.post(
-        "http://192.168.1.5:8000/auth/update",
-        userData,
-        {
-          headers: { Authorization: `Bearer ${currentState.user.user.token}` },
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/auth/update`, userData, {
+        headers: { Authorization: `Bearer ${currentState.user.user.token}` },
+      });
       console.log(response.data);
       if (response.status == 200) {
-        dispatch(updateUser.fulfilled());
+        dispatch(updateUser.fulfilled(response.data));
       }
 
       return response.data;
@@ -771,7 +724,7 @@ export const editEvent = createAsyncThunk(
       dispatch(editEvent.pending());
       const currentState = getState();
       const response = await axios.post(
-        "http://192.168.1.5:8000/community/editEvent",
+        `${BASE_URL}/community/editEvent`,
         event,
         {
           headers: { Authorization: `Bearer ${currentState.user.user.token}` },
@@ -795,10 +748,7 @@ export const sendPin = createAsyncThunk(
     try {
       dispatch(sendPin.pending());
 
-      const response = await axios.post(
-        "http://192.168.1.5:8000/mail/reset",
-        email
-      );
+      const response = await axios.post(`${BASE_URL}/mail/reset`, email);
       console.log(response.data);
       if (response.status == 200) {
         dispatch(sendPin.fulfilled());
@@ -819,7 +769,7 @@ export const verifyPin = createAsyncThunk(
       const { email, password, token, navigation } = data;
       dispatch(verifyPin.pending());
 
-      const response = await axios.post("http://192.168.1.5:8000/auth/reset", {
+      const response = await axios.post(`${BASE_URL}/auth/reset`, {
         email,
         password,
         token,
@@ -847,7 +797,27 @@ const userSlice = createSlice({
       state.searchVolunteers = [];
     },
     logout: (state) => {
+      state.loading = false;
+      state.error = null;
       state.isAuth = false;
+      state.isVerified = false;
+      state.isReset = false;
+      state.success = false;
+      state.extracted = null;
+      state.rooms = [];
+      state.notRooms = [];
+      state.chat = {};
+      state.communities = [];
+      state.volunteers = [];
+      state.communityEvents = [];
+      state.volunteerEvents = [];
+      state.searchEvents = [];
+      state.searchVolunteers = [];
+      state.volunteerMatchingEvents = [];
+      state.eventsApplicationStatus = [];
+      state.eventApplicants = [];
+      state.community = null;
+      state.event = null;
     },
   },
   extraReducers: (builder) => {
@@ -983,6 +953,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.user.user = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
@@ -1223,5 +1194,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearVolunteers, logout } = userSlice.actions; // No regular actions
+export const { clearVolunteers, logout, removeError } = userSlice.actions; // No regular actions
 export default userSlice.reducer;

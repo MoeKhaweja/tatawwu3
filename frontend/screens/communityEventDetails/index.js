@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { View, StyleSheet, Text, Image, FlatList } from "react-native";
 import { Button, Card, IconButton, Chip } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { accept, reject } from "../../store/user";
+import { accept, getCommunityEvents, reject } from "../../store/user";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import theme from "../../theme";
 import LoadingOrError from "../../components/loadingOrError";
@@ -56,8 +56,6 @@ const CommunityEventDetails = ({ route }) => {
       key: "Time",
       value: `${eventDetails.schedule.startTime} - ${eventDetails.schedule.endTime}`,
     },
-    { key: "Duration", value: `${eventDetails.duration} minutes` },
-    { key: "Targeted Skills", value: eventDetails.targetedSkills },
   ];
 
   const renderEventDetail = ({ item }) => (
@@ -178,7 +176,7 @@ const styles = StyleSheet.create({
   },
   applicantCard: {
     padding: 5,
-    marginBottom: 10,
+    marginBottom: 50,
     margin: 3,
   },
   applicantContent: {

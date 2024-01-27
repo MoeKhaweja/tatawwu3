@@ -55,6 +55,12 @@ const SignupScreen = ({ navigation }) => {
       await dispatch(
         registerUser({ email, password, firstName, lastName, role })
       );
+      navigation.navigate("Signin");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Signin" }],
+      });
+
       // Handle successful login
     } catch (error) {
       console.log(error);
@@ -160,11 +166,11 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 30,
     alignContent: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     flex: 1,
   },
   input: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
 });
 

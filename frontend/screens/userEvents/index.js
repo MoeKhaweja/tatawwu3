@@ -121,7 +121,9 @@ const EventList = ({ navigation }) => {
 
       <LoadingOrError />
 
-      {/* FlatList for displaying events */}
+      {filteredEvents.length == 0 && (
+        <Text style={{ alignSelf: "center" }}>No Events</Text>
+      )}
       <FlatList
         data={filteredEvents}
         keyExtractor={(item) => item._id}

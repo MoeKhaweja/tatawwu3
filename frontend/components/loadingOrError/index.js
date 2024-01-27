@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Snackbar, HelperText } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { AuthActions } from "../../store/user";
+import { removeError } from "../../store/user";
 
 const LoadingOrError = () => {
   const loading = useSelector((state) => state.user.loading);
   const error = useSelector((state) => state.user.error);
   const dispatch = useDispatch();
-  const onDismissSnackBar = () => dispatch(AuthActions.removeError());
+  const onDismissSnackBar = () => dispatch(removeError());
 
   return (
     <View

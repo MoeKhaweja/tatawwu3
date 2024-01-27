@@ -38,53 +38,93 @@ const Navigation = () => {
           options={{ headerShown: false }}
           component={HomeScreen}
         />
-        <Stack.Screen name='EventList' component={EventList} />
+        <Stack.Screen
+          name='EventList'
+          component={EventList}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name='CommunityProfilePage'
           component={CommunityProfilePage}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name='ProfilePage' component={ProfilePage} />
+        <Stack.Screen
+          name='ProfilePage'
+          component={ProfilePage}
+          options={{ headerShown: false }}
+        />
 
         <Stack.Screen
           name='CommunityEventDetails'
           component={CommunityEventDetails}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name='CommunityAddEvents'
           component={CommunityAddEvents}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name='CommunityEditEvent'
           component={CommunityEditEvent}
+          options={{ headerShown: false }}
         />
 
-        <Stack.Screen name='RoomDetails' component={RoomDetails} />
+        <Stack.Screen
+          name='RoomDetails'
+          component={RoomDetails}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name='VolunteerEventDetails'
           component={VolunteerEventDetails}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name='CompleteProfilePage'
           component={CompleteProfilePage}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name='ChatsScreen'
           options={{ headerShown: false }}
           component={ChatsScreen}
         />
-        <Stack.Screen name='CreateRoom' component={CreateRoom} />
+        <Stack.Screen
+          name='CreateRoom'
+          component={CreateRoom}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name='CreateCommunityScreen'
           component={CreateCommunityScreen}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name='ChatScreen' component={ChatScreen} />
+        <Stack.Screen
+          name='ChatScreen'
+          component={ChatScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name='ViewCommunityEvents'
           component={ViewCommunityEvents}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name='Signup' component={SignupScreen} />
-        <Stack.Screen name='Signin' component={SigninScreen} />
-        <Stack.Screen name='Reset' component={ResetPassword} />
+        <Stack.Screen
+          name='Signup'
+          component={SignupScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Signin'
+          component={SigninScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Reset'
+          component={ResetPassword}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name='Verify'
           options={{ headerShown: false }}

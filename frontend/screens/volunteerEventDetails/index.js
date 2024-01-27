@@ -16,6 +16,7 @@ import { BASE_IMG_URL } from "../../helpers/image";
 const VolunteerEventDetails = ({ route, navigation }) => {
   const { event } = route.params;
   const community = useSelector((state) => state.user.community);
+  const user = useSelector((state) => state.user.user.user);
   const eventsApplicationStatus = useSelector(
     (state) => state.user.eventsApplicationStatus
   );
@@ -86,9 +87,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
             <Paragraph style={styles.details}>
               Location: {event.location}
             </Paragraph>
-            <Paragraph style={styles.details}>
-              Duration: {event.duration} minutes
-            </Paragraph>
+
             {statusOrNull && (
               <Paragraph style={styles.details}>
                 Application status: {statusOrNull}
@@ -112,21 +111,34 @@ const VolunteerEventDetails = ({ route, navigation }) => {
             </View>
           </Card.Content>
         </Card>
+        {user.verified ? (
+          <View style={styles.section}>
+            {!statusOrNull && (
+              <Button
+                mode='contained'
+                style={styles.button}
+                onPress={handleApply}
+              >
+                Apply
+              </Button>
+            )}
+            {(statusOrNull == "approved" || statusOrNull == "pending") && (
+              <Button
+                mode='contained'
+                style={styles.button}
+                onPress={handleCancel}
+              >
+                Cancel
+              </Button>
+            )}
+            <LoadingOrError></LoadingOrError>
+          </View>
+        ) : (
+          <Text style={{ alignSelf: "center" }}>
+            Please Wait Account Verification
+          </Text>
+        )}
       </ScrollView>
-
-      <View style={styles.section}>
-        {!statusOrNull && (
-          <Button mode='contained' style={styles.button} onPress={handleApply}>
-            Apply
-          </Button>
-        )}
-        {(statusOrNull == "approved" || statusOrNull == "pending") && (
-          <Button mode='contained' style={styles.button} onPress={handleCancel}>
-            Cancel
-          </Button>
-        )}
-        <LoadingOrError></LoadingOrError>
-      </View>
     </View>
   );
 };

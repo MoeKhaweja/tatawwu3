@@ -78,24 +78,18 @@ const ProfilePage = ({ route, userInfo }) => {
           {!route?.params && (
             <Button
               mode='contained'
-              onPress={() => {
+              onPress={async () => {
                 try {
-                  AsyncStorage.removeItem("token")
-                    .then(() => {
-                      dispatch(logout());
-                    })
-                    .then(() => {
-                      navigation.navigate("Signin");
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: "Signin" }],
-                      });
-                    });
+                  await AsyncStorage.removeItem("token");
+                  await dispatch(logout());
+                  navigation.navigate("Signin");
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Signin" }],
+                  });
                 } catch (e) {
                   // remove error
                 }
-
-                console.log("Done.");
               }}
             >
               Logout
