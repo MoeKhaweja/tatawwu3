@@ -15,6 +15,7 @@ const LoadingOrError = () => {
       style={{
         alignItems: "center",
         justifyContent: "center",
+        paddingVertical: 10,
       }}
     >
       <Snackbar
