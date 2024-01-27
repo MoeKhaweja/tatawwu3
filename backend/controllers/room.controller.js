@@ -198,10 +198,22 @@ const updateInfo = async (req, res) => {
   }
 };
 
+const getAllRooms = async (req, res) => {
+  try {
+    let rooms = await Room.find();
+
+    res.status(200).json(rooms);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
 module.exports = {
   createRoom,
   joinRoom,
   getUserRooms,
   getRoom,
   getNotUserRooms,
+  getAllRooms,
 };
