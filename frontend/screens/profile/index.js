@@ -43,7 +43,9 @@ const ProfilePage = ({ route, userInfo }) => {
             </Title>
           </View>
           <Text variant='titleSmall'>Bio:</Text>
-          <Text variant='bodyMedium'>{user.bio}</Text>
+          <Text style={{ color: "#888" }} variant='bodyMedium'>
+            {user.bio}
+          </Text>
           <Divider style={styles.divider} />
           <Text variant='titleSmall'>Skills:</Text>
           <View style={styles.chipsContainer}>
