@@ -6,6 +6,7 @@ import { findEventsByApplicant, getEvent } from "../../store/user";
 import LoadingOrError from "../../components/loadingOrError";
 import { useFocusEffect } from "@react-navigation/native";
 import theme from "../../theme";
+import TopAppBar from "../../components/appBar";
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -39,33 +40,40 @@ const EventList = ({ navigation }) => {
   });
 
   const renderItem = ({ item }) => (
-    <Card style={styles.card}>
+    <Card
+      style={styles.card}
+      onPress={async () => {
+        try {
+          const eventDetails = await dispatch(getEvent({ eventId: item._id }));
+          console.log(eventDetails.payload);
+          navigation.navigate("VolunteerEventDetails", {
+            event: eventDetails.payload,
+          });
+        } catch {}
+      }}
+    >
       <Card.Title
         title={<Text style={styles.eventName}>{item.title}</Text>}
         subtitle={
           <>
-            <Text style={styles.schedule}>
-              {item.schedule.date + "   " + item.status}
+            <Text style={styles.schedule}>{item.schedule.date + "   "}</Text>
+            <Text
+              style={[
+                styles.schedule,
+                {
+                  color:
+                    item.status == "pending"
+                      ? theme.colors.tertiary
+                      : item.status == "accepted"
+                      ? "green"
+                      : "red",
+                },
+              ]}
+            >
+              {item.status}
             </Text>
           </>
         }
-        right={() => (
-          <Button
-            onPress={async () => {
-              try {
-                const eventDetails = await dispatch(
-                  getEvent({ eventId: item._id })
-                );
-                console.log(eventDetails.payload);
-                navigation.navigate("VolunteerEventDetails", {
-                  event: eventDetails.payload,
-                });
-              } catch {}
-            }}
-          >
-            Details
-          </Button>
-        )}
       >
         <Text style={styles.eventName}>{item.title}</Text>
         <Text style={styles.schedule}>
@@ -76,60 +84,62 @@ const EventList = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      {/* Chips for filtering */}
-      <View style={styles.chipsContainer}>
-        <Chip
-          mode='outlined'
-          selected={filter === "upcoming"}
-          onPress={() => setFilter("upcoming")}
-          selectedColor='white'
-          style={[
-            styles.filterChip,
-            {
-              backgroundColor:
-                filter === "upcoming"
-                  ? theme.colors.secondary
-                  : theme.colors.tertiary, // Change background color for the active chip
-              // Change text color for the active chip
-            },
-          ]}
-          textStyle={{ color: "white" }}
-        >
-          Upcoming
-        </Chip>
-        <Chip
-          mode='outlined'
-          selected={filter === "completed"}
-          onPress={() => setFilter("completed")}
-          selectedColor='white'
-          style={[
-            styles.filterChip,
-            {
-              backgroundColor:
-                filter === "completed"
-                  ? theme.colors.secondary
-                  : theme.colors.tertiary, // Change background color for the active chip
-              // Change text color for the active chip
-            },
-          ]}
-          textStyle={{ color: "white" }}
-        >
-          Completed
-        </Chip>
+    <>
+      <TopAppBar></TopAppBar>
+      <View style={styles.container}>
+        <View style={styles.chipsContainer}>
+          <Chip
+            mode='outlined'
+            selected={filter === "upcoming"}
+            onPress={() => setFilter("upcoming")}
+            selectedColor='white'
+            style={[
+              styles.filterChip,
+              {
+                backgroundColor:
+                  filter === "upcoming"
+                    ? theme.colors.secondary
+                    : theme.colors.tertiary, // Change background color for the active chip
+                // Change text color for the active chip
+              },
+            ]}
+            textStyle={{ color: "white" }}
+          >
+            Upcoming
+          </Chip>
+          <Chip
+            mode='outlined'
+            selected={filter === "completed"}
+            onPress={() => setFilter("completed")}
+            selectedColor='white'
+            style={[
+              styles.filterChip,
+              {
+                backgroundColor:
+                  filter === "completed"
+                    ? theme.colors.secondary
+                    : theme.colors.tertiary, // Change background color for the active chip
+                // Change text color for the active chip
+              },
+            ]}
+            textStyle={{ color: "white" }}
+          >
+            Completed
+          </Chip>
+        </View>
+
+        <LoadingOrError />
+
+        {filteredEvents.length == 0 && (
+          <Text style={{ alignSelf: "center" }}>No Events</Text>
+        )}
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={(item) => item._id}
+          renderItem={renderItem}
+        />
       </View>
-
-      <LoadingOrError />
-
-      {filteredEvents.length == 0 && (
-        <Text style={{ alignSelf: "center" }}>No Events</Text>
-      )}
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(item) => item._id}
-        renderItem={renderItem}
-      />
-    </View>
+    </>
   );
 };
 
@@ -142,7 +152,6 @@ const styles = StyleSheet.create({
   chipsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 16,
   },
   chip: {
     marginRight: 8,
@@ -159,6 +168,7 @@ const styles = StyleSheet.create({
   schedule: {
     fontSize: 16,
     marginBottom: 8,
+    color: "#888",
   },
 });
 
