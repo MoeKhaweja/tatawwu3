@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { Button, Card, Title, Paragraph, Chip, Icon } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  Text,
+  Chip,
+  Icon,
+} from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   apply,
@@ -64,7 +72,8 @@ const VolunteerEventDetails = ({ route, navigation }) => {
           <Card.Content>
             <Title style={styles.title}>{event.title}</Title>
             {community && (
-              <Paragraph
+              <Text
+                variant='labelLarge'
                 style={styles.community}
                 onPress={() =>
                   navigation.navigate("CommunityProfilePage", {
@@ -73,7 +82,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
                 }
               >
                 {community.name}
-              </Paragraph>
+              </Text>
             )}
             <Paragraph style={styles.description}>
               {event.description}
@@ -87,12 +96,31 @@ const VolunteerEventDetails = ({ route, navigation }) => {
             <Paragraph style={styles.details}>
               Location: {event.location}
             </Paragraph>
+            <View style={{ flexDirection: "row" }}>
+              {statusOrNull && (
+                <>
+                  <Paragraph style={styles.details}>
+                    Application status:
+                  </Paragraph>
+                  <Paragraph
+                    style={[
+                      styles.details,
+                      {
+                        color:
+                          statusOrNull == "pending"
+                            ? theme.colors.tertiary
+                            : statusOrNull == "accepted"
+                            ? "green"
+                            : "red",
+                      },
+                    ]}
+                  >
+                    {" " + statusOrNull}
+                  </Paragraph>
+                </>
+              )}
+            </View>
 
-            {statusOrNull && (
-              <Paragraph style={styles.details}>
-                Application status: {statusOrNull}
-              </Paragraph>
-            )}
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {event.targetedSkills?.map((item, index) => (
                 <Chip
@@ -111,33 +139,35 @@ const VolunteerEventDetails = ({ route, navigation }) => {
             </View>
           </Card.Content>
         </Card>
-        {user.verified ? (
-          <View style={styles.section}>
-            {!statusOrNull && (
-              <Button
-                mode='contained'
-                style={styles.button}
-                onPress={handleApply}
-              >
-                Apply
-              </Button>
-            )}
-            {(statusOrNull == "approved" || statusOrNull == "pending") && (
-              <Button
-                mode='contained'
-                style={styles.button}
-                onPress={handleCancel}
-              >
-                Cancel
-              </Button>
-            )}
-            <LoadingOrError></LoadingOrError>
-          </View>
-        ) : (
-          <Text style={{ alignSelf: "center" }}>
-            Please Wait Account Verification
-          </Text>
-        )}
+        <View style={{ paddingTop: 20 }}>
+          {user.verified ? (
+            <View style={styles.section}>
+              {!statusOrNull && (
+                <Button
+                  mode='contained'
+                  style={styles.button}
+                  onPress={handleApply}
+                >
+                  Apply
+                </Button>
+              )}
+              {(statusOrNull == "approved" || statusOrNull == "pending") && (
+                <Button
+                  mode='contained'
+                  style={styles.button}
+                  onPress={handleCancel}
+                >
+                  Cancel
+                </Button>
+              )}
+              <LoadingOrError></LoadingOrError>
+            </View>
+          ) : (
+            <Text style={{ alignSelf: "center" }}>
+              Please Wait For Account Verification
+            </Text>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
