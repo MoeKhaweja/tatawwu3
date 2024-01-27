@@ -132,7 +132,7 @@ const Feed = () => {
           )}
           titleStyle={{ color: "#000", fontWeight: "bold" }}
           subtitle={
-            <Paragraph style={{ color: "#000" }}>
+            <Paragraph style={{ color: "#888" }}>
               {post.schedule.date}
             </Paragraph>
           }
