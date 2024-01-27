@@ -84,25 +84,17 @@ const VolunteerEventDetails = ({ route, navigation }) => {
                 {community.name}
               </Text>
             )}
-            <Paragraph style={styles.description}>
-              {event.description}
-            </Paragraph>
-            <Paragraph style={styles.details}>
-              Date: {event.schedule.date}
-            </Paragraph>
-            <Paragraph style={styles.details}>
+            <Text style={styles.description}>{event.description}</Text>
+            <Text style={styles.details}>Date: {event.schedule.date}</Text>
+            <Text style={styles.details}>
               Time: {event.schedule.startTime} - {event.schedule.endTime}
-            </Paragraph>
-            <Paragraph style={styles.details}>
-              Location: {event.location}
-            </Paragraph>
+            </Text>
+            <Text style={styles.details}>Location: {event.location}</Text>
             <View style={{ flexDirection: "row" }}>
               {statusOrNull && (
                 <>
-                  <Paragraph style={styles.details}>
-                    Application status:
-                  </Paragraph>
-                  <Paragraph
+                  <Text style={styles.details}>Application status:</Text>
+                  <Text
                     style={[
                       styles.details,
                       {
@@ -116,7 +108,7 @@ const VolunteerEventDetails = ({ route, navigation }) => {
                     ]}
                   >
                     {" " + statusOrNull}
-                  </Paragraph>
+                  </Text>
                 </>
               )}
             </View>
@@ -199,6 +191,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 10,
+    color: "#888",
   },
   details: {
     fontSize: 14,
