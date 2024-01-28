@@ -29,6 +29,9 @@ const verify = async (req, res) => {
  */
 const login = async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(404).json({ error: "No email or password found" });
+  }
 
   // check if user is available in DB
   const user = await User.findOne({ email: email });
@@ -134,6 +137,17 @@ const changePassword = async (req, res) => {
  */
 async function updateUser(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
+  if (
+    !firstName ||
+    !lastName ||
+    !academicBackground ||
+    !bio ||
+    !userImage ||
+    !birthdate ||
+    !gender
+  ) {
+    return res.status(404).json({ error: "all fields required" });
+  }
   const {
     firstName,
     lastName,
@@ -195,6 +209,9 @@ async function updateUser(req, res) {
 async function updateVerificationImage(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const img = req.body.image; // Access the uploaded file information
+  if (!userId || !img) {
+    return res.status(404).json({ error: "all fields required" });
+  }
   const imagePath = img ? await handleBase64Image(img) : null;
 
   try {
@@ -247,6 +264,9 @@ async function updateVerificationImage(req, res) {
 async function getResume(req, res) {
   const userId = req.user.id; // Assuming userId is part of the route
   const resume = req.files.resume[0]; // Access the uploaded file information
+  if (!userId) {
+    return res.status(404).json({ error: "No userId" });
+  }
   try {
     if (!resume) {
       return res.status(400).send("Please upload a valid cv file.");
