@@ -21,6 +21,7 @@ import {
   formatTimestamp,
 } from "../../../helpers/timeStamp";
 import LoadingOrError from "../../../components/loadingOrError";
+import { BASE_IMG_URL } from "../../../helpers/image";
 
 const ChatsScreen = ({ route }) => {
   const { room, title } = route.params; // Accessing passed props
@@ -149,6 +150,7 @@ const ChatsScreen = ({ route }) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
+          justifyContent: "center",
           padding: 10,
           borderBottomWidth: 0.5,
           backgroundColor: theme.colors.primary,
@@ -156,7 +158,9 @@ const ChatsScreen = ({ route }) => {
       >
         <Avatar.Image
           size={40}
-          source={() => <Icon name='camera' size={20} color='white' />}
+          source={{
+            uri: `${BASE_IMG_URL}${chat.avatar}`,
+          }}
         />
         <Text variant='titleLarge' style={{ marginLeft: 10, color: "white" }}>
           {title}

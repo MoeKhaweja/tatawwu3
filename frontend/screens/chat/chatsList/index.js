@@ -20,6 +20,7 @@ import {
 } from "@react-navigation/native";
 import { formatTimestamp } from "../../../helpers/timeStamp";
 import LoadingOrError from "../../../components/loadingOrError";
+import { BASE_IMG_URL } from "../../../helpers/image";
 
 const ChatRoomList = () => {
   const navigation = useNavigation();
@@ -87,7 +88,12 @@ const ChatRoomList = () => {
                   });
                 }}
                 left={() => (
-                  <Avatar.Image source={{ uri: item.avatar }} size={55} />
+                  <Avatar.Image
+                    source={{
+                      uri: `${BASE_IMG_URL}${item.avatar}`,
+                    }}
+                    size={55}
+                  />
                 )}
               />
               {index < rooms.length - 1 && <Divider />}

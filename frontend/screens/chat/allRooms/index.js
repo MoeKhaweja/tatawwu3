@@ -21,6 +21,7 @@ import {
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import LoadingOrError from "../../../components/loadingOrError";
 import theme from "../../../theme";
+import { BASE_IMG_URL } from "../../../helpers/image";
 
 const AllRooms = () => {
   const navigation = useNavigation();
@@ -58,12 +59,18 @@ const AllRooms = () => {
         id={item._id}
         title={item.title}
         description={item.description}
-        left={() => <Avatar.Image source={{ uri: item.avatar }} size={50} />}
+        left={() => (
+          <Avatar.Image
+            source={{
+              uri: `${BASE_IMG_URL}${item.avatar}`,
+            }}
+            size={50}
+          />
+        )}
         right={() => (
           <View
             style={{
               flexDirection: "row",
-
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -93,7 +100,7 @@ const AllRooms = () => {
 
   return (
     <View style={styles.container}>
-      <LoadingOrError></LoadingOrError>
+      {!rooms && <LoadingOrError></LoadingOrError>}
       {rooms && (
         <FlatList
           data={rooms}
