@@ -11,15 +11,13 @@ import {
   DialogContentText,
   DialogActions,
   Button,
-  CircularProgress, // Import CircularProgress from MUI
+  CircularProgress,
 } from "@mui/material";
 import "./index.css";
 import Navbar from "../../components/navBar";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [loadingVerification, setLoadingVerification] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const indexOfLastUser = currentPage * usersPerPage;
@@ -35,10 +33,14 @@ const UserTable = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setUsers(response.data);
-        setLoadingUsers(false);
+        // Add loading property to each user
+        const usersWithLoading = response.data.map((user) => ({
+          ...user,
+          loading: false,
+        }));
+
+        setUsers(usersWithLoading);
       } catch (error) {
-        setLoadingUsers(false);
         if (axios.isAxiosError(error)) {
           console.error("Axios Error:", error.message);
         } else {
@@ -52,7 +54,16 @@ const UserTable = () => {
 
   const handleVerifyUser = async (userId) => {
     try {
-      setLoadingVerification(true);
+      // Find the user by ID
+      const userToVerify = users.find((user) => user._id === userId);
+
+      // Update the loading state for the specific user
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === userId ? { ...user, loading: true } : user
+        )
+      );
+
       const token = await localStorage.getItem("jwt");
       const response = await axios.post(
         "http://127.0.0.1:8000/admin/update",
@@ -63,9 +74,12 @@ const UserTable = () => {
       );
 
       if (response.data?.verified === true) {
+        // Update the verified state and loading state for the specific user
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
-            user._id === userId ? { ...user, verified: true } : user
+            user._id === userId
+              ? { ...user, verified: true, loading: false }
+              : user
           )
         );
       }
@@ -77,11 +91,7 @@ const UserTable = () => {
       } else {
         console.error("Error:", error.message);
       }
-    } finally {
-      setLoadingVerification(false);
     }
-
-    console.log(`Verifying user with ID: ${userId}`);
   };
 
   const handleImageClick = (imageUrl) => {
@@ -99,8 +109,7 @@ const UserTable = () => {
   return (
     <div>
       <Navbar></Navbar>
-      {loadingUsers && <CircularProgress />}
-      {/* Show loading indicator while fetching users */}
+      {currentUsers.some((user) => user.loading) && <CircularProgress />}
       <table className='user-table'>
         <thead>
           <tr>
@@ -116,48 +125,46 @@ const UserTable = () => {
         </thead>
         <tbody>
           {currentUsers.map((user) => {
-            if (user.role == "admin") return;
-            else {
-              return (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>{user.verified ? "Yes" : "No"}</td>
-                  <td>
-                    <img
-                      src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
-                      alt='ID'
-                      style={{
-                        width: "50px",
-                        height: "30px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() =>
-                        handleImageClick(
-                          `http://127.0.0.1:8000/images/${user.identificationImage}`
-                        )
-                      }
-                    />
-                  </td>
-                  <td>
-                    {user.verified ? (
-                      "Verified"
-                    ) : (
-                      <button onClick={() => handleVerifyUser(user._id)}>
-                        {loadingVerification ? (
-                          <CircularProgress size={20} color='inherit' />
-                        ) : (
-                          "Verify"
-                        )}
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            }
+            if (user.role === "admin") return null;
+            return (
+              <tr key={user._id}>
+                <td>{user._id}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>{user.verified ? "Yes" : "No"}</td>
+                <td>
+                  <img
+                    src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
+                    alt='ID'
+                    style={{
+                      width: "50px",
+                      height: "30px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      handleImageClick(
+                        `http://127.0.0.1:8000/images/${user.identificationImage}`
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  {user.verified ? (
+                    "Verified"
+                  ) : (
+                    <button onClick={() => handleVerifyUser(user._id)}>
+                      {user.loading ? (
+                        <CircularProgress size={20} color='inherit' />
+                      ) : (
+                        "Verify"
+                      )}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>
