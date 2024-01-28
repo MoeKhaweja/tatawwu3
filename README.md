@@ -11,12 +11,9 @@
 
 ### User Stories
 
-<h4>As a User(Volunteer/Organization) :</h4>
-<ul>
-  <li>I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.</li>
-</ul>
   <h4>As a Volunteer:</h4>
   <ul>
+  <li>I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.</li>
   <li>I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at.</li>
     <li>I want to be able to chat with other volunteers in chat rooms, so that I can stay connected with people with similar interests.</li>
 </ul>
@@ -40,12 +37,15 @@
 
 ### Coffee Express is built using the following technologies:
 
-- This project uses the [Flutter app development framework](https://flutter.dev/). Flutter is a cross-platform hybrid app development platform which allows us to use a single codebase for apps on mobile, desktop, and the web.
-- For persistent storage (database), the app uses the [Hive](https://hivedb.dev/) package which allows the app to create a custom storage schema and save it to a local database.
-- To send local push notifications, the app uses the [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) package which supports Android, iOS, and macOS.
-  - 🚨 Currently, notifications aren't working on macOS. This is a known issue that we are working to resolve!
-- The app uses the font ["Work Sans"](https://fonts.google.com/specimen/Work+Sans) as its main font, and the design of the app adheres to the material design guidelines.
-
+- This project uses [React](https://react.dev/) for the admin dashboard. React is a JavaScript library for building user interfaces, it is used to build single-page applications, and it allows us to create reusable UI components.
+- This project uses [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) for the frontend. React Native is a cross-platform hybrid app development platform which allows us to use a single codebase for apps on mobile, desktop, and the web.
+- For persistent storage (database), the app uses [MongoDB Atlas](https://www.mongodb.com/) which is a fully-managed cloud database that handles all the complexity of deploying, managing, and healing our deployments on the cloud.
+- As a backend, the app uses [Node.js](https://nodejs.org/en) with [Express.js](https://nodejs.org/en), Express JS is a small framework that works on top of Node web server functionality to simplify its APIs and add helpful new features. It makes it easier to organize your application’s functionality with middleware and routing.
+- The app uses [Socket.io](https://socket.io/) for real time chats, Socket.IO is an event-driven library for real-time web applications. It enables real-time, bi-directional communication between web clients and servers. 
+- The app also relies heavily on [Google Gemini AI](https://ai.google.dev/docs) which is Google's largest and most capable AI model, in our app it is used to:
+  <ul><li>Analyze every user's resume and return specific data based on prompt engineering</li> 
+  <li>Recommend events for volunteers using vector embeddings</li> 
+  <li>Allow users to search semantically over events or volunteers, based on skills or targeted skills using vector embeddings</li> </ul>
 <br><br>
 
 <!-- UI UX -->
