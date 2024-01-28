@@ -67,7 +67,7 @@ const ProfilePage = ({ route, userInfo }) => {
 
           <List.Section>
             <Text variant='titleSmall'>Academic Background:</Text>
-            {user.academicBackground.map((background, index) => (
+            {user.academicBackground?.map((background, index) => (
               <List.Item
                 titleNumberOfLines={3}
                 key={index}

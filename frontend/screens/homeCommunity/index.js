@@ -19,12 +19,10 @@ import ViewCommunityEvents from "../communityEvents";
 import Volunteers from "../../tabs/volunteers/volunteers";
 import { verifyToken } from "../../store/user";
 
-const VolunteerRoute = () => <Feed></Feed>;
-const CommunitiesRoute = () => <Communities></Communities>;
 const ChatsRoute = () => <ChatScreen></ChatScreen>;
 const ProfileRoute = () => <ProfilePage></ProfilePage>;
 
-const HomeScreen = () => {
+const HomeCommunityScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,16 +32,17 @@ const HomeScreen = () => {
   }, []);
 
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
+
+  const [communityRoutes] = useState([
     {
-      key: "volunteer",
-      title: "Volunteer",
+      key: "events",
+      title: "My Events",
       focusedIcon: "hands-helping",
       unfocusedIcon: "hands-helping",
     },
     {
-      key: "communities",
-      title: "Communities",
+      key: "volunteers",
+      title: "Volunteers",
       focusedIcon: "users",
       unfocusedIcon: "users",
     },
@@ -60,12 +59,11 @@ const HomeScreen = () => {
       unfocusedIcon: "person",
     },
   ]);
-
   const renderScene = BottomNavigation.SceneMap({
-    volunteer: VolunteerRoute,
-    communities: CommunitiesRoute,
     chats: ChatsRoute,
     profile: ProfileRoute,
+    events: ViewCommunityEvents,
+    volunteers: Volunteers,
   });
 
   return (
@@ -104,7 +102,7 @@ const HomeScreen = () => {
           }}
           navigationState={{
             index,
-            routes: routes,
+            routes: communityRoutes,
           }}
           onIndexChange={setIndex}
           renderScene={renderScene}
@@ -114,4 +112,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default HomeCommunityScreen;

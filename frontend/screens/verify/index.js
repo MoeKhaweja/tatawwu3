@@ -51,11 +51,18 @@ export default function Verify() {
       setStep(2);
     }
     if (isResumeUploaded == true && isIdImageUploaded == true) {
-      if (user.role == "volunteer" || user.isCommunityOwner == true) {
+      if (user.role == "volunteer") {
         navigation.navigate("Home");
         navigation.reset({
           index: 0,
           routes: [{ name: "Home" }],
+        });
+        setStep(3);
+      } else if (user.role == "community" && user.isCommunityOwner == true) {
+        navigation.navigate("HomeCommunityScreen");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "HomeCommunityScreen" }],
         });
         setStep(3);
       } else {
