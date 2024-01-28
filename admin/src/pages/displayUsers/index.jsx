@@ -109,76 +109,82 @@ const UserTable = () => {
   return (
     <div>
       <Navbar></Navbar>
-      {currentUsers.some((user) => user.loading) && <CircularProgress />}
-      <table className='user-table'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Verified</th>
-            <th>Identification Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentUsers.map((user) => {
-            if (user.role === "admin") return null;
-            return (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>{user.verified ? "Yes" : "No"}</td>
-                <td>
-                  <img
-                    src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
-                    alt='ID'
-                    style={{
-                      width: "50px",
-                      height: "30px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() =>
-                      handleImageClick(
-                        `http://127.0.0.1:8000/images/${user.identificationImage}`
-                      )
-                    }
-                  />
-                </td>
-                <td>
-                  {user.verified ? (
-                    "Verified"
-                  ) : (
-                    <button onClick={() => handleVerifyUser(user._id)}>
-                      {user.loading ? (
-                        <CircularProgress size={20} color='inherit' />
-                      ) : (
-                        "Verify"
-                      )}
-                    </button>
-                  )}
-                </td>
+      {currentUsers && (
+        <>
+          {currentUsers.some((user) => user.loading) && <CircularProgress />}
+          <table className='user-table'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Verified</th>
+                <th>ID Image</th>
+                <th>Action</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className='pagination'>
-        <ul>
-          {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map(
-            (item, index) => (
-              <li key={index}>
-                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
-              </li>
-            )
-          )}
-        </ul>
-      </div>
+            </thead>
+            <tbody>
+              {currentUsers.map((user) => {
+                if (user.role === "admin") return null;
+                return (
+                  <tr key={user._id}>
+                    <td>{user._id}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.email}</td>
+                    <td>{user.role}</td>
+                    <td>{user.verified ? "Yes" : "No"}</td>
+                    <td>
+                      <img
+                        src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
+                        alt='ID'
+                        style={{
+                          width: "50px",
+                          height: "30px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() =>
+                          handleImageClick(
+                            `http://127.0.0.1:8000/images/${user.identificationImage}`
+                          )
+                        }
+                      />
+                    </td>
+                    <td>
+                      {user.verified ? (
+                        "Verified"
+                      ) : (
+                        <button onClick={() => handleVerifyUser(user._id)}>
+                          {user.loading ? (
+                            <CircularProgress size={20} color='inherit' />
+                          ) : (
+                            "Verify"
+                          )}
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div className='pagination'>
+            <ul>
+              {Array.from({
+                length: Math.ceil(users.length / usersPerPage),
+              }).map((item, index) => (
+                <li key={index}>
+                  <button onClick={() => paginate(index + 1)}>
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
       <Dialog open={Boolean(selectedImage)} onClose={handleClose}>
         <DialogTitle>ID Image</DialogTitle>
         <DialogContent>
