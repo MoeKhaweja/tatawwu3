@@ -43,9 +43,9 @@
 - As a backend, the app uses [Node.js](https://nodejs.org/en) with [Express.js](https://nodejs.org/en), Express JS is a small framework that works on top of Node web server functionality to simplify its APIs and add helpful new features. It makes it easier to organize your application’s functionality with middleware and routing.
 - The app uses [Socket.io](https://socket.io/) for real time chats, Socket.IO is an event-driven library for real-time web applications. It enables real-time, bi-directional communication between web clients and servers. 
 - The app also relies heavily on [Google Gemini AI](https://ai.google.dev/docs) which is Google's largest and most capable AI model, in our app it is used to:
-  <li>Analyze every user's resume and return specific data based on prompt engineering</li> 
+  <ul><li>Analyze every user's resume and return specific data based on prompt engineering</li> 
   <li>Recommend events for volunteers using vector embeddings</li> 
-  <li>Allow users to search semantically over events or volunteers, based on skills or targeted skills using vector embeddings</li> 
+  <li>Allow users to search semantically over events or volunteers, based on skills or targeted skills using vector embeddings</li> </ul>
 <br><br>
 
 <!-- UI UX -->
