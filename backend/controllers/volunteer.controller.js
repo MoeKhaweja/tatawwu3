@@ -12,6 +12,7 @@ const { semanticEvents } = require("../helpers/semanticEvents.helper");
  * @returns {Object} The response object with the status and the following data.
  */
 async function followCommunity(req, res) {
+  //not being used in app
   const { userId, communityId } = req.body;
   try {
     const user = await User.findById(userId);
@@ -53,6 +54,9 @@ async function followCommunity(req, res) {
 async function updateProfile(req, res) {
   const { userId, updates } = req.body;
   try {
+    if (!userId || !updates) {
+      res.status(404).json({ error: "User Id and Updates required" });
+    }
     const user = await User.findByIdAndUpdate(userId, updates, { new: true });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -75,6 +79,9 @@ const applyForEvent = async (req, res) => {
   const { eventId } = req.body;
 
   try {
+    if (!eventId) {
+      res.status(404).json({ error: "event Id required" });
+    }
     // Check if the user with the specified status is already an applicant for the event
     const isUserApplied = await Community.exists({
       "events._id": eventId,
@@ -120,6 +127,9 @@ const applicationStatus = async (req, res) => {
   const { eventId } = req.body;
 
   try {
+    if (!eventId) {
+      res.status(404).json({ error: "event Id required" });
+    }
     // Check if the user with the specified status is already an applicant for the event
     const isUserApplied = await Community.exists({
       "events._id": eventId,
@@ -240,6 +250,9 @@ async function sortByQuery(req, res) {
   const { query } = req.body;
 
   try {
+    if (!query) {
+      res.status(404).json({ error: "search query required" });
+    }
     // Retrieve all events from the Event model
     const allUsers = await User.find({ role: "volunteer" }).select(
       "firstName lastName skills academicBackground bio"
