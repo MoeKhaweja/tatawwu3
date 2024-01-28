@@ -1,1 +1,3 @@
-export const BASE_IMG_URL = "http://192.168.1.5:8000/images/";
+import { BASE_URL } from "../store/user";
+
+export const BASE_IMG_URL = `${BASE_URL}/images/`;
