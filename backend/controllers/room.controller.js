@@ -13,6 +13,9 @@ const createRoom = async (req, res) => {
   let room;
   try {
     {
+      if (!title || !description) {
+        res.status(404).json({ error: "Title and description required" });
+      }
       room = await Room.create({
         title,
         admin: req.user.id,
@@ -46,6 +49,9 @@ const createRoom = async (req, res) => {
  */
 const getRoom = async (req, res) => {
   try {
+    if (!req.body.room) {
+      res.status(404).json({ error: "Room Id required" });
+    }
     const room = await Room.findById(req.body.room);
     // console.log(JSON.parse(JSON.stringify(room.members)), `'${req.user.id}'`);
 
@@ -76,6 +82,9 @@ const getRoom = async (req, res) => {
  */
 const getUserRooms = async (req, res) => {
   try {
+    if (!req.user.rooms) {
+      res.status(404).json({ error: "Room Ids required" });
+    }
     console.log(req.user.rooms);
     let rooms = await Room.find({ _id: { $in: req.user.rooms } }).select(
       "title avatar lastMessage"
@@ -97,6 +106,9 @@ const getUserRooms = async (req, res) => {
  */
 const getNotUserRooms = async (req, res) => {
   try {
+    if (!req.user.rooms) {
+      res.status(404).json({ error: "Room Ids required" });
+    }
     console.log(req.user.rooms);
     let rooms = await Room.find({ _id: { $nin: req.user.rooms } }).select(
       "title avatar description"
@@ -118,6 +130,9 @@ const getNotUserRooms = async (req, res) => {
  */
 const joinRoom = async (req, res) => {
   try {
+    if (!req.body.room) {
+      res.status(404).json({ error: "Room Id required" });
+    }
     let room = await Room.findById(req.body.room);
 
     if (!room) {
