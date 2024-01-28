@@ -11,12 +11,9 @@
 
 ### User Stories
 
-<h4>As a User(Volunteer/Organization) :</h4>
-<ul>
-  <li>I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.</li>
-</ul>
   <h4>As a Volunteer:</h4>
   <ul>
+  <li>I want to be able to create my profile by uploading nessesary documents, so that I don't waste time on manually creating my profile.</li>
   <li>I want to be able to find oppurtunities based on my skill/experience, so that I can help with what I'm best at.</li>
     <li>I want to be able to chat with other volunteers in chat rooms, so that I can stay connected with people with similar interests.</li>
 </ul>
