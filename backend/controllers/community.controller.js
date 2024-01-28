@@ -35,6 +35,9 @@ const getAllCommunities = async (req, res) => {
 const getCommunity = async (req, res) => {
   const { community } = req.body;
   try {
+    if (!community) {
+      return res.status(404).json({ error: "No community Id found" });
+    }
     const communities = await Community.findById(community).populate({
       path: "owner",
       select: "-_id firstName lastName bio skills academicBackground userImage",
@@ -56,6 +59,10 @@ const getCommunity = async (req, res) => {
 async function createCommunity(req, res) {
   const user = req.user;
   const { name, description, img } = req.body;
+
+  if (!name || !description || !img) {
+    return res.status(404).json({ error: "All Fields Required" });
+  }
 
   const imagePath = img ? await handleBase64Image(img) : null;
   console.log(imagePath);
@@ -87,8 +94,10 @@ async function createCommunity(req, res) {
  */
 async function getEvent(req, res) {
   const { eventId } = req.body;
-
   try {
+    if (!eventId) {
+      return res.status(404).json({ error: "No event Id found" });
+    }
     const allEvents = await Event.findById(eventId).select("-applicants");
 
     return res.status(200).json(allEvents);
@@ -134,6 +143,9 @@ async function getCommunityEventsUser(req, res) {
   const { communityId } = req.body;
 
   try {
+    if (!communityId) {
+      return res.status(404).json({ error: "No community Id found" });
+    }
     const community = await Community.findById(communityId).populate({
       path: "events",
       populate: {
@@ -164,6 +176,9 @@ async function getCommunityEvents(req, res) {
   const user = req.user;
 
   try {
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
     const community = await Community.findOne({
       owner: user._id,
     }).populate({
@@ -196,6 +211,9 @@ async function getCommunityEventApplicants(req, res) {
   const { eventId } = req.body;
 
   try {
+    if (!eventId) {
+      return res.status(404).json({ error: "No event Id found" });
+    }
     const event = await Event.findById(eventId).populate({
       path: "applicants.user",
       select: "-_id firstName lastName bio skills academicBackground userImage",
@@ -220,17 +238,20 @@ async function getCommunityEventApplicants(req, res) {
  */
 async function addEvent(req, res) {
   const user = req.user;
-  const {
-    title,
-    description,
-    schedule,
-    location,
-    duration,
-    img,
-    targetedSkills,
-  } = req.body;
+  const { title, description, schedule, location, img, targetedSkills } =
+    req.body;
 
   try {
+    if (
+      !title ||
+      !description ||
+      !schedule ||
+      !location ||
+      !img ||
+      !targetedSkills
+    ) {
+      return res.status(404).json({ error: "All Fields Required" });
+    }
     // Find the community based on the user
     const community = await Community.findOne({ owner: user.id });
 
@@ -248,7 +269,6 @@ async function addEvent(req, res) {
       description,
       schedule,
       location,
-      duration,
       img: imagePath,
       targetedSkills,
       community: community._id, // Specify the community association
@@ -284,6 +304,17 @@ async function editEvent(req, res) {
   } = req.body;
 
   try {
+    if (
+      !title ||
+      !description ||
+      !schedule ||
+      !location ||
+      !img ||
+      !targetedSkills ||
+      !_id
+    ) {
+      return res.status(404).json({ error: "All Fields Required" });
+    }
     // Handle the image if provided
     const imagePath = img ? await handleBase64Image(img) : null;
     console.log(
@@ -349,6 +380,9 @@ async function deleteEvent(req, res) {
   const { eventId } = req.body;
   const user = req.user;
   try {
+    if (!eventId) {
+      return res.status(404).json({ error: "No event Id found" });
+    }
     const community = await Community.findOne({ owner: user._id });
     if (!community) {
       return res.status(404).json({ error: "Community not found" });
@@ -381,6 +415,7 @@ async function deleteEvent(req, res) {
  * @returns {Object} The event's details after the invitation is sent or cancelled.
  */
 async function inviteOrCancelInvite(req, res) {
+  //not using this in app currently
   const { communityId, eventId, userId, cancel } = req.body;
   try {
     const community = await Community.findById(communityId);
@@ -431,8 +466,10 @@ async function inviteOrCancelInvite(req, res) {
 async function applyForEvent(req, res) {
   const { eventId } = req.body;
   const userId = req.user.id;
-  console.log(userId, eventId);
   try {
+    if (!eventId) {
+      return res.status(404).json({ error: "No event Id found" });
+    }
     const event = await Event.findById(eventId);
 
     if (!event) {
@@ -483,8 +520,11 @@ async function applyForEvent(req, res) {
 async function cancelApplication(req, res) {
   const { eventId } = req.body;
   const userId = req.user.id;
-  console.log(userId, eventId);
+
   try {
+    if (!eventId) {
+      return res.status(404).json({ error: "No event Id found" });
+    }
     const event = await Event.findById(eventId);
 
     if (!event) {
@@ -530,6 +570,9 @@ async function acceptApplication(req, res) {
   const { eventId, applicantId } = req.body;
   console.log(applicantId, eventId);
   try {
+    if (!eventId || !applicantId) {
+      return res.status(404).json({ error: "All Fields Required" });
+    }
     const event = await Event.findById(eventId);
 
     if (!event) {
@@ -575,6 +618,9 @@ async function rejectApplication(req, res) {
   const { eventId, applicantId } = req.body;
   console.log(applicantId, eventId);
   try {
+    if (!eventId || !applicantId) {
+      return res.status(404).json({ error: "All Fields Required" });
+    }
     const event = await Event.findById(eventId);
 
     if (!event) {
@@ -659,6 +705,9 @@ async function sortByQuery(req, res) {
   const { query } = req.body;
 
   try {
+    if (!query) {
+      return res.status(404).json({ error: "Search Query Required" });
+    }
     // Retrieve all events from the Event model
     const allEvents = await Event.find().populate({
       path: "community",
