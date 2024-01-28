@@ -32,16 +32,17 @@ const CommunityProfilePage = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.topSection}>
         <Avatar.Image
           size={100}
-          source={{ uri: `${BASE_IMG_URL}${community.img} ` }} 
-          style={styles.avatar}
+          source={{ uri: `${BASE_IMG_URL}${community.img} ` }}
         />
-        <View style={styles.nameContainer}>
-          <Title>{community.name}</Title>
-          <Paragraph>{community.description}</Paragraph>
+        <Text variant='headlineSmall'>{community.name}</Text>
+        <View>
+          <Text variant='labelLarge'>Bio:</Text>
+          <Paragraph style={{ color: "#888" }}>
+            {community.description}
+          </Paragraph>
         </View>
       </View>
 
@@ -111,13 +112,14 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   topSection: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     marginBottom: 10,
+    justifyContent: "center",
+    gap: 10,
   },
 
   nameContainer: {
-    flex: 1,
     marginLeft: 16,
   },
   divider: {
