@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   createEventButton: {
-    marginVertical: 20, // Adjust the vertical margin as needed
+    marginVertical: 20, 
   },
 });
 

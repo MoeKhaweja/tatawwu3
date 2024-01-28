@@ -32,11 +32,11 @@ const CommunityProfilePage = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Top section with circular avatar, community name, and description */}
+
       <View style={styles.topSection}>
         <Avatar.Image
           size={100}
-          source={{ uri: `${BASE_IMG_URL}${community.img} ` }} // Use community image if available
+          source={{ uri: `${BASE_IMG_URL}${community.img} ` }} 
           style={styles.avatar}
         />
         <View style={styles.nameContainer}>

@@ -50,7 +50,6 @@ const SignupScreen = ({ navigation }) => {
     setLoading(true);
     setErrorMessage("");
 
-    // Simulating signup delay for 2 seconds (replace with actual signup logic)
     try {
       await dispatch(
         registerUser({ email, password, firstName, lastName, role })
