@@ -31,6 +31,9 @@ const getAllUsers = async (req, res) => {
 const updateUserById = async (req, res) => {
   try {
     const userId = req.body.userId;
+    if (!userId) {
+      return res.status(404).json({ error: "No userId found" });
+    }
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
       new: true,
     });
@@ -57,6 +60,9 @@ const updateUserById = async (req, res) => {
 const deleteUserById = async (req, res) => {
   try {
     const userId = req.body.id;
+    if (!userId) {
+      return res.status(404).json({ error: "No userId found" });
+    }
     const deletedUser = await User.findByIdAndDelete(userId);
 
     if (!deletedUser) {
