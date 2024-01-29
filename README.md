@@ -79,7 +79,7 @@
 
 | Login screen                              | Register screen                         | Landing screen                          | Loading screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img src="./readme/demo/Screenshot_20240129_025730_Expo Go.jpg"/> | <img src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>(https://placehold.co/900x1600) |
+| <img width="900" height="1600"  src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="900" height="1600"   src="./readme/demo/Screenshot_20240129_025730_Expo Go.jpg"/> | <img  width="900" height="1600" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>(https://placehold.co/900x1600) |
 | Home screen                               | Menu Screen                             | Order Screen                            | Checkout Screen                         |
 | ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
 
