@@ -104,14 +104,50 @@
 
 ### Efficient AI Deployment: Unleashing the Potential with AWS Integration:
 
-- This project leverages AWS deployment strategies to seamlessly integrate and deploy natural language processing models. With a focus on scalability, reliability, and performance, we ensure that AI applications powered by these models deliver robust and responsive solutions for diverse use cases.
+- This project was deployed on an AWS ec2 instance, an example code of how it was deployed:
+    ```sh
+    sudo yum install -y gcc-c++ make
+    curl -sL https://rpm.nodesource.com/setup_21.x | sudo -E bash -
+    sudo yum install -y nodejs
+    sudo yum install -y git
+    sudo vim /etc/systemd/system/tatawwu3.service
+  	    [Unit]
+      	Description=tatawwu3
+      	After=multi-user.target
 
+      	[Service]
+      	ExecStart=/usr/bin/node /home/ec2-user/tatawu3/backend/index.js
+      	Restart=always
+      	RestartSec=10
+        StandardOutput=syslog
+      	StandardError=syslog
+      	SyslogIdentifier=tatawwu3
+      	User=ec2-user
+      	EnvironmentFile=/home/ec2-user/tatawwu3/backend/.env
+
+	      [Install]
+	      WantedBy=multi-user.target
+
+   sudo systemctl enable tatawwu3
+   sudo systemctl start tatawwu3
+    ```
+- optional nginx reverse proxy
+     ```sh
+     sudo amazon-linux-extras install nginx1 -y
+     sudo systemctl enable nginx
+     sudo systemctl start nginx
+     sudo vim /etc/nginx/nginx.conf
+     location / {
+          proxy_pass http://localhost:8080;
+         }
+     sudo systemctl restart nginx
+   ```
 <br><br>
 
 <!-- Unit Testing -->
 <img src="./readme/title9.svg"/>
 
-### Precision in Development: Harnessing the Power of Unit Testing:
+### Unit Testing:
 
 - This project employs rigorous unit testing methodologies to ensure the reliability and accuracy of code components. By systematically evaluating individual units of the software, we guarantee a robust foundation, identifying and addressing potential issues early in the development process.
 
