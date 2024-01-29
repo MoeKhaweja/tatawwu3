@@ -37,10 +37,13 @@ export default function SignIn() {
 
       try {
         // Make the API request using Axios
-        const response = await axios.post("http://127.0.0.1:8000/admin/login", {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          "http://51.44.24.252:80/admin/login",
+          {
+            email,
+            password,
+          }
+        );
         localStorage.setItem("jwt", response.data.token);
 
         navigate("/users");

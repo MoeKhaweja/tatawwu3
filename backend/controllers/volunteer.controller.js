@@ -255,7 +255,7 @@ async function sortByQuery(req, res) {
     }
     // Retrieve all events from the Event model
     const allUsers = await User.find({ role: "volunteer" }).select(
-      "firstName lastName skills academicBackground bio"
+      "firstName lastName skills academicBackground bio userImage"
     );
 
     // Use semanticEvents or any other logic to calculate similarities

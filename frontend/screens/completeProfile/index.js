@@ -155,11 +155,19 @@ const CompleteProfilePage = ({ route }) => {
         })
       );
     } catch {}
-    navigation.navigate("Home");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Home" }],
-    });
+    if (user.role == "community") {
+      navigation.navigate("HomeCommunityScreen");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "HomeCommunityScreen" }],
+      });
+    } else {
+      navigation.navigate("Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
   };
 
   return (

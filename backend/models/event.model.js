@@ -23,7 +23,7 @@ const eventSchema = new mongoose.Schema({
   applicants: [applicantSchema],
   targetedSkills: [{ type: String }],
   img: { type: String, required: true },
-  duration: { type: Number, required: true },
+  duration: { type: Number },
   community: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community",

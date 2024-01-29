@@ -26,6 +26,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { DatePickerModal, TimePickerModal, ro } from "react-native-paper-dates";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import theme from "../../theme";
+import TopAppBar from "../../components/appBar";
+import LoadingOrError from "../../components/loadingOrError";
 
 const CommunityAddEvents = () => {
   const [inputValue, setInputValue] = useState("");
@@ -153,223 +155,245 @@ const CommunityAddEvents = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {error && (
-          <HelperText type='error' visible={error}>
-            {errorMessage}
-          </HelperText>
-        )}
-        <TextInput
-          label='Event Title'
-          value={eventDetails.title}
-          onChangeText={(text) => {
-            setEventDetails({ ...eventDetails, title: text });
-            setError("");
-          }}
-          style={styles.input}
-          error={error && !eventDetails.title}
-        />
-        <TextInput
-          label='Event Description'
-          value={eventDetails.description}
-          onChangeText={(text) => {
-            setError("");
-            setEventDetails({ ...eventDetails, description: text });
-          }}
-          style={styles.input}
-          multiline
-          error={error && !eventDetails.description}
-        />
-        <TextInput
-          label='Event Location'
-          value={eventDetails.location}
-          onChangeText={(text) => {
-            setError("");
-            setEventDetails({ ...eventDetails, location: text });
-          }}
-          style={styles.input}
-          error={error && !eventDetails.location}
-        />
-        <View
-          style={{
-            justifyContent: "space-evenly",
-            flex: 1,
-            alignItems: "center",
-            flexDirection: "row",
-            marginBottom: 10,
-          }}
-        >
-          <Button
-            onPress={() => setOpen(true)}
-            uppercase={false}
-            mode='contained'
-            icon={() => <Icon2 name='calendar' size={20} color='white'></Icon2>}
-          >
-            Date
-          </Button>
-
-          <DateTimePickerModal
-            minimumDate={new Date()}
-            isVisible={open}
-            mode='date'
-            date={date}
-            onConfirm={onConfirmSingle}
-            onCancel={onDismissSingle}
-          />
-
-          {startTime ? (
-            <Button
-              mode='contained'
-              onPress={() => setVisible(true)}
-              uppercase={false}
-              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
-            >
-              {startTime}
-            </Button>
-          ) : (
-            <Button
-              mode='contained'
-              onPress={() => setVisible(true)}
-              uppercase={false}
-              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
-            >
-              Starts
-            </Button>
-          )}
-          <DateTimePickerModal
-            isVisible={visible}
-            mode='time'
-            onConfirm={onConfirm}
-            onCancel={onDismiss}
-          />
-          {endTime ? (
-            <Button
-              mode='contained'
-              onPress={() => setVisible2(true)}
-              uppercase={false}
-              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
-            >
-              {endTime}
-            </Button>
-          ) : (
-            <Button
-              mode='contained'
-              onPress={() => setVisible2(true)}
-              uppercase={false}
-              icon={() => <Icon2 name='time' size={20} color='white'></Icon2>}
-            >
-              Ends
-            </Button>
-          )}
-          <DateTimePickerModal
-            isVisible={visible2}
-            mode='time'
-            onConfirm={onConfirm2}
-            onCancel={onDismiss2}
-          />
-        </View>
-        {image ? (
+    <>
+      <TopAppBar></TopAppBar>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
           <View>
-            <TouchableOpacity onPress={removeImage}>
-              <Icon
-                name='times-circle'
-                size={20}
-                color={theme.colors.tertiary}
-              />
-            </TouchableOpacity>
-            <Image
-              resizeMode='cover'
-              height={150}
-              style={{ marginBottom: 10, borderRadius: 15 }}
-              source={{ uri: image }}
+            {error && (
+              <HelperText type='error' visible={error}>
+                {errorMessage}
+              </HelperText>
+            )}
+            <TextInput
+              label='Event Title'
+              value={eventDetails.title}
+              onChangeText={(text) => {
+                setEventDetails({ ...eventDetails, title: text });
+                setError("");
+              }}
+              style={styles.input}
+              error={error && !eventDetails.title}
             />
-          </View>
-        ) : (
-          <View
-            style={{
-              justifyContent: "space-evenly",
-              flex: 1,
-              alignItems: "center",
-              flexDirection: "row",
-              marginBottom: 10,
-            }}
-          >
+            <TextInput
+              numberOfLines={3}
+              label='Event Description'
+              value={eventDetails.description}
+              onChangeText={(text) => {
+                setError("");
+                setEventDetails({ ...eventDetails, description: text });
+              }}
+              style={styles.input}
+              multiline
+              error={error && !eventDetails.description}
+            />
+            <TextInput
+              label='Event Location'
+              value={eventDetails.location}
+              onChangeText={(text) => {
+                setError("");
+                setEventDetails({ ...eventDetails, location: text });
+              }}
+              style={styles.input}
+              error={error && !eventDetails.location}
+            />
+            <View
+              style={{
+                justifyContent: "space-evenly",
+                flex: 1,
+                alignItems: "center",
+                flexDirection: "row",
+                marginBottom: 10,
+              }}
+            >
+              <Button
+                onPress={() => setOpen(true)}
+                uppercase={false}
+                mode='contained'
+                icon={() => (
+                  <Icon2 name='calendar' size={20} color='white'></Icon2>
+                )}
+              >
+                Date
+              </Button>
+
+              <DateTimePickerModal
+                minimumDate={new Date()}
+                isVisible={open}
+                mode='date'
+                date={date}
+                onConfirm={onConfirmSingle}
+                onCancel={onDismissSingle}
+              />
+
+              {startTime ? (
+                <Button
+                  mode='contained'
+                  onPress={() => setVisible(true)}
+                  uppercase={false}
+                  icon={() => (
+                    <Icon2 name='time' size={20} color='white'></Icon2>
+                  )}
+                >
+                  {startTime}
+                </Button>
+              ) : (
+                <Button
+                  mode='contained'
+                  onPress={() => setVisible(true)}
+                  uppercase={false}
+                  icon={() => (
+                    <Icon2 name='time' size={20} color='white'></Icon2>
+                  )}
+                >
+                  Starts
+                </Button>
+              )}
+              <DateTimePickerModal
+                isVisible={visible}
+                mode='time'
+                onConfirm={onConfirm}
+                onCancel={onDismiss}
+              />
+              {endTime ? (
+                <Button
+                  mode='contained'
+                  onPress={() => setVisible2(true)}
+                  uppercase={false}
+                  icon={() => (
+                    <Icon2 name='time' size={20} color='white'></Icon2>
+                  )}
+                >
+                  {endTime}
+                </Button>
+              ) : (
+                <Button
+                  mode='contained'
+                  onPress={() => setVisible2(true)}
+                  uppercase={false}
+                  icon={() => (
+                    <Icon2 name='time' size={20} color='white'></Icon2>
+                  )}
+                >
+                  Ends
+                </Button>
+              )}
+              <DateTimePickerModal
+                isVisible={visible2}
+                mode='time'
+                onConfirm={onConfirm2}
+                onCancel={onDismiss2}
+              />
+            </View>
+            {image ? (
+              <View>
+                <TouchableOpacity onPress={removeImage}>
+                  <Icon
+                    name='times-circle'
+                    size={20}
+                    color={theme.colors.tertiary}
+                  />
+                </TouchableOpacity>
+                <Image
+                  resizeMode='cover'
+                  height={150}
+                  style={{ marginBottom: 10, borderRadius: 15 }}
+                  source={{ uri: image }}
+                />
+              </View>
+            ) : (
+              <View
+                style={{
+                  justifyContent: "space-evenly",
+                  flex: 1,
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginBottom: 10,
+                }}
+              >
+                <Button
+                  mode='contained'
+                  icon={() => <Icon name='camera' size={20} color='white' />}
+                  onPress={pickImage}
+                  style={styles.input}
+                >
+                  Pick Image
+                </Button>
+              </View>
+            )}
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 10,
+              }}
+            >
+              <TextInput
+                label='Event Targeted Skills'
+                value={inputValue}
+                onChangeText={(text) => setInputValue(text)}
+                style={{ flex: 1 }}
+                right={
+                  <TextInput.Icon
+                    icon={() => (
+                      <Icon
+                        name='plus'
+                        size={24}
+                        color={theme.colors.primary}
+                      />
+                    )} // You can customize the icon here
+                    onPress={handleAdd}
+                  />
+                }
+                error={error && listData != []}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 8,
+                flexWrap: "wrap",
+              }}
+            >
+              {listData.map((item, index) => (
+                <Chip
+                  key={index}
+                  textStyle={{ color: "white" }}
+                  style={{
+                    margin: 2,
+                    backgroundColor: theme.colors.tertiary,
+                  }}
+                  icon={() => <Icon name='close' size={12} color='white' />}
+                  onPress={() => handleDelete(index)}
+                >
+                  {item}
+                </Chip>
+              ))}
+            </View>
+            <LoadingOrError></LoadingOrError>
             <Button
               mode='contained'
-              icon={() => <Icon name='camera' size={20} color='white' />}
-              onPress={pickImage}
-              style={styles.input}
+              onPress={handleCreateEvent}
+              style={styles.createEventButton}
             >
-              Pick Image
+              Create Event
             </Button>
           </View>
-        )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            label='Event Targeted Skills'
-            value={inputValue}
-            onChangeText={(text) => setInputValue(text)}
-            style={{ flex: 1 }}
-            right={
-              <TextInput.Icon
-                icon={() => (
-                  <Icon name='plus' size={24} color={theme.colors.primary} />
-                )} // You can customize the icon here
-                onPress={handleAdd}
-              />
-            }
-            error={error && listData != []}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 8,
-            flexWrap: "wrap",
-          }}
-        >
-          {listData.map((item, index) => (
-            <Chip
-              key={index}
-              textStyle={{ color: "white" }}
-              style={{
-                margin: 2,
-                backgroundColor: theme.colors.tertiary,
-              }}
-              icon={() => <Icon name='close' size={12} color='white' />}
-              onPress={() => handleDelete(index)}
-            >
-              {item}
-            </Chip>
-          ))}
-        </View>
-        <Button
-          mode='contained'
-          onPress={handleCreateEvent}
-          style={styles.createEventButton}
-        >
-          Create Event
-        </Button>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 10,
     paddingHorizontal: 20,
     alignContent: "center",
     justifyContent: "center",
+    paddingBottom: 30,
   },
   card: {
     margin: 10,
@@ -379,7 +403,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   createEventButton: {
-    marginVertical: 20, 
+    marginVertical: 20,
   },
 });
 

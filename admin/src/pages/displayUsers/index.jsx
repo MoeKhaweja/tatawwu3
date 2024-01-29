@@ -29,7 +29,7 @@ const UserTable = () => {
     async function fetchUsers() {
       try {
         const token = await localStorage.getItem("jwt");
-        const response = await axios.get("http://127.0.0.1:8000/admin/", {
+        const response = await axios.get("http://51.44.24.252:80/admin/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -66,7 +66,7 @@ const UserTable = () => {
 
       const token = await localStorage.getItem("jwt");
       const response = await axios.post(
-        "http://127.0.0.1:8000/admin/update",
+        "http://51.44.24.252:80/admin/update",
         { userId: userId, verified: true },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -138,7 +138,7 @@ const UserTable = () => {
                     <td>{user.verified ? "Yes" : "No"}</td>
                     <td>
                       <img
-                        src={`http://127.0.0.1:8000/images/${user.identificationImage}`}
+                        src={`http://51.44.24.252:80/images/${user.identificationImage}`}
                         alt='ID'
                         style={{
                           width: "50px",
@@ -147,7 +147,7 @@ const UserTable = () => {
                         }}
                         onClick={() =>
                           handleImageClick(
-                            `http://127.0.0.1:8000/images/${user.identificationImage}`
+                            `http://51.44.24.252:80/images/${user.identificationImage}`
                           )
                         }
                       />

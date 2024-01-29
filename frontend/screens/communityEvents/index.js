@@ -165,7 +165,9 @@ const ViewCommunityEvents = () => {
               >
                 <Card.Content>
                   <Title>{title}</Title>
-                  <Text numberOfLines={2}>{description}</Text>
+                  <Text style={{ color: "#888" }} numberOfLines={2}>
+                    {description}
+                  </Text>
                   <Paragraph>
                     Date: {date}, Time: {startTime} - {endTime}
                   </Paragraph>
