@@ -83,7 +83,7 @@
 
 |  Search for Events (Semantically)         | Communities screen                      | Loading screen                          | Home screen (Volunteer)                 |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img height="900" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
+|<img width="400" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
 
 
 
