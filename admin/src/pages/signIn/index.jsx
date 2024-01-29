@@ -67,6 +67,9 @@ export default function SignIn() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#0f2837",
+          padding: "50px",
+          borderRadius: "20px",
         }}
       >
         <Typography component='h1' variant='h5'>
@@ -109,7 +112,7 @@ export default function SignIn() {
             type='submit'
             fullWidth
             variant='contained'
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor: "#f55916" }}
           >
             Sign In
           </Button>
