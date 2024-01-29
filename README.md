@@ -55,17 +55,6 @@
 
 - Project Figma design [figma](https://www.figma.com/file/7X4q4csvnqkHpUb2iipfej/Tatawwu3?type=design&node-id=20%3A3220&mode=design&t=ZlyIql4yj3VNkuNU-1)
 
-### Mockups
-
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-
-<br><br>
-
-<!-- Database Design -->
-<img src="./readme/title5.svg"/>
-
 ### Architecting Data Excellence: Innovative Database Design Strategies:
 
 - Insert ER Diagram here
@@ -92,9 +81,9 @@
 
 ### Admin Screens (Web)
 
-| Login screen                            | Register screen                       | Landing screen                        |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Login screen                            | Landing screen                     | 
+| --------------------------------------- | ------------------------------------- |
+| <img width="400px" src="./readme/demo/admin login.png"/> | <img width="400px" src="./readme/demo/landing.png"/> | 
 
 
 <br><br>
