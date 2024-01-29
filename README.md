@@ -110,8 +110,6 @@
 <!-- AWS Deployment -->
 <img src="./readme/title8.svg"/>
 
-### Efficient AI Deployment: Unleashing the Potential with AWS Integration:
-
 - This project was deployed on an AWS ec2 instance, an example code of how it was deployed:
     ```sh
     sudo yum install -y gcc-c++ make
