@@ -81,9 +81,10 @@
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
 | <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="900" src="./readme/demo/Screenshot_20240129_025730_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
 
-|  Search for Events (Semantically)         | Communities screen                      | Loading screen                          | Home screen (Volunteer)                 |
+|  Search for Events (Semantically)         | Communities screen                      | Chats screen                          | Profile screen              |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img width="300" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
+|<img width="200" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="200" src="./readme/demo/20240129_023358.gif
+"/>|<img width="900" src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
 
 
 
