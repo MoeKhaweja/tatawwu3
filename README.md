@@ -87,7 +87,7 @@
 
 | Home screen (Community)                   | Create Event (Community)                | Search for Volunteers                   | View Applicants                         |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="100%" src="./readme/demo/20240129_024245.gif"/> | <img  width="100%" src="./readme/demo/20240129_024009.gif"/>|<img width="100%" src="./readme/demo/Screenshot_20240129_033947_Expo Go.jpg"/>|
+| <img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="285%" src="./readme/demo/20240129_024245.gif"/> | <img  width="285%" src="./readme/demo/20240129_024009.gif"/>|<img width="100%" src="./readme/demo/Screenshot_20240129_033947_Expo Go.jpg"/>|
 
 
 
