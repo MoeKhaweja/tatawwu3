@@ -50,7 +50,7 @@
 
 <!-- UI UX -->
 <img src="./readme/title4.svg"/>
-
+### Mockups:
 > We designed Tatawwu3 using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
 
 | Splash screen                              | Login Screen            | Home screen               | Communities Screen               |
