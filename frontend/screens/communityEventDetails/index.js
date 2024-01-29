@@ -68,88 +68,94 @@ const CommunityEventDetails = ({ route }) => {
   );
 
   return (
-    <FlatList
-      style={styles.container}
-      data={[{ key: "eventDetails", value: eventDetails }, ...event.applicants]}
-      renderItem={({ item }) => {
-        if (item.key === "eventDetails") {
-          return (
-            <Card style={styles.card}>
-              <View style={styles.eventDetailsHeader}>
-                <Text style={styles.heading}>Event Details</Text>
-                <IconButton
-                  icon='pencil'
-                  size={20}
-                  onPress={() =>
-                    navigation.navigate("CommunityEditEvent", {
-                      event: eventDetails,
-                    })
-                  }
-                />
-              </View>
-              <FlatList
-                data={eventDetailsData}
-                renderItem={renderEventDetail}
-                keyExtractor={(item) => item.key}
-              />
-              <View style={styles.chipsContainer}>
-                {eventDetails.targetedSkills.map((skill, index) => (
-                  <Chip
-                    key={index}
-                    style={styles.chip}
-                    textStyle={{ color: "white" }}
-                  >
-                    {skill}
-                  </Chip>
-                ))}
-              </View>
-              <LoadingOrError></LoadingOrError>
-
-              {eventDetails.img && (
-                <Image
-                  resizeMode='cover'
-                  style={{ width: "100%", height: 150, marginTop: 10 }}
-                  source={{
-                    uri: `http://192.168.1.5:8000/images/${eventDetails.img}`,
-                  }}
-                />
-              )}
-            </Card>
-          );
-        } else {
-          return (
-            <Card
-              key={item._id}
-              style={styles.applicantCard}
-              onPress={() => {
-                console.log(item);
-                navigation.navigate("ProfilePage", { user: item.user });
-              }}
-            >
-              <Card.Content style={styles.applicantContent}>
-                <Text style={styles.applicantName}>
-                  {item.user.firstName + " " + item.user.lastName}
-                </Text>
-                <Text>Status: {item.status}</Text>
-              </Card.Content>
-              <Card.Actions>
-                {(item.status === "applied" || item.status === "pending") && (
-                  <View style={styles.buttonsContainer}>
-                    <Button onPress={() => handleAcceptApplicant(item._id)}>
-                      Accept
-                    </Button>
-                    <Button onPress={() => handleDenyApplicant(item._id)}>
-                      Deny
-                    </Button>
+    <>
+      <View style={styles.container}>
+        <FlatList
+          data={[
+            { key: "eventDetails", value: eventDetails },
+            ...event.applicants,
+          ]}
+          renderItem={({ item }) => {
+            if (item.key === "eventDetails") {
+              return (
+                <Card style={styles.card}>
+                  <View style={styles.eventDetailsHeader}>
+                    <Text style={styles.heading}>Event Details</Text>
+                    <IconButton
+                      icon='pencil'
+                      size={20}
+                      onPress={() =>
+                        navigation.navigate("CommunityEditEvent", {
+                          event: eventDetails,
+                        })
+                      }
+                    />
                   </View>
-                )}
-              </Card.Actions>
-            </Card>
-          );
-        }
-      }}
-      keyExtractor={(item) => (item.key ? "eventDetails" : item._id)}
-    />
+                  {eventDetails.img && (
+                    <Image
+                      resizeMode='cover'
+                      style={{ width: "100%", height: 150, marginTop: 10 }}
+                      source={{
+                        uri: `http://192.168.1.5:8000/images/${eventDetails.img}`,
+                      }}
+                    />
+                  )}
+                  <FlatList
+                    data={eventDetailsData}
+                    renderItem={renderEventDetail}
+                    keyExtractor={(item) => item.key}
+                  />
+                  <View style={styles.chipsContainer}>
+                    {eventDetails.targetedSkills.map((skill, index) => (
+                      <Chip
+                        key={index}
+                        style={styles.chip}
+                        textStyle={{ color: "white" }}
+                      >
+                        {skill}
+                      </Chip>
+                    ))}
+                  </View>
+                  <LoadingOrError></LoadingOrError>
+                </Card>
+              );
+            } else {
+              return (
+                <Card
+                  key={item._id}
+                  style={styles.applicantCard}
+                  onPress={() => {
+                    console.log(item);
+                    navigation.navigate("ProfilePage", { user: item.user });
+                  }}
+                >
+                  <Card.Content style={styles.applicantContent}>
+                    <Text style={styles.applicantName}>
+                      {item.user.firstName + " " + item.user.lastName}
+                    </Text>
+                    <Text>Status: {item.status}</Text>
+                  </Card.Content>
+                  <Card.Actions>
+                    {(item.status === "applied" ||
+                      item.status === "pending") && (
+                      <View style={styles.buttonsContainer}>
+                        <Button onPress={() => handleAcceptApplicant(item._id)}>
+                          Accept
+                        </Button>
+                        <Button onPress={() => handleDenyApplicant(item._id)}>
+                          Deny
+                        </Button>
+                      </View>
+                    )}
+                  </Card.Actions>
+                </Card>
+              );
+            }
+          }}
+          keyExtractor={(item) => (item.key ? "eventDetails" : item._id)}
+        />
+      </View>
+    </>
   );
 };
 
@@ -176,7 +182,7 @@ const styles = StyleSheet.create({
   },
   applicantCard: {
     padding: 5,
-    marginBottom: 50,
+    marginBottom: 10,
     margin: 3,
   },
   applicantContent: {
