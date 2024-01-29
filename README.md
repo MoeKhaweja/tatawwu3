@@ -35,7 +35,7 @@
 <!-- Tech stack -->
 <img src="./readme/title3.svg"/>
 
-### Coffee Express is built using the following technologies:
+### Tatawwu3 is built using the following technologies:
 
 - This project uses [React](https://react.dev/) for the admin dashboard. React is a JavaScript library for building user interfaces, it is used to build single-page applications, and it allows us to create reusable UI components.
 - This project uses [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) for the frontend. React Native is a cross-platform hybrid app development platform which allows us to use a single codebase for apps on mobile, desktop, and the web.
@@ -51,9 +51,9 @@
 <!-- UI UX -->
 <img src="./readme/title4.svg"/>
 
-> We designed Coffee Express using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
+> We designed Tatawwu3 using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
 
-- Project Figma design [figma](https://www.figma.com/file/LsuOx5Wnh5YTGSEtrgvz4l/Purrfect-Pals?type=design&node-id=257%3A79&mode=design&t=adzbABt5hbb91ucZ-1)
+- Project Figma design [figma](https://www.figma.com/file/7X4q4csvnqkHpUb2iipfej/Tatawwu3?type=design&node-id=20%3A3220&mode=design&t=ZlyIql4yj3VNkuNU-1)
 
 ### Mockups
 
