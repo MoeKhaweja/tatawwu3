@@ -149,7 +149,8 @@
 
 ### Unit Testing:
 
-- This project employs rigorous unit testing methodologies to ensure the reliability and accuracy of code components. By systematically evaluating individual units of the software, we guarantee a robust foundation, identifying and addressing potential issues early in the development process.
+- This project uses Jest and SuperTest to test its APIs, here's an example of how a test result would look like
+<img width="400" src="./readme/demo/TESTS.png"/>
 
 <br><br>
 
