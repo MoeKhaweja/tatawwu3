@@ -135,7 +135,7 @@
 <!-- How to run -->
 <img src="./readme/title10.svg"/>
 
-> To set up Foodie Pal locally, follow these steps:
+> To set up Tatawwu3 locally, follow these steps:
 
 ### Prerequisites
 
@@ -169,8 +169,8 @@
     ```
     4. cd frontend and go to store/user
        
-        ```sh
-  export const BASE_URL = "yuorLocalHost";
+    ```sh
+    export const BASE_URL = "yuorLocalHost";
 
     ```
   
