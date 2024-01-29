@@ -83,13 +83,8 @@
 
 |  Search for Events (Semantically)         | Communities screen                      | Loading screen                          | Home screen (Volunteer)                 |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img width="900" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
+|<img height="100" src="./readme/demo/20240129_023714.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
 
-| Search for Events (Semantically)         | Communities screen                       | Landing screen                        |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| <img width="900" src="./readme/demo/20240129_023714.gif"/> | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
 
 
 ### Admin Screens (Web)
