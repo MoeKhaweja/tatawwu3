@@ -53,6 +53,12 @@
 
 > We designed Tatawwu3 using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
 
+| Splash screen                              | Login Screen            | Home screen               | Communities Screen               |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| <img  src="./readme/demo/splash.png"/> | <img  src="./readme/demo/login.png"/> | <img src="./readme/demo/events.png"/>|<img  src="./readme/demo/communities.png"/>|
+
+
+
 - Project Figma design [figma](https://www.figma.com/file/7X4q4csvnqkHpUb2iipfej/Tatawwu3?type=design&node-id=20%3A3220&mode=design&t=ZlyIql4yj3VNkuNU-1)
 
 ### Database Design:
