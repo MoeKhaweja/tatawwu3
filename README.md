@@ -75,19 +75,18 @@
 <!-- Implementation -->
 <img src="./readme/title6.svg"/>
 
+
 ### User Screens (Mobile)
 
-| Login screen                              | Register screen                         | Extract CV Data (Gemini AI)             | Home screen (Volunteer)                 |
-| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="220" src="./readme/demo/20240129_024615.gif"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
 
-|  Search for Events (Semantically)         | Communities screen                      | Chats screen                          | Profile screen              |
-| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img width="220" src="./readme/demo/20240129_023714.gif"/> | <img width="100%" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="220" src="./readme/demo/20240129_023358.gif"/>|<img width="100%"  src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
 
-| Home screen (Community)                   | Create Event (Community)                | Search for Volunteers                   | View Applicants                         |
+| Login screen                              | Extract CV Data (Gemini AI)             | Home screen (Volunteer)               | Search for Events (Semantically)                |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="220" src="./readme/demo/20240129_024245.gif"/> | <img  width="220" src="./readme/demo/20240129_024009.gif"/>|<img width="100%" src="./readme/demo/Screenshot_20240129_033947_Expo Go"/>|
+| <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="230" src="./readme/demo/20240129_024615.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|<img width="230" src="./readme/demo/20240129_023714.gif"/>|
+
+|  Home screen (Community)      | Communities screen                      | Chats screen                          | Profile screen              |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
+|<img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="100%" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="230" src="./readme/demo/20240129_023358.gif"/>|<img width="100%"  src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
 
 
 
@@ -96,8 +95,7 @@
 | Login screen                            | Register screen                       | Landing screen                        |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
 | ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+
 
 <br><br>
 
@@ -107,6 +105,12 @@
 ### Mastering AI Interaction: Unveiling the Power of Prompt Engineering:
 
 - This project uses advanced prompt engineering techniques to optimize the interaction with natural language processing models. By skillfully crafting input instructions, we tailor the behavior of the models to achieve precise and efficient language understanding and generation for various tasks and preferences.
+- Prompt engineering (with Google Generative AI) was used to generate a user biograpghy based on his resume, extract and return user skills and academic history.
+  
+#### Example:
+
+>`pretend that you are a machine that analyzes people by only reading their CVs, you never generate something you don't know about them, I will provide you with a text of my CV, try to make a small (bio) about me , and extract the most important skills (skills should be titles or words )and extract academic history, return only a json object like this without any surrounding data {bio:{String},academicHistory:[{degreeTitle:String, Institution:String}],skills:[]}, keep in mind that skills are so important, be non biased: ${extracted}`
+>
 
 <br><br>
 
@@ -131,31 +135,73 @@
 <!-- How to run -->
 <img src="./readme/title10.svg"/>
 
-> To set up Coffee Express locally, follow these steps:
+> To set up Tatawwu3 locally, follow these steps:
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [example](https://example.com)
-2. Clone the repo
-   git clone [github](https://github.com/your_username_/Project-Name.git)
-3. Install NPM packages
+- Install NPM from: [NPM](https://nodejs.org/en/download)
+- Install nodemon
    ```sh
+   npm install nodemon
+   ```
+## Installation
+
+### First, Cloning and Installing Packages
+
+1. Clone the repository and then open it
+   ```sh
+   git clone https://github.com/MohammadKhaweja/tatawwu3.git
+   cd backend 
+   ```
+2. Create a .env file in backend and then:
+   1. Create a [Google Gemini AI](https://ai.google.dev/docs) API Key 
+   2. Create an Gmail account and then an [App Password](https://support.google.com/mail/answer/185833?hl=en)
+   3. Create a [MongoDB Atlas](https://www.mongodb.com/) Cluster 
+   After that add them to the env file as follows:
+
+    ```sh
+    JWT_SECRET=yourSecret
+    MONGODB_URL=yourClusterConnection
+    GMAIL='yourGmail@gmail.com'
+    PASSWORD='password'
+    GEMINI_API='yourApi'
+
+    ```
+    4. cd frontend and go to store/user
+       
+    ```sh
+    export const BASE_URL = "yuorLocalHost";
+
+    ```
+  
+3. Install NPM packages for Backend, Frontend and Admin:
+   ```sh
+   cd backend
+   npm install
+   cd ..
+   cd frontend
+   npm install
+   cd ..
+   cd admin
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
+
+### Second, let's start the server
+
+ In `backend` run this command:
+   ```sh
+   nodemon 
+   ```
+### Third, let's start the frontend
+
+ Open a new terminal and go to `frontend` and run this command:
+   ```sh
+   npx expo start 
+   ```
+### Lastly, let's start the Admin Dasboard
+ Open a new terminal and go to `admin` and run this command:
+   ```sh
+   npm run dev 
    ```
 
-Now, you should be able to run Coffee Express locally and explore its features.
+Now, you should be able to run Tatawwu3 locally and explore its features.
