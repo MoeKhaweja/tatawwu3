@@ -80,8 +80,8 @@
 | Login screen                              | Register screen                         | Loading screen                          | Home screen (Volunteer)                 |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
 | <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="900" src="./readme/demo/Screenshot_20240129_025730_Expo Go.jpg"/> | <img  width="900" src="./readme/demo/Screenshot_20240129_030016_Expo Go.jpg"/>|<img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|
-| Home screen                               | Menu Screen                             | Order Screen                            | Checkout Screen                         |
-| |  |  | |
+| Search for Events (Semanticaly)                               | Menu Screen                             | Order Screen                            | Checkout Screen                         |
+| <img width="900" src="./readme/demo/20240129_023714.gif"/> |  |  | |
 
 ### Admin Screens (Web)
 
