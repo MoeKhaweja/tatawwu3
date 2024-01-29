@@ -55,7 +55,7 @@
 
 - Project Figma design [figma](https://www.figma.com/file/7X4q4csvnqkHpUb2iipfej/Tatawwu3?type=design&node-id=20%3A3220&mode=design&t=ZlyIql4yj3VNkuNU-1)
 
-### Architecting Data Excellence: Innovative Database Design Strategies:
+### Database Design:
 
 <img width="600" src="./readme/demo/database.PNG"/>
 <br><br>
@@ -90,9 +90,6 @@
 <!-- Prompt Engineering -->
 <img src="./readme/title7.svg"/>
 
-### Mastering AI Interaction: Unveiling the Power of Prompt Engineering:
-
-- This project uses advanced prompt engineering techniques to optimize the interaction with natural language processing models. By skillfully crafting input instructions, we tailor the behavior of the models to achieve precise and efficient language understanding and generation for various tasks and preferences.
 - Prompt engineering (with Google Generative AI) was used to generate a user biograpghy based on his resume, extract and return user skills and academic history.
   
 #### Example:
