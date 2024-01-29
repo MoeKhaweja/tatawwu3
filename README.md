@@ -57,8 +57,7 @@
 
 ### Architecting Data Excellence: Innovative Database Design Strategies:
 
-- Insert ER Diagram here
-
+<img width="600" src="./readme/demo/database.PNG"/>
 <br><br>
 
 <!-- Implementation -->
@@ -71,11 +70,11 @@
 
 | Login screen                              | Extract CV Data (Gemini AI)             | Home screen (Volunteer)               | Search for Events (Semantically)                |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="230" src="./readme/demo/20240129_024615.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|<img width="230" src="./readme/demo/20240129_023714.gif"/>|
+| <img  src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="200" src="./readme/demo/20240129_024615.gif"/> | <img src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|<img width="200" src="./readme/demo/20240129_023714.gif"/>|
 
 |  Home screen (Community)      | Communities screen                      | Chats screen                          | Profile screen              |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="100%" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="230" src="./readme/demo/20240129_023358.gif"/>|<img width="100%"  src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
+|<img  src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="200" src="./readme/demo/20240129_023358.gif"/>|<img  src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
 
 
 
