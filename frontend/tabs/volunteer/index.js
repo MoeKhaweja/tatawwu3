@@ -152,7 +152,7 @@ const Feed = () => {
     return (
       <View>
         {items.map((item, index) => InstagramPost(item, index))}
-        {!searchQuery && displayLoad && !Recommended && (
+        {data.length != 0 && !searchQuery && displayLoad && !Recommended && (
           <Button onPress={loadMoreEvents} mode='text'>
             Load More
           </Button>

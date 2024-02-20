@@ -30,7 +30,6 @@ app.use(
 
 // Create HTTP server
 const server = http.createServer(app);
-
 // Attach Socket.IO to the HTTP server
 socket(server);
 
@@ -79,3 +78,5 @@ server.listen(80, () => {
   console.log("Server listining on PORT: ", 80);
   connectToMongoDB();
 });
+
+module.exports = server;

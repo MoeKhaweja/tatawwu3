@@ -1,2 +1,3 @@
 .ENV
 node_modules/
+jest.test.js

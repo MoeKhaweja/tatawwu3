@@ -10,14 +10,14 @@ import TopAppBar from "../../components/appBar";
 
 const EventList = ({ navigation }) => {
   const dispatch = useDispatch();
-  let userEvents = useSelector((state) => state.user.eventsApplicationStatus);
+  const userEvents = useSelector((state) => state.user.eventsApplicationStatus);
   const event = useSelector((state) => state.user.event);
 
   // State to track the selected filter
   const [filter, setFilter] = useState("upcoming");
 
   // Sort the events by date
-  userEvents.sort(
+  let events = [...userEvents].sort(
     (a, b) => new Date(a.schedule.date) - new Date(b.schedule.date)
   );
 
@@ -30,7 +30,7 @@ const EventList = ({ navigation }) => {
   );
 
   // Filter events based on the selected filter
-  const filteredEvents = userEvents.filter((item) => {
+  const filteredEvents = events.filter((item) => {
     if (filter === "completed") {
       return new Date(item.schedule.date) < new Date().setHours(0, 0, 0, 0);
     } else if (filter === "upcoming") {
