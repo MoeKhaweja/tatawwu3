@@ -52,13 +52,22 @@
 <img src="./readme/title4.svg"/>
 
 > We designed Tatawwu3 using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
+> 
+### Mockups:
+
+| Splash screen                              | Login Screen            | Home screen               | Communities Screen               |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| <img  src="./readme/demo/splash.png"/> | <img  src="./readme/demo/login.png"/> | <img src="./readme/demo/events.png"/>|<img  src="./readme/demo/communities.png"/>|
+
+
 
 - Project Figma design [figma](https://www.figma.com/file/7X4q4csvnqkHpUb2iipfej/Tatawwu3?type=design&node-id=20%3A3220&mode=design&t=ZlyIql4yj3VNkuNU-1)
+  
+<img src="./readme/title5.svg"/>
 
-### Architecting Data Excellence: Innovative Database Design Strategies:
+### Database Design:
 
-- Insert ER Diagram here
-
+<img width="600" src="./readme/demo/database.PNG"/>
 <br><br>
 
 <!-- Implementation -->
@@ -71,13 +80,14 @@
 
 | Login screen                              | Extract CV Data (Gemini AI)             | Home screen (Volunteer)               | Search for Events (Semantically)                |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| <img width="900" src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="230" src="./readme/demo/20240129_024615.gif"/> | <img width="900" src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|<img width="230" src="./readme/demo/20240129_023714.gif"/>|
+| <img  src="./readme/demo/Screenshot_20240129_010857_Expo Go.jpg"/> | <img width="200" src="./readme/demo/20240129_024615.gif"/> | <img src="./readme/demo/Screenshot_20240127_194637_Expo Go.jpg"/>|<img width="200" src="./readme/demo/20240129_023714.gif"/>|
 
-|  Home screen (Community)      | Communities screen                      | Chats screen                          | Profile screen              |
+|  Home screen (Community)      | Communities screen                      | Chats screen                          | Volunteers (Search Targeted Skills)              |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|<img width="100%" src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img width="100%" src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="230" src="./readme/demo/20240129_023358.gif"/>|<img width="100%"  src="./readme/demo/Screenshot_20240129_015022_Expo Go.jpg"/>|
+|<img  src="./readme/demo/Screenshot_20240129_032942_Expo Go.jpg"/> | <img src="./readme/demo/Screenshot_20240129_021644_Expo Go.jpg"/> | <img  width="200" src="./readme/demo/20240129_023358.gif"/>|<img width="200" src="./readme/demo/20240129_024009.gif"/>|
 
-
+### Small Demo (Volunteer User Type)
+https://github.com/MohammadKhaweja/tatawwu3/assets/79599293/def04a75-731c-4527-b6b1-8a0c5730de8d
 
 ### Admin Screens (Web)
 
@@ -91,9 +101,6 @@
 <!-- Prompt Engineering -->
 <img src="./readme/title7.svg"/>
 
-### Mastering AI Interaction: Unveiling the Power of Prompt Engineering:
-
-- This project uses advanced prompt engineering techniques to optimize the interaction with natural language processing models. By skillfully crafting input instructions, we tailor the behavior of the models to achieve precise and efficient language understanding and generation for various tasks and preferences.
 - Prompt engineering (with Google Generative AI) was used to generate a user biograpghy based on his resume, extract and return user skills and academic history.
   
 #### Example:
@@ -106,18 +113,53 @@
 <!-- AWS Deployment -->
 <img src="./readme/title8.svg"/>
 
-### Efficient AI Deployment: Unleashing the Potential with AWS Integration:
+- This project was deployed on an AWS ec2 instance, an example code of how it was deployed:
+    ```sh
+    sudo yum install -y gcc-c++ make
+    curl -sL https://rpm.nodesource.com/setup_21.x | sudo -E bash -
+    sudo yum install -y nodejs
+    sudo yum install -y git
+    sudo vim /etc/systemd/system/tatawwu3.service
+  	    [Unit]
+      	Description=tatawwu3
+      	After=multi-user.target
 
-- This project leverages AWS deployment strategies to seamlessly integrate and deploy natural language processing models. With a focus on scalability, reliability, and performance, we ensure that AI applications powered by these models deliver robust and responsive solutions for diverse use cases.
+      	[Service]
+      	ExecStart=/usr/bin/node /home/ec2-user/tatawu3/backend/index.js
+      	Restart=always
+      	RestartSec=10
+        StandardOutput=syslog
+      	StandardError=syslog
+      	SyslogIdentifier=tatawwu3
+      	User=ec2-user
+      	EnvironmentFile=/home/ec2-user/tatawwu3/backend/.env
 
+	      [Install]
+	      WantedBy=multi-user.target
+
+   sudo systemctl enable tatawwu3
+   sudo systemctl start tatawwu3
+    ```
+- optional nginx reverse proxy
+     ```sh
+     sudo amazon-linux-extras install nginx1 -y
+     sudo systemctl enable nginx
+     sudo systemctl start nginx
+     sudo vim /etc/nginx/nginx.conf
+     location / {
+          proxy_pass http://localhost:8080;
+         }
+     sudo systemctl restart nginx
+   ```
 <br><br>
 
 <!-- Unit Testing -->
 <img src="./readme/title9.svg"/>
 
-### Precision in Development: Harnessing the Power of Unit Testing:
+### Unit Testing:
 
-- This project employs rigorous unit testing methodologies to ensure the reliability and accuracy of code components. By systematically evaluating individual units of the software, we guarantee a robust foundation, identifying and addressing potential issues early in the development process.
+- This project uses Jest and SuperTest to test its APIs, here's an example of how a test result would look like
+<img width="400" src="./readme/demo/TESTS.png"/>
 
 <br><br>
 
